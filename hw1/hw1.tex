@@ -1,0 +1,156 @@
+\documentclass{sjtuarticle}
+\title{作业1}
+\author{李子龙\\123033910195}
+\begin{document}
+\maketitle
+% 作业：P12： 1，2，3，4，5，6，7，10， 12，13，15
+\begin{itemize}
+    \item[1.] 解：设$x^*$为误差值，则
+    \begin{equation*}
+        \left\lvert\frac{x-x^*}{x}\right\rvert=\delta\Rightarrow \frac{x-x^*}{x}=\pm \delta
+    \end{equation*}
+    故$\ln x$的误差
+    \begin{equation}\label{eq:error1}
+        \begin{aligned}
+            \left|\ln x-\ln x^*\right|&=\left|\ln x^*-\ln x\right|=\left\lvert\ln\frac{x^*}{x}\right\rvert=\left|\ln\frac{x^*-x+x}{x}\right|\\
+            &=\left|\ln\left(1-\frac{x-x^*}{x}\right)\right|
+            =\left|\ln(1-(\pm \delta))\right|
+        \end{aligned}
+    \end{equation}
+    一般认为 $\delta$ 比较小，假设 $0\leq\delta<1$，则按照 Taylor 级数展开 \eqref{eq:error1}，并忽略 $\delta$ 的高阶项：
+    \begin{equation*}
+        |\ln x-\ln x^*|=\left|-(\pm \delta)-\frac{(\pm \delta)^2}{2}-\cdots-\frac{(\pm \delta)^n}{n}-\cdots\right|=\delta
+    \end{equation*}
+    这就是 $\ln x$ 的误差。
+    \item[2.] 解：\begin{equation*}
+        e({x^*}^n)=|({x^*}^n)^\prime|e(x^*)=n|{x^*}^{n-1}|2\%\cdot x^*=2n\%|{x^*}^n|
+    \end{equation*}
+    则相对误差
+    \begin{equation*}
+        e_r({x^*}^n)=\frac{e({x^*}^n)}{{x^*}^n}=2n\%
+    \end{equation*}
+    \item[3.] 解：
+        \begin{itemize}
+            \item[(1)] $x_1^*=1.1021$ 有5位有效数字。
+            \item[(2)] $x_2^*=0.031$ 有2位有效数字。
+            \item[(3)] $x_3^*=385.6$ 有4位有效数字。
+            \item[(4)] $x_4^*=56.430$ 有5位有效数字。
+            \item[(5)] $x_5^*=7\times 1.0$ 有2位有效数字。   
+        \end{itemize}
+    \item[4.] 解：
+        \begin{align*}
+            \varepsilon(x_1^*)&=\frac{1}{2}\times 10^{-4} & \varepsilon(x_2^*)&=\frac{1}{2}\times 10^{-3} \\
+            \varepsilon(x_3^*)&=\frac{1}{2}\times 10^{-1} & \varepsilon(x_4^*)&=\frac{1}{2}\times 10^{-3}
+        \end{align*}
+        \begin{itemize}
+            \item[(1)] $\varepsilon(x_1^*+x_2^*+x_4^*)=\varepsilon(x_1^*)+\varepsilon(x_2^*)+\varepsilon(x_4^*)=0.0105$
+            \item[(2)] \begin{align*}
+                \varepsilon(x_1^*x_2^*x_3^*)&=\left|x_2^*x_3^*\right|\varepsilon(x_1^*)+\left|x_1^*x_3^*\right|\varepsilon(x_2^*)+\left|x_1^*x_2^*\right|\varepsilon(x_3^*)\\
+                &=11.9536\times\frac{1}{2}\times 10^{-4}+424.96976\times\frac{1}{2}\times 10^{-3}+0.0341651\times\frac{1}{2}\times 10^{-1}\\
+                &=5.9768\times 10^{-4}+212.48488\times 10^{-3}+0.01708255\times 10^{-1}\\
+                &=0.214790815
+            \end{align*}
+            \item[(3)] \begin{align*}
+                \varepsilon\left(\frac{x_2^*}{x_4^*}\right)&=\frac{|x_2^*|\varepsilon(x_4^*)+|x_4^*|\varepsilon(x_2^*)}{|x_4^*|^2}\\
+                &=\frac{0.0155\times 10^{-3}+28.215\times 10^{-3}}{3184.3449}\\
+                &=8.8654\times 10^{-6}
+            \end{align*}
+        \end{itemize}
+    \item[5.] 解：由球体积公式
+    \begin{equation*}
+        V=\frac{4}{3}\pi R^3
+    \end{equation*}
+    可知，误差限
+    \begin{align*}
+        \varepsilon(V^*)&=\left|\left(\frac{4}{3}\pi {R^*}^3\right)^\prime\right|\varepsilon(R^*)\\
+        &=4\pi {R^*}^2\varepsilon(R^*)
+    \end{align*}
+    相对误差限
+    \begin{equation*}
+        \varepsilon_r(V^*)=\frac{\varepsilon(V^*)}{|V^*|}=\frac{4\pi {R^*}^2\varepsilon(R^*)}{\frac{4}{3}\pi {R^*}^3}=3\frac{\varepsilon(R^*)}{R^*}=3\varepsilon_r(R^*)= 1\%
+    \end{equation*}
+    可得度量半径 $R$ 允许的相对误差限为
+    \begin{equation*}
+        \varepsilon_r(R^*)=\frac{1}{300}\approx 0.00333
+    \end{equation*}
+    \item[6.] 解：根据递推公式可得
+    \begin{equation*}
+        Y_{100}=Y_0-100\times\left(\frac{1}{100}\sqrt{783}\right)=Y_0-\sqrt{783}
+    \end{equation*}
+    代入 $\sqrt{783}\approx 27.982$，
+    \begin{align*}
+        Y_{100}^*&=28-27.982=0.018\\
+        \varepsilon(Y_{100}^*)&=\varepsilon(Y_0)+\varepsilon(27.982)=\frac{1}{2}\times 10^{-3}
+    \end{align*}
+    即 $Y_{100}^*$ 的误差限为 $\frac{1}{2}\times 10^{-3}$。
+    \item[7.] 解：方程 $x^2-56x+1=0$ 的两个根为
+    \begin{equation*}
+        x_{1,2}=\frac{56\pm 2\sqrt{783}}{2}=28\pm \sqrt{783}
+    \end{equation*}
+    其中大根
+    \begin{equation*}
+        x_1=28+\sqrt{783}=55.982
+    \end{equation*}
+    仍然有5位有效数字；而另一个根
+    \begin{equation*}
+        x_2=28-\sqrt{783}=0.018
+    \end{equation*}
+    只有2位有效数字，所以进行分子有理化，
+    \begin{equation*}
+        x_2=\frac{1}{28+\sqrt{783}}=\frac{1}{55.982}\approx 0.017863
+    \end{equation*}
+    所以原方程的两个根分别为 $55.982$ 和 $0.017863$。
+    \item[10.] 证明：$s$ 的绝对误差为
+    \begin{equation*}
+        \varepsilon(s^*)=\left|\left(\frac{1}{2}g{t^*}^2\right)^\prime\right|\varepsilon(t^*)=gt^*\varepsilon(t^*)
+    \end{equation*}
+    由于 $\varepsilon(t^*)=0.1s$ 是定值，也就意味着 $t$ 越大，$\varepsilon(s^*)$ 越大。
+    而 $s$ 的相对误差为
+    \begin{equation*}
+        \varepsilon_r(s^*)=\frac{\varepsilon(s^*)}{s^*}=\frac{gt^*\varepsilon(t^*)}{\frac{1}{2}g{t^*}^2}=\frac{2\varepsilon(t^*)}{t^*}
+    \end{equation*}
+    会随着 $t$ 的增大而减小。
+    \item[12.] 解：直接计算
+    \begin{align*}
+        \frac{1}{(\sqrt{2}+1)^6}&\approx\frac{1}{2.4^6}=\frac{1}{191.102976}\approx 0.00523278\\
+        (3-2\sqrt{2})^3&\approx 0.2^3=0.008\\
+        \frac{1}{(3+2\sqrt{2})^3}&\approx\frac{1}{5.8^3}=\frac{1}{195.112}\approx 0.00512526\\
+        99-70\sqrt{2}&\approx 1
+    \end{align*}
+    令 $x=\sqrt{2}$，$x^*=1.4$，$\varepsilon(x^*)=\frac{1}{2}\times 10^{-1}$，误差分别为
+    \begin{align*}
+        \varepsilon\left(\frac{1}{(x^*+1)^6}\right)&=\left|\frac{-6}{(x^*+1)^7}\right|\varepsilon(x^*)\approx 0.01308\varepsilon(x^*)\\
+        \varepsilon\left((3-2x^*)^3\right)&=\left|-6(3-2x^*)^2\right|\varepsilon(x^*)=0.24\varepsilon(x^*)\\
+        \varepsilon\left(\frac{1}{(3+2x^*)^3}\right)&=\left|\frac{-6}{(3+2x^*)^4}\right|\varepsilon(x^*)=0.005302\varepsilon(x^*)\\
+        \varepsilon(99-70x^*)&=70\varepsilon(x^*)
+    \end{align*}
+    所以 $\frac{1}{(3+2\sqrt{2})^3}$ 得到的结果最好。
+    \item[13.] 解：
+    \begin{equation*}
+        f(30)=\ln(30-\sqrt{30^2-1})=\ln(30-\sqrt{899})\approx\ln(30-29.9833)=\ln(0.0167)\approx -4.09235
+    \end{equation*}
+    令 $x=\sqrt{899}$，$x^*=29.9833$，$\varepsilon(x^*)=\frac{1}{2}\times 10^{-4}$，则
+    \begin{equation*}
+        \varepsilon(\ln(30-x^*))=\left|\frac{-1}{30-x^*}\right|\varepsilon(x^*)=59.8802\varepsilon(x^*)=2.99401\times 10^{-3}
+    \end{equation*}
+    采用另一等价公式计算
+    \begin{equation*}
+        f(30)=-\ln(30+\sqrt{30^2-1})=-\ln(30+\sqrt{899})\approx-\ln(30+29.9833)=-\ln(59.9833)=-4.09407
+    \end{equation*}
+    此时误差
+    \begin{equation*}
+        \varepsilon(-\ln(30+x^*))=\left|\frac{-1}{30+x^*}\right|\varepsilon(x^*)=0.01667\varepsilon(x^*)=8.335\times 10^{-7}
+    \end{equation*}
+    可见误差变小了。
+    \item[15.] 证明：根据 $S=\frac{1}{2}ab\sin c$ 可得
+    \begin{align*}
+        \left|\increment S\right| &= \left|\frac{1}{2}b\sin c\right|\left|\increment a\right|+\left|\frac{1}{2}a\sin c \right|\left|\increment b\right| + \left|\frac{1}{2}ab\cos c\right|\left|\increment c\right|\\
+        \left|\frac{\increment S}{S}\right| &= \left|\frac{\increment a}{a}\right| + \left|\frac{\increment b}{b}\right| +\left| \frac{\increment c\cos c}{\sin c}\right|\\
+         &=\left|\frac{\increment a}{a}\right| + \left|\frac{\increment b}{b}\right| + \left|\frac{\increment c}{\tan c}\right|
+    \end{align*}
+    由于 $c\in (0,\frac{\pi}{2})$，则 $\tan c \geq c$，故
+    \begin{align*}
+        \left|\frac{\increment S}{S}\right| \leq \left|\frac{\increment a}{a}\right| + \left|\frac{\increment b}{b}\right| + \left|\frac{\increment c}{c}\right|
+    \end{align*}
+\end{itemize}
+\end{document}
