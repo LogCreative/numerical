@@ -1,0 +1,285 @@
+\documentclass{sjtuarticle}
+\usepackage{ntheorem}
+\usepackage{float}
+\title{作业2}
+\author{李子龙\\123033910195}
+\begin{document}
+\maketitle
+% P162：3，4，5，7 1),2)，9，11，12，13，14，15，其中13题修正见附件
+\begin{itemize}
+    \item[3.] \begin{solution}
+        对于 $f(x)=x^3-x^2-1$，由于
+    \begin{align*}
+        f(1.5)&=0.125>0 & f(1.4)&=-0.216<0 
+    \end{align*}
+    故方程 $x^3-x^2-1$ 有一个根在 $(1.4,1.5)$ 区间内。
+    \begin{itemize}
+        \item[(1)] $\phi(x)=1+1/x^2,\phi^\prime(x)=-2/x^3$，$\phi^\prime(x)$ 是一个单调函数，由于 $|\phi^\prime(1.4)|=|-0.7289|<1,|\phi^\prime(1.5)=|-0.5926|<1$，所以对于 $\forall x \in (1.4,1.5), |\phi^\prime(x)|<1$，迭代公式收敛。
+        \item[(2)] $\phi(x)=\sqrt[3]{1+x^2},\phi^\prime(x)=\frac{2}{3}\frac{x}{(1+x^2)^{2/3}},\phi^{\prime\prime}(x)=\frac{2}{3}\frac{(1+x^2)^{2/3}-x\cdot\frac{2}{3}(1+x^2)^{-1/3}\cdot 2x}{(1+x^2)^{4/3}}$，$\forall x\in(1.4,1.5),\phi^{\prime\prime}(x)>0$，所以 $\phi^\prime(x)$ 是一个单调函数，$\phi^\prime(1.4)=0.4527<1,\phi^\prime(1.5)=0.4558<1$，所以 $\forall x\in (1.4,1.5), \phi^\prime(x)<1$，迭代公式收敛。
+        \item[(3)] $\phi(x)=1/\sqrt{x-1},\phi^\prime(x)=-1/(x-1)$，由于 $\phi^\prime$ 是一个单调函数，$\phi^\prime(1.4)=-2.5,\phi^\prime(1.5)=-2,|\phi(x)|>1$，迭代公式发散。
+    \end{itemize}
+    选择 (2) 的 $x_{k+1}=\sqrt[3]{1+x_k^2}$ 作为迭代公式，求解过程如下：
+
+    % \begin{tabular}{lc||lc}
+    %     \hline
+    %     $k$ & $x_k$ & $k$ & $x_k$ \\
+    %     \hline
+    %     0 & 1.5 & 6 & 1.46588\\
+    %     1 & 1.48125 & 7 & 1.46571\\
+    %     2 & 1.47271 & 8 & 1.46563\\
+    %     3 & 1.46882 & 9 & 1.46560\\
+    %     4 & 1.46705 & 10 & 1.46558\\
+    %     5 & 1.46624 & 11 & 1.46558\\
+    %     \hline
+    % \end{tabular}
+
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{lc}
+            \hline
+            $k$ & $x_k$ \\
+            \hline
+            0 & 1.5 \\
+            1 & 1.48125 \\
+            2 & 1.47271 \\
+            3 & 1.46882 \\
+            4 & 1.46705 \\
+            5 & 1.46624 \\
+            6 & 1.46588 \\
+            \hline
+        \end{tabular}
+    \end{table}
+
+    由于 $|x_5-x_6|=0.00036<0.0005$，满足四位有效数字，
+    所以 $x^*=1.466$ 是原方程的一个近似解。
+
+    \end{solution}
+    \item[4.] \begin{solution}
+    \begin{enumerate}
+        \item[(1)] 在区间 $(0,1)$ 上二分法：
+        
+        \begin{table}[H]
+        \begin{tabular}{ccccc||ccccc}
+            \hline
+            $k$ & $a_k$ & $b_k$ & $x_k$ & $f(x_k)$ 符号 & $k$ & $a_k$ & $b_k$ & $x_k$ & $f(x_k)$ 符号 \\
+            \hline
+            0 & 0 & 1 & 0.5 & $+$ & 6 & 0.078125 & & 0.0859375 & $-$\\
+            1 &   & 0.5 & 0.25 & $+$ & 7 & 0.0859375 & & 0.08984375 & $-$\\
+            2 &   & 0.25 & 0.125 & $+$ & 8 & 0.08984375 & & 0.091796875 & $+$\\
+            3 &   & 0.125 & 0.0625 & $-$ & 9 & & 0.091796875 & 0.0908203125 & $+$\\
+            4 & 0.0625 &  & 0.09375 & $+$ & 10 & & 0.0908203125 & 0.09033203125 & $-$\\
+            5 &   & 0.09375 & 0.078125 & $-$ \\%& 11 & 0.09033203125 & & 0.090576171875 & $+$\\
+            \hline
+        \end{tabular}
+    \end{table}
+
+    所以二分法需要 10 次迭代，使得$|x^*-x_k|\leq(b_{10}-a_{10})/2=0.000244140625<0.0005$ 满足三位小数精度。
+    \item[(2)] 使用迭代法 $x_{k+1}=(2-\mathrm{e}^{x_k})/10, x_0=0$
+    
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{cc}
+            \hline
+            $k$ & $x_k$ \\
+            \hline
+            0 & 0 \\
+            1 & 0.1 \\
+            2 & 0.089483 \\
+            3 & 0.090639 \\
+            4 & 0.090513 \\
+            \hline
+        \end{tabular}
+    \end{table}
+
+    所以迭代法需要 4 次迭代，使得 $|x_3-x_4|=0.000126<0.0005$ 满足三位小数精度。
+
+    \end{enumerate}
+    \end{solution}
+    \item[5.] \begin{proof}
+        令 $\phi(x)=x-\lambda f(x)$，则 $\phi^\prime(x)=1-\lambda f^\prime(x)$，由于 $0<m\leq f^\prime (x)\leq M$，则 $1-\lambda M\leq\phi^\prime(x)\leq1-\lambda m$，由于 $0<\lambda<2/M$，故 $-1<\phi^\prime (x)<1$，即 $|\phi^\prime(x)|<1$，根据局部收敛定理，迭代过程 $x_{k+1}=\phi(x_k)=x_k-\lambda f(x_k)$ 在某个区间上收敛到 $x^*$。收敛时 $x^*=x^*-\lambda f(x^*)$，由于 $\lambda>0$，等价于 $f(x^*)=0$，即 $x^*$ 为 $f(x)=0$ 的根。
+    \end{proof}
+    \item[7.] \begin{solution}
+        \begin{itemize}
+            \item[(1)] $f(x)=x^3-3x-1, f^\prime(x)=3x^2-3$，则牛顿公式为
+            \begin{equation*}
+                x_{k+1}=x_k-\frac{x_k^3-3x_k-1}{3x_k^2-3}
+            \end{equation*}
+            取迭代初值 $x_0=2$，迭代过程如下：
+            
+            \begin{table}[H]
+                \centering
+                \begin{tabular}{cc}
+                    \hline
+                    $k$ & $x_k$ \\
+                    \hline
+                    0 & 2 \\
+                    1 & 1.88889 \\
+                    2 & 1.87945 \\
+                    3 & 1.87939 \\
+                    \hline
+                \end{tabular}
+            \end{table}
+
+            由于 $|x_3-x_2|=0.00006<0.0005$ 满足四位有效数字精度，所以使用牛顿法解得近似解 $x^*=1.879$。
+            \item[(2)] 取 $x_0=2, x_1=1.9$ 作为开始值，用弦切法公式
+            \begin{equation*}
+                x_{k+1}=x_k-\frac{f(x_k)}{f(x_k)-f(x_{k-1})}(x_k-x_{k-1})
+            \end{equation*}
+            迭代过程如下：
+            
+            \begin{table}[H]
+                \centering
+                \begin{tabular}{cc}
+                    \hline
+                    $k$ & $x_k$ \\
+                    \hline
+                    0 & 2 \\
+                    1 & 1.9 \\
+                    2 & 1.88109 \\
+                    3 & 1.87941 \\
+                    4 & 1.87939 \\
+                    \hline
+                \end{tabular}
+            \end{table}
+
+            由于 $|x_3-x_4|=0.00002<0.0005$ 满足四位有效数字精度，所以使用弦切法解得近似解 $x^*=1.879$。
+        \end{itemize}
+    \end{solution}
+    \item[9.] \begin{proof}
+        根据 6.3.4 节的配方法得到的公式，$q=\frac{x_0-\sqrt{a}}{x_0+\sqrt{a}}$，由于 $\forall x_0>0, |q|<1$，$2^k$ 必定为偶数，则
+        \begin{equation*}
+            x_k-\sqrt{a}=2\sqrt{a}\frac{q^{2^k}}{1-q^{2^k}}\geq 0
+        \end{equation*}
+        即 $x_k\geq \sqrt{a}$。
+        
+        对原迭代公式两侧同减去 $x_k$，有
+        \begin{equation*}
+            x_{k+1}-x_k=\frac{1}{2}\left(\frac{a}{x_k}-x_k\right)=\frac{1}{2}\cdot\frac{a-x_k^2}{x_k}\leq 0
+        \end{equation*}
+        也就是序列 $x_1,x_2,\cdots$ 是单调递减的。
+    \end{proof}
+    \item[11.] \begin{solution}
+        \begin{itemize}
+            \item[(1)] \begin{equation*}
+                f(x)=\begin{cases}
+                    \sqrt{x},&x\geq 0,\\
+                    -\sqrt{-x},&x<0.
+                \end{cases}
+            \end{equation*}
+
+            \begin{equation*}
+                \phi(x)=x-\frac{f(x)}{f^\prime(x)}=x-\frac{\sqrt{x}}{\frac{1}{2\sqrt{x}}}=-x
+            \end{equation*}    
+            则 $\forall x\in \mathbb{R}, \phi^\prime(x)=-1$，牛顿法发散。
+            \item[(2)] \begin{equation*}
+                f(x)=\begin{cases}
+                    \sqrt[3]{x^2},&x\geq 0,\\
+                    -\sqrt[3]{x^2},&x<0.
+                \end{cases}
+            \end{equation*}
+
+            \begin{equation*}
+                \phi(x)=x-\frac{f(x)}{f^\prime(x)}=x-\frac{\sqrt[3]{x^2}}{\frac{2}{3\sqrt[3]{x}}}=-\frac{1}{2}x
+            \end{equation*}
+            则 $\forall x\in \mathbb{R}, |\phi^\prime(x)|=|-\frac{1}{2}|<1$，牛顿法收敛。由于 $\phi^{(1)}(x^*)\neq 0$，所以其是1阶收敛的。
+        \end{itemize}
+    \end{solution}
+    \item[12.] \begin{solution}
+        牛顿公式为
+        \begin{equation*}
+            x_{k+1}=x_k-\frac{x_k^3-a}{3x_k^2}=\frac{2x_k^3+a}{3x_k^2}
+        \end{equation*}
+        则
+        \begin{align*}
+            \phi(x)&=\frac{2x^3+a}{3x^2}& \phi^\prime(x)=\frac{6x^2\cdot 3x^2-(2x^3+a)\cdot 6x}{9x^4}=\frac{2}{3}\left(1-\frac{a}{x^3}\right) & & \phi^{\prime\prime}(x)=\frac{2a}{x^4}
+        \end{align*}
+        $\phi(\sqrt[3]{a})=\sqrt[3]{a}$，当 $a\neq 0$ 时，由于 $\phi^\prime(\sqrt[3]{a})=0,\phi^{\prime\prime}(\sqrt[3]{a})\neq 0$，此时它是2阶收敛的。当 $a=0$ 时，由于 $\phi^\prime(\sqrt[3]{a})\neq 0$，此时它是1阶收敛的。
+    \end{solution}
+    \item[13.] \begin{solution} 牛顿公式为
+        \begin{equation*}
+            x_{k+1}=x_k-\frac{1-\frac{a}{x_k^2}}{\frac{2a}{x_k^3}}=\frac{3ax_k-x_k^3}{2a}
+        \end{equation*}
+        将 $a=115$ 代入，有
+        \begin{equation*}
+            x_{k+1}=\frac{345x_k-x_k^3}{230}
+        \end{equation*}
+        取初值 $x_0=11$，有
+        \begin{table}[H]
+            \centering
+            \begin{tabular}{cc}
+                \hline
+                $k$ & $x_k$ \\
+                \hline
+                0 & 11 \\
+                1 & 10.71304 \\
+                2 & 10.72379 \\
+                3 & 10.72381 \\
+                \hline
+            \end{tabular}
+        \end{table}
+        
+        由于 $|x_2-x_3|=0.00002<0.0005$，所以 $\sqrt{115}\approx 10.7238$。
+    \end{solution}
+    \item[14.] \begin{solution}
+            讨论通用的牛顿公式
+            \begin{equation*}
+                \phi(x)=x-\frac{f(x)}{f^\prime(x)}
+            \end{equation*}
+            的导数：
+            \begin{align*}
+                \phi^\prime (x)&=1-\frac{f^{\prime 2}(x)-f(x)f^{\prime\prime}(x)}{f^{\prime 2}(x)}=\frac{f(x)f^{\prime\prime}(x)}{f^{\prime 2}(x)}\\
+                \phi^{\prime\prime} (x)&=\frac{[f^\prime(x)f^{\prime\prime}(x)+f(x)f^{\prime\prime\prime}(x)]f^{\prime 2}(x)-2f(x)f^{\prime\prime}(x)f^\prime(x)f^{\prime\prime}(x)}{f^{\prime 4}(x)}\\
+                &=\frac{f^{\prime 3}(x)f^{\prime\prime}(x)+f(x)f^{\prime 2}(x)f^{\prime\prime\prime}(x)-2f(x)f^\prime(x)f^{\prime\prime 2}(x)}{f^{\prime 4}(x)}\\
+                &=\frac{f^{\prime 2}(x)f^{\prime\prime}(x)+f(x)f^{\prime}(x)f^{\prime\prime\prime}(x)-2f(x)f^{\prime\prime 2}(x)}{f^{\prime 3}(x)}
+            \end{align*}
+            根据 $p$ 阶收敛定理，
+            \begin{equation*}
+                \lim_{k\rightarrow \infty}\frac{\sqrt[n]{a}-x_{k+1}}{(\sqrt[n]{a}-x_k)^2}=-\lim_{k\rightarrow \infty}\frac{x_{k+1}-\sqrt[n]{a}}{(x_k-\sqrt[n]{a})^2}=-\frac{\phi^{\prime\prime}(x^*)}{2}
+            \end{equation*}
+        \begin{itemize}
+            \item[(1)] 对于 $f(x)=x^n-a$，牛顿公式为
+            \begin{equation*}
+                x_{k+1}=x_k-\frac{x_k^n-a}{nx_k^{n-1}}=\frac{(n-1)x_k^n+a}{nx_k^{n-1}}
+            \end{equation*}
+            由于 $f^\prime(x)=nx^{n-1},f^{\prime\prime}(x)=n(n-1)x^{n-2},f^{\prime\prime\prime}(x)=n(n-1)(n-2)x^{n-3}$，则
+            \begin{equation*}
+                \phi^{\prime\prime} (x)=\frac{an^3(n-1)x^{2n-4}}{n^3x^{3n-3}}=a(n-1)x^{-n-1}
+            \end{equation*}
+            故
+            \begin{equation*}
+                \lim_{k\rightarrow \infty}\frac{\sqrt[n]{a}-x_{k+1}}{(\sqrt[n]{a}-x_k)^2}=-\frac{\phi^{\prime\prime}(\sqrt[n]{a})}{2}=-\frac{n-1}{2\sqrt[n]{a}}
+            \end{equation*}
+            \item[(2)] 对于 $f(x)=1-\frac{a}{x^n}$，牛顿公式为
+            \begin{equation*}
+                x_{k+1}=x_k-\frac{1-\frac{a}{x_k^n}}{\frac{an}{x_k^{n+1}}}=\frac{a(n+1)x_k-x_k^{n+1}}{an}
+            \end{equation*}
+            由于 $f^\prime(x)=anx^{-n-1},f^{\prime\prime}(x)=-an(n+1)x^{-n-2},f^{\prime\prime\prime}(x)=an(n+1)(n+2)x^{-n-3}$，则
+            \begin{equation*}
+                \phi^{\prime\prime}(x)=\frac{-a^2n^3(n+1)x^{-2n-4}}{a^3n^3x^{-3n-3}}=-\frac{(n+1)x^{n-1}}{a}
+            \end{equation*}
+            故
+            \begin{equation*}
+                \lim_{k\rightarrow \infty}\frac{\sqrt[n]{a}-x_{k+1}}{(\sqrt[n]{a}-x_k)^2}=-\frac{\phi^{\prime\prime}(\sqrt[n]{a})}{2}=\frac{n+1}{2\sqrt[n]{a}}
+            \end{equation*}
+        \end{itemize}
+    \end{solution}
+    \item[15.] \begin{solution}
+        令
+        \begin{equation*}
+            \phi(x)=\frac{x(x^2+3a)}{3x^2+a}
+        \end{equation*}
+        有 $\phi(\sqrt{a})=\sqrt{a}$，则
+        \begin{align*}
+            (3x^2+a)\phi(x)&=x^3+3ax\\
+            6x\phi(x)+(3x^2+a)\phi^\prime(x)&=3x^2+3a&\Rightarrow \phi^\prime(\sqrt{a})&=0\\
+            6\phi(x)+12x\phi^\prime(x)+(3x^2+a)\phi^{\prime\prime}(x)&=6x&\Rightarrow \phi^{\prime\prime}(\sqrt{a})&=0\\
+            18\phi^\prime(x)+18x\phi^{\prime\prime}(x)+(3x^2+a)\phi^{\prime\prime\prime}(x)&=6&\Rightarrow \phi^{\prime\prime\prime}(\sqrt{a})&=\frac{3}{2a}
+        \end{align*}
+        因此它是计算 $\sqrt{a}$ 的三阶方法，根据 $p$ 阶收敛定理，有
+        \begin{equation*}
+            \lim_{k\rightarrow \infty}\frac{\sqrt{a}-x_{k+1}}{(\sqrt{a}-x_k)^3}=\lim_{k\rightarrow \infty}\frac{x_{k+1}-\sqrt{a}}{(x_k-\sqrt{a})^3}=\frac{\phi^{\prime\prime\prime}(\sqrt{a})}{6}=\frac{1}{4a}
+        \end{equation*}
+    \end{solution}
+\end{itemize}
+\end{document}
+
