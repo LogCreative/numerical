@@ -2,6 +2,10 @@
 \usepackage{ntheorem}
 \usepackage{float}
 \usepackage{bm}
+\usepackage{subcaption}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\usepackage[colorlinks]{hyperref}
 \title{作业3}
 \author{李子龙\\123033910195}
 \begin{document}
@@ -15,7 +19,7 @@
 % 0.3645x_1+0.1920x_2+0.3781x_3+0.0643x_4=0.4240
 % 0.1784x_1+0.4002x_2+0.2786x_3+0.3927x_4=-0.2557
     \begin{solution}
-        解方程组
+        解方程组，限制计算精度为4位小数。
         \begin{equation*}
             \begin{cases}
                 0.4096x_1+0.1234x_2+0.3678x_3+0.2943x_4=0.4043 \\
@@ -54,7 +58,7 @@
             0.0000 &       0.0000 &       0.0000 &      30.6427 &      -13.6955\\
             \end{pmatrix}
         \end{align*}
-
+        回代解得
         \begin{align*}
             x_1&=     -0.1800 & x_2&=     -1.6617 & x_3&=      2.2148 & x_4&=     -0.4469
         \end{align*}
@@ -88,7 +92,7 @@
                 0.0000 &       0.0000 &       0.0000 &      -0.1870 &        0.0835\\
           \end{pmatrix}
         \end{align*}
-
+        回代解得
         \begin{align*}
             x_1&=     -0.1826 & x_2&=     -1.6632 & x_3&=      2.2178 & x_4&=     -0.4465
         \end{align*}
@@ -103,9 +107,764 @@
     \end{solution}
     \item[2.] \begin{itemize}
         \item[(1)] \begin{proof}
-            
+            由于矩阵 $\bm{A}$ 是对称矩阵，故令矩阵及其第一步约化矩阵为
+            \begin{equation*}
+                \bm{A}=
+                \begin{pmatrix}
+                    a_{11} & \bm{a}_{1}^\top \\
+                    \bm{a}_1 & \bm{A}_1
+                \end{pmatrix} \quad
+                \bm{L}_1=
+                \begin{pmatrix}
+                    1 & \bm{0} \\
+                    \bm{m}_1 & \bm{E} 
+                \end{pmatrix}
+            \end{equation*}
+            则第一步约化后
+            \begin{equation*}
+                \bm{L}_1\bm{A}=\begin{pmatrix}
+                    a_{11} & \bm{a}_1^\top \\
+                    a_{11}\bm{m}_1+\bm{a}_1 & \bm{m}_1\bm{a}_1^\top+\bm{A}_1
+                \end{pmatrix}=\begin{pmatrix}
+                    a_{11} & \bm{a}_1^\top \\
+                    \bm{0} & \bm{A}_2
+                \end{pmatrix}
+            \end{equation*}
+            最后一个等号是高斯消元法的定义，则
+            \begin{equation}\label{eq:gdef}
+                a_{11}\bm{m}_1+\bm{a}_1=\bm{0} \quad \Rightarrow \quad  \bm{a}_1=-a_{11}\bm{m}_1 %\bm{m}_1=-\frac{1}{a_{11}}\bm{a}_1
+            \end{equation}
+            另一方面，
+            \begin{equation*}
+                \bm{A}_2=\bm{m}_1(-a_{11}\bm{m}_1)^\top+\bm{A}_1=-a_{11}\bm{m}_1\bm{m}_1^\top+\bm{A}_1%\bm{m}_1\bm{a}_1^\top+\bm{A}_1= -\frac{1}{a_{11}}\bm{a}_1\bm{a}_1^\top + \bm{A}_1
+            \end{equation*}
+            由于 $\bm{A}$ 是对称矩阵，则 $\bm{A}_1$ 也是对称矩阵，$\bm{A}_1=\bm{A}_1^\top$，考察
+            \begin{equation*}
+                \bm{A}_2^\top=-a_{11}(\bm{m}_1\bm{m}_1^\top)^\top+\bm{A}_1^\top=-a_{11}(\bm{m}_1^\top)^\top\bm{m}_1^\top+\bm{A}_1^\top=-a_{11}\bm{m}_1\bm{m}_1^\top+\bm{A}_1 % -\frac{1}{a_{11}}(\bm{a}_1\bm{a}_1^\top)^\top + \bm{A}_1^\top=-\frac{1}{a_{11}}(\bm{a}_1^\top)^\top\bm{a}_1^\top + \bm{A}_1^\top= -\frac{1}{a_{11}}\bm{a}_1\bm{a}_1^\top + \bm{A}_1
+            \end{equation*}
+            也就意味着
+            \begin{equation*}
+                \bm{A}_2=\bm{A}_2^\top
+            \end{equation*}
+            即 $\bm{A}_2$ 是对称矩阵。
         \end{proof}
+        \item[(2)]\begin{solution}
+            解方程组
+            \begin{equation*}
+                \begin{cases}
+                    0.6428x_1+0.3475x_2-0.8468x_3=0.4127 \\
+                    0.3475x_1+1.8423x_2+0.4759x_3=1.7321 \\
+                    -0.8468x_1+0.4759x_2+1.2147x_3=-0.8621 
+                \end{cases}
+            \end{equation*}
+            \begin{align*}
+                \begin{pmatrix}
+                    \bm{A} & \bm{b}
+                \end{pmatrix}=&
+                \begin{pmatrix}
+                0.6428 &       0.3475 &      -0.8468 &        0.4127\\
+                0.3475 &       1.8423 &       0.4759 &        1.7321\\
+               -0.8468 &       0.4759 &       1.2147 &       -0.8621\\
+          \end{pmatrix}\rightarrow
+          \begin{pmatrix}
+                0.6428 &       0.3475 &      -0.8468 &        0.4127\\
+                0.0000 &       1.6544 &       0.9337 &        1.5090\\
+                0.0000 &       0.9337 &       0.0992 &       -0.3184\\
+          \end{pmatrix}\rightarrow\\
+          &\begin{pmatrix}
+                0.6428 &       0.3475 &      -0.8468 &        0.4127\\
+                0.0000 &       1.6544 &       0.9337 &        1.5090\\
+                0.0000 &       0.0000 &      -0.4278 &       -1.1700\\
+          \end{pmatrix}
+        \end{align*}
+        回代解得
+          \begin{align*}
+          x_1&=      4.5867 & x_2&=     -0.6315 & x_3&=      2.7352
+          \end{align*}
+        \end{solution}
     \end{itemize}
+    \item[6.] \begin{proof}
+        由于 $\bm{A}$ 是对角占优阵，则它对角线上的元素
+        \begin{equation}\label{eq:aii}
+            |a_{ii}|>\sum_{\substack{j=1\\j\neq i}}^n |a_{ij}|
+        \end{equation}
+        式 \eqref{eq:aii} 在 $i=1$ 时的特殊情况
+        \begin{equation}\label{eq:a11}
+            |a_{11}|>\sum_{\substack{j=1\\j\neq 1}}^n |a_{1j}|=\sum_{j=2}^n |a_{1j}|
+        \end{equation}
+        由高斯消元法，对于 $\bm{A}$ 消去一步后的形式
+        \begin{equation*}
+            \begin{pmatrix}
+                a_{11} & \bm{a}_1^\top \\
+                \bm{0} & \bm{A}_2
+            \end{pmatrix}
+        \end{equation*}
+        中的矩阵 $\bm{A}_2$ 元素有表达式
+        \begin{equation}\label{eq:a22}
+            a_{ij}^{(2)}=a_{ij}-\frac{a_{i1}}{a_{11}}a_{1j}
+        \end{equation}
+        式 \eqref{eq:a22} 在 $j=i$ 时的特殊情况
+        \begin{equation}\label{eq:a22ii}
+            a_{ii}^{(2)}=a_{ii}-\frac{a_{i1}}{a_{11}}a_{1i}
+        \end{equation}
+        考察矩阵 $\bm{A}_2$ 每一行初对角线上元素的绝对值的和
+        \begin{align*}
+            \sum_{\substack{j=2\\j\neq i}}^n \left|a_{ij}^{(2)}\right|&=\sum_{\substack{j=2\\j\neq i}}^n \left|a_{ij}-\frac{a_{i1}}{a_{11}}a_{1j}\right| & & \text{式 \eqref{eq:a22}}\\
+            &=\sum_{\substack{j=2\\j\neq i}}^n \left(|a_{ij}|+\left|\frac{a_{i1}}{a_{11}}a_{1j}\right|\right) & &\text{三角不等式} |a\pm b|\leq |a|+|b|\\
+            &=\sum_{\substack{j=2\\j\neq i}}^n |a_{ij}|+ \frac{|a_{i1}|}{|a_{11}|}\sum_{\substack{j=2\\j\neq i}}^n\left|a_{1j}\right|\\
+            &<|a_{ii}|-|a_{i1}|+\frac{|a_{i1}|}{|a_{11}|}\sum_{\substack{j=2\\j\neq i}}^n \left|a_{1j}\right| && \text{式 \eqref{eq:aii}}\\
+            &<|a_{ii}|-|a_{i1}|+\frac{|a_{i1}|}{|a_{11}|}(|a_{11}|-|a_{1i}|) && \text{式 \eqref{eq:a11}}\\
+            &=|a_{ii}|-\frac{|a_{i1}|}{|a_{11}|}|a_{1i}|\\
+            &\leq \left|a_{ii}-\frac{a_{i1}}{a_{11}}a_{1i}\right| && \text{不等式} |a|-|b|\leq \left||a|-|b|\right|\leq |a\pm b|\\
+            &=\left|a_{ii}^{(2)}\right| && \text{式 \eqref{eq:a22ii}}
+        \end{align*}
+        这就证明了矩阵 $\bm{A}_2$ 是对角占优阵。
+        
+        结合习题 2 的结论和数学归纳法，对于对称的对角占优阵来说，用高斯消去法每一步产生的右下角矩阵都是对称的对角占优阵，对角占优性将保证小矩阵的第一个元素的绝对值是同行中最大的，结合对称性，将是同列中最大的，则其在列主元中也将被选为主元，从而得到与列主元消去法同样的计算过程。
+    \end{proof}
+    \item[7.] \begin{proof}
+        \begin{itemize}
+            \item[(1)] 由于 $\bm{A}$ 是对称正定矩阵，根据 Cholesky 分解，存在一个实的非奇异下三角矩阵 $\bm{L}=(l_{ij})_n$ 使得 $\bm{A}=\bm{L}\bm{L}^\top$，根据矩阵乘法运算规则，可以得到 $\bm{A}$ 对角线上的元素
+            \begin{equation*}
+                a_{ii}=\sum_{j=1}^i l_{ij}^2 > 0
+            \end{equation*}
+            其中不取等号是 $\bm{L}$ 为非奇异矩阵保证的，否则 $l_{ij}=0 (j=1,\cdots, n) \Rightarrow \det \bm{L}=0$ 不满足非奇异条件。
+
+            \item[(2)] 考察高斯消元法第一步约化
+            \begin{equation*}
+                \bm{L}_1\bm{A}=\begin{pmatrix}
+                    1 & \bm{0} \\
+                    \bm{m}_1 & \bm{E} 
+                \end{pmatrix}\bm{A}=\begin{pmatrix}
+                    a_{11} & \bm{a}_1^\top \\
+                    \bm{0} & \bm{A}_2
+                \end{pmatrix}
+            \end{equation*}
+            根据习题 2(1) 的结论，$\bm{A}$ 是对称的，$\bm{A}_2$ 也是对称矩阵。
+            
+            由于 $\bm{A}$ 是正定的，则
+            \begin{equation}\label{eq:xax}
+                \forall \bm{x}\neq \bm{0}, \bm{x}^\top\bm{A}\bm{x}>0
+            \end{equation}
+            %由于 $\bm{m}_1$ 中的元素 $l_{i1}=-\frac{a_{i1}}{a_{11}}$
+            由于矩阵 $\bm{L}_1$ 是非奇异的，所以 $\forall \bm{x}\neq \bm{0}, \bm{L}_1^\top\bm{x}\neq \bm{0}$（若 $\exists \bm{x}^*\neq \bm{0}, \bm{L}_1^\top\bm{x}^*=\bm{0}$，也就意味着 $\bm{L}$ 中的列向量是线性相关的，$\det \bm{L}=0$，违背了非奇异的定义），则根据 $\bm{A}$ 的正定性
+            \begin{equation*}
+                0<(\bm{L}_1^\top\bm{x})^\top \bm{A} \bm{L}_1^\top\bm{x}=\bm{x}^\top (\bm{L}_1 \bm{A}\bm{L}_1^\top)\bm{x}
+            \end{equation*}
+            则矩阵 $\bm{B}=\bm{L}_1\bm{A}\bm{L}_1^\top $ 也是正定的。展开
+            \begin{equation*}
+                \bm{B}=\begin{pmatrix}
+                    a_{11} & \bm{a}_1^\top \\
+                    \bm{0} & \bm{A}_2
+                \end{pmatrix}\begin{pmatrix}
+                    1 & \bm{m}_1^\top \\
+                    \bm{0} & \bm{E} 
+                \end{pmatrix}=\begin{pmatrix}
+                    a_{11} & a_{11}\bm{m}_1^\top + \bm{a}_1^\top \\
+                    \bm{0} & \bm{A}_2
+                \end{pmatrix}=\begin{pmatrix}
+                    a_{11} & \bm{0} \\
+                    \bm{0} & \bm{A}_2
+                \end{pmatrix}
+            \end{equation*}
+            最后一个等号由对称性导致的式 \eqref{eq:gdef} 得出。考察 $\bm{B}$ 的所有顺序主子式 $D_k=a_{11}D^\prime_{k-1}>0 (k=2,\cdots,n)$，由 (1) 可得 $a_{11}>0$，所以所有 $\bm{A}_2$ 对应的顺序主子式 $D^\prime_k>0$，故 $\bm{A}_2$ 是正定的。
+
+            综上，$\bm{A}_2$ 是对称正定的。
+
+            \item[(3)] 式 \eqref{eq:a22ii} 成立，由于 $\bm{A}$ 是对称矩阵，且 $a_{11}>0$，则
+            \begin{equation*}
+                a_{ii}^{(2)}=a_{ii}-\frac{a_{i1}^2}{a_{11}}\leq a_{ii}\quad (i=2,3,\cdots,n)
+            \end{equation*}
+
+            \item[(4)] 反证法。由于 $\bm{A}$ 是对称正定的，设 $a_{ij}=a_{ji}(i\neq j)$ 是 $\bm{A}$ 中绝对值最大的元素，在 (1) 中已经证明对角线上的元素大于0，$a_{ii}>0,a_{jj}>0$，有两种情形：
+            \begin{enumerate}
+                \item[i.] $a_{ij}=a_{ji}\geq\max(a_{ii},a_{jj})>0$，取式 \eqref{eq:xax} 中的 $\bm{x}$ 为
+                \begin{equation*}
+                    x_k=\begin{cases}
+                        1, & k=i,\\
+                        -1, & k=j, \\
+                        0, & \text{其他}
+                    \end{cases}
+                \end{equation*}
+                则
+                \begin{equation*}
+                    \bm{x}^\top\bm{A}\bm{x}=(a_{ii}-a_{ji})-(a_{ij}-a_{jj})=a_{ii}+a_{jj}-2a_{ij}\leq 0
+                \end{equation*}
+                \item[ii.] $a_{ij}=a_{ji}\leq-\max(a_{ii},a_{jj})$，取式 \eqref{eq:xax} 中的 $\bm{x}$ 为
+                \begin{equation*}
+                    x_k=\begin{cases}
+                        1, & k=i,\\
+                        1, & k=j, \\
+                        0, & \text{其他}
+                    \end{cases}
+                \end{equation*}
+                则
+                \begin{equation*}
+                    \bm{x}^\top\bm{A}\bm{x}=(a_{ii}+a_{ji})+(a_{ij}+a_{jj})=a_{ii}+a_{jj}+2a_{ij}\leq 0
+                \end{equation*}
+            \end{enumerate}
+            不论如何都会与式 \eqref{eq:xax} 矛盾。所以 $\bm{A}$ 的绝对值最大的元素必在对角线上。
+
+            \item[(5)] 第 (2) 小题已证明 $\bm{A}_2$ 是对称正定矩阵，结合第 (4) 小题对于对称正定矩阵，其绝对值最大的元素必在对角线上，令 $a_{pp}^{(2)} (p\in \{2,\cdots,n\})$ 是 $\bm{A}_2$ 中绝对值最大的元素，有
+            \begin{equation}\label{eq:a2ij}
+                \max_{2\leq i,j\leq n} \left|a_{ij}^{(2)}\right| = \left|a_{pp}^{(2)}\right|
+            \end{equation}
+            考虑第 (3) 小题的结果，以及第 (1) 小题的结果：对称正定矩阵对角线上的元素都是大于0的，
+            \begin{equation}
+                0<a_{pp}^{(2)}\leq a_{pp} \Rightarrow \left|a_{pp}^{(2)}\right|\leq\left|a_{pp}\right|
+            \end{equation}
+            考虑到 $p$ 的取值范围 $[2,\cdots,n]$，则根据最大值的定义，
+            \begin{equation}\label{eq:aij}
+                \left|a_{pp}\right|\leq \max_{2\leq i,j\leq n} |a_{ij}|
+            \end{equation}
+            综合式 \eqref{eq:a2ij} -- 式 \eqref{eq:aij}，有
+            \begin{equation*}
+                \max_{2\leq i,j\leq n} \left|a_{ij}^{(2)}\right|\leq \max_{2\leq i,j\leq n} |a_{ij}|
+            \end{equation*}
+
+            \item[(6)]（目测题目有误，应该是 $\forall i,j\quad |a_{ij}|<1$，即 $\max_{1\leq i,j\leq n} |a_{ij}|<1$）%保持跟第 (5) 小题相同的符号意义，
+            % TODO
+
+            当 $i=1$ 时，$\left|a_{1j}^{(2)}\right|=|a_{1j}|<1$；当 $2\leq i\leq n, j=1$ 时，$\left|a_{i1}^{(2)}\right|=0<1$；
+            当 $2\leq i,j\leq n$ 时，
+            \begin{equation*}
+                \left|a_{ij}^{(2)}\right|\leq \max_{2\leq i,j\leq n} \left|a_{ij}^{(2)}\right|
+                %=\left|a_{pp}^{(2)}\right|\leq |a_{pp}|
+                \leq \max_{2\leq i,j\leq n} |a_{ij}|\leq \max_{1\leq i,j\leq n} |a_{ij}|<1
+            \end{equation*}
+            类似的，根据数学归纳法，将得到 $\forall k, \left|a_{ij}^{(k)}\right|<1$。
+        \end{itemize}
+    \end{proof}
+
+    \item[9.] \begin{proof}
+        设 $\bm{A}$ 的 Crout 分解为
+        \begin{equation*}
+            \bm{A}=\begin{pmatrix}
+                l_{11} \\
+                l_{21} & l_{22} \\
+                \vdots & \ddots & \ddots \\
+                l_{n,1} & \cdots & l_{n,n-1} & l_{nn}
+            \end{pmatrix}
+            \begin{pmatrix}
+                1 & \cdots & u_{1,n-1} & u_{1n} \\
+                  & 1 & \cdots & u_{2n} \\
+                  &   &  \ddots & \vdots \\
+                  &   &         & 1
+            \end{pmatrix}
+        \end{equation*}
+        使用数学归纳法。
+        \paragraph{起步} 可知
+        \begin{equation*}
+            a_{i1} = l_{i1}\quad (i=1,2,\cdots,n)
+        \end{equation*}
+        则
+        \begin{equation*}
+            a_{1j} = l_{11}u_{1j} \Rightarrow u_{1j}= a_{1j} / l_{11} \quad (j=2,\cdots,n)
+        \end{equation*}
+        从而得到 $\bm{L}$ 的第 1 行列和 $\bm{U}$ 的第 1 行。
+        \paragraph{迭代} 设已经定出 $\bm{L}$ 的前 $r-1$ 列和 $\bm{U}$ 的前 $r-1$ 行，则
+        \begin{equation*}
+            a_{ir} = \sum_{k=1}^n l_{ik}u_{kr} = \sum_{k=1}^{r-1}l_{ik}u_{kr}+l_{ir} \Rightarrow l_{ir}=a_{ir}-\sum_{k=1}^{r-1}l_{ik}u_{kr}\quad (i=r,r+1,\cdots,n)
+        \end{equation*}
+        从而得到 $\bm{L}$ 的第 $r$ 列；另一方面，
+        \begin{equation*}
+            a_{rj}= \sum_{k=1}^n l_{rk}u_{kj}=\sum_{k=1}^{r-1} l_{rk}u_{kj}+l_{rr}u_{rj} \Rightarrow u_{rj}=\left(a_{ri}-\sum_{k=1}^{r-1} l_{rk}u_{kj}\right)/l_{rr}\quad (j=r+1,\cdots,n)
+        \end{equation*}
+        从而得到 $\bm{U}$ 的第 $r$ 行。
+        
+        \paragraph{结论} 根据数学归纳法原理，可以得到 $\bm{A}$ 的 Crout 分解。
+    \end{proof}
+
+    \item[10.] \begin{solution}
+        \begin{itemize}
+            \item[(1)] 若 $\bm{U}$ 为上三角矩阵，则
+            \begin{equation*}
+                \begin{pmatrix}
+                    u_{11} & \cdots & u_{1,n-1} & u_{1n} \\
+                      & u_{22} & \cdots & u_{2n} \\
+                      &   &  \ddots & \vdots \\
+                      &   &         & u_{nn}
+                \end{pmatrix}
+                \begin{pmatrix}
+                    x_1\\x_2\\ \vdots \\ x_n
+                \end{pmatrix}
+                =
+                \begin{pmatrix}
+                    d_1\\d_2\\ \vdots \\ d_n
+                \end{pmatrix}
+            \end{equation*}
+            求解方法为从下而上，先计算 $x_n=d_n/u_{nn}$，再代入上一行，$u_{n-1,n-1}x_{n-1}+u_{n-1,n}x_{n}=d_{n-1}\Rightarrow x_{n-1}=\frac{d_{n-1}-u_{n-1,n-1}x_{n-1}}{u_{n-1,n-1}}$；$\cdots$ 类似地，有
+            \begin{equation*}
+                x_{i}=\frac{d_{i}-\sum_{j=i+1}^{n}u_{ij}x_j}{u_{ii}}\quad (i=n-1,n-2,\cdots,1)
+            \end{equation*}
+            若 $\bm{U}$ 为下三角矩阵，则为从上到下，$x_1=d_1/u_{11}$，
+            \begin{equation*}
+                x_{i}=\frac{d_i-\sum_{j=1}^{i-1}u_{ij}x_j}{u_{ii}}\quad (i=2,3,\cdots,n)
+            \end{equation*}
+
+            \item[(2)] 乘法：$0+1+\cdots+n-1$，除法：$n$，乘除法总计：$\frac{n^2+n}{2}$。
+            \item[(3)] 若 $\bm{U}$ 为上三角矩阵，它的逆矩阵 $\bm{S}=\bm{U}^{-1}$ 也是上三角矩阵 % 为什么
+            ，设
+            \begin{equation*}
+                \begin{pmatrix}
+                    u_{11} & \cdots & u_{1,n-1} & u_{1n} \\
+                      & u_{22} & \cdots & u_{2n} \\
+                      &   &  \ddots & \vdots \\
+                      &   &         & u_{nn}
+                \end{pmatrix}
+                \begin{pmatrix}
+                    s_{11} & \cdots & s_{1,n-1} & s_{1n} \\
+                      & s_{22} & \cdots & s_{2n} \\
+                      &   &  \ddots & \vdots \\
+                      &   &         & s_{nn}
+                \end{pmatrix}=\bm{E}
+            \end{equation*}
+            则
+            \begin{align*}
+                u_{ii}s_{ii}=1 \Rightarrow s_{ii}&=\frac{1}{u_{ii}} & (i=1,2,\cdots,n) \\
+                s_{ij}&=-\frac{\sum_{k=i+1}^n u_{ik}s_{kj}}{u_{ii}} & (i=n-1,n-2,\cdots,1;j=i+1,i+2,\cdots,n)
+            \end{align*}
+            若 $\bm{U}$ 为下三角矩阵，同理可得
+            \begin{align*}
+                u_{ii}s_{ii}=1 \Rightarrow s_{ii}&=\frac{1}{u_{ii}} & (i=1,2,\cdots,n) \\
+                s_{ij}&=-\frac{\sum_{k=1}^{i-1} u_{ik}s_{kj}}{u_{ii}} & (i=2,3,\cdots,n;j=1,2,\cdots,i-1)
+            \end{align*}
+        \end{itemize}
+    \end{solution}
+    \item[11.] \begin{proof}
+        \begin{itemize}
+            \item[(1)] 
+            由于 $\bm{A}=\bm{A}^\top$，则
+            \begin{equation*}
+                (\bm{A}^{-1})^\top = (\bm{A}^\top)^{-1} = \bm{A}^{-1}
+            \end{equation*}
+            所以 $\bm{A}^{-1}$ 是对称的。
+
+            若 $\bm{A}$ 是对称正定矩阵，则存在非奇异的下三角矩阵 $\bm{L}$ 满足它的 Cholesky 分解：
+            \begin{equation*}
+                \bm{A}=\bm{L}\bm{L}^\top
+            \end{equation*}
+            考虑它的逆，由于 $\bm{L}$ 非奇异所以它存在逆矩阵 $\bm{L}^{-1}$，
+            \begin{equation*}
+                \bm{A}^{-1}=(\bm{L}^\top)^{-1}\bm{L}^{-1}=(\bm{L}^{-1})^\top\bm{L}^{-1}
+            \end{equation*}
+            % 考察它的转置，
+            % \begin{equation*}
+            %     (\bm{A}^{-1})^\top = ((\bm{L}^{-1})^\top\bm{L}^{-1})^\top = (\bm{L}^{-1})^\top\bm{L}^{-1}
+            % \end{equation*}
+            % 故 $(\bm{A}^{-1})^\top=\bm{A}^{-1}$，即 $\bm{A}^{-1}$ 是对称的。
+            考察 $\forall x\neq 0$，
+            \begin{equation*}
+                \bm{x}^\top \bm{A}^{-1}\bm{x}=\bm{x}^\top (\bm{L}^{-1})^\top\bm{L}^{-1} \bm{x}=(\bm{L}^{-1} \bm{x})^\top (\bm{L}^{-1} \bm{x})>0
+            \end{equation*}
+            易知 $\bm{L}^{-1}$ 也是非奇异的，所以 $\bm{L}^{-1}\bm{x}\neq 0$，最后一个大于号成立。故 $\bm{A}^{-1}$ 是正定的。
+
+            
+
+            % 由于 $\bm{A}$ 是正定矩阵，所以它的特征值 $\lambda_i>0$，则 $\bm{A}^{-1}$ 的特征值 $\frac{1}{\lambda_i}>0$，那么 $\bm{A}^{-1}$ 也是正定矩阵。
+
+            综上，$\bm{A}^{-1}$ 是对称正定的。
+            \item[(2)] 由于 $\bm{A}$ 是对称正定的，所以 $\bm{A}^{-1}$ 也是对称正定的（上一小问的结论），存在它的 Cholesky 分解，使得 $L^*$ 对角线上的元素都是正的且唯一：
+            \begin{equation*}
+                \bm{A}^{-1}=\bm{L}^*{\bm{L}^*}^\top
+            \end{equation*}
+            则
+            \begin{equation*}
+                \bm{A}=(\bm{A}^{-1})^{-1}=(\bm{L}^*{\bm{L}^*}^\top)^{-1}=({\bm{L}^*}^\top)^{-1}{\bm{L}^*}^{-1}=({\bm{L}^*}^{-1})^\top{\bm{L}^*}^{-1}
+            \end{equation*}
+            其中 ${\bm{L}^*}^{-1}$ 的对角线元素均正（根据矩阵乘法，$a_{ii}a_{ii}^*=1$，$a_{ii}>0, a_{ii}^*=\frac{1}{a_{ii}}>0$）。
+        \end{itemize}
+    \end{proof}
+    \item[13.] \begin{solution}
+        \begin{equation*}
+            \bm{A}=\begin{pmatrix}
+                2 & -1 \\
+                -1 & 2 & -1 \\
+                & -1 & 2 & -1 \\
+                &  & -1 & 2 & -1 \\
+                &  &   &  -1 & 2
+            \end{pmatrix}=\begin{pmatrix}
+                2 \\
+                -1 & \frac{3}{2} \\
+                   & -1 & \frac{4}{3} \\
+                   &    &    -1 & \frac{5}{4} \\
+                   &    &             & -1 & \frac{6}{5}
+            \end{pmatrix}\begin{pmatrix}
+                1 & -\frac{1}{2} \\
+                  &  1 & -\frac{2}{3} \\
+                  &    &  1  & -\frac{3}{4} \\
+                  &    &     &   1   & -\frac{4}{5} \\
+                  &    &     &       &    1
+            \end{pmatrix}
+        \end{equation*}
+        解 $\bm{L}\bm{y}=\bm{f}$：
+        \begin{equation*}
+            \begin{pmatrix}
+                2 \\
+                -1 & \frac{3}{2} \\
+                   & -1 & \frac{4}{3} \\
+                   &    &    -1 & \frac{5}{4} \\
+                   &    &             & -1 & \frac{6}{5}
+            \end{pmatrix}\begin{pmatrix}
+                y_1 \\ y_2 \\ y_3 \\ y_4 \\ y_5
+            \end{pmatrix}=\begin{pmatrix}
+                1 \\ 0 \\ 0 \\ 0 \\ 0
+            \end{pmatrix}\Rightarrow\begin{pmatrix}
+                y_1 \\ y_2 \\ y_3 \\ y_4 \\ y_5
+            \end{pmatrix}=\begin{pmatrix}
+                \frac{1}{2} \\ \frac{1}{3} \\ \frac{1}{4} \\ \frac{1}{5} \\ \frac{1}{6}
+            \end{pmatrix}
+        \end{equation*}
+        解 $\bm{U}\bm{x}=\bm{y}$：
+        \begin{equation*}
+            \begin{pmatrix}
+                1 & -\frac{1}{2} \\
+                  &  1 & -\frac{2}{3} \\
+                  &    &  1  & -\frac{3}{4} \\
+                  &    &     &   1   & -\frac{4}{5} \\
+                  &    &     &       &    1
+            \end{pmatrix}\begin{pmatrix}
+                x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5
+            \end{pmatrix}=\begin{pmatrix}
+                \frac{1}{2} \\ \frac{1}{3} \\ \frac{1}{4} \\ \frac{1}{5} \\ \frac{1}{6}
+            \end{pmatrix}\Rightarrow\begin{pmatrix}
+                x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5
+            \end{pmatrix}=\begin{pmatrix}
+                \frac{5}{6} \\ \frac{2}{3} \\ \frac{1}{2} \\ \frac{1}{3} \\ \frac{1}{6}
+            \end{pmatrix}
+        \end{equation*}
+    \end{solution}
+    \item[14.] \begin{solution}
+        \begin{equation*}
+            \bm{A}=\begin{pmatrix}
+                2 & -1 & 1 \\
+                -1 & -2 & 3 \\
+                1 & 3 & 1
+            \end{pmatrix}=\begin{pmatrix}
+                1 \\
+                -\frac{1}{2} & 1 \\
+                \frac{1}{2} & -\frac{7}{5} & 1
+            \end{pmatrix}
+            \begin{pmatrix}
+                2 \\
+                & -\frac{5}{2} \\
+                & & \frac{27}{5}
+            \end{pmatrix}
+            \begin{pmatrix}
+                1 & -\frac{1}{2} & \frac{1}{2}\\
+                & 1 & -\frac{7}{5}\\
+                & & 1
+            \end{pmatrix}=\bm{L}\bm{D}\bm{L}^\top
+        \end{equation*}
+        求解 $\bm{L}\bm{y}=\bm{b}$，
+        \begin{equation*}
+            \begin{pmatrix}
+                1 \\
+                -\frac{1}{2} & 1 \\
+                \frac{1}{2} & -\frac{7}{5} & 1
+            \end{pmatrix}
+            \begin{pmatrix}
+                y_1 \\
+                y_2 \\
+                y_3
+            \end{pmatrix}=
+            \begin{pmatrix}
+                4 \\
+                5 \\
+                6
+            \end{pmatrix}\Rightarrow
+            \begin{pmatrix}
+                y_1 \\
+                y_2 \\
+                y_3
+            \end{pmatrix}=\begin{pmatrix}
+                4 \\
+                7 \\
+                \frac{69}{5}
+            \end{pmatrix}
+        \end{equation*}
+        求解 $\bm{DL}^\top\bm{x}=\bm{y}$，
+        \begin{equation*}
+            \begin{pmatrix}
+                2 \\
+                & -\frac{5}{2} \\
+                & & \frac{27}{5}
+            \end{pmatrix}
+            \begin{pmatrix}
+                1 & -\frac{1}{2} & \frac{1}{2}\\
+                & 1 & -\frac{7}{5}\\
+                & & 1
+            \end{pmatrix}\begin{pmatrix}
+                x_1 \\
+                x_2 \\
+                x_3
+            \end{pmatrix}=\begin{pmatrix}
+                4 \\
+                7 \\
+                \frac{69}{5}
+            \end{pmatrix}\Rightarrow
+            \begin{pmatrix}
+                x_1 \\
+                x_2 \\
+                x_3
+            \end{pmatrix}=\begin{pmatrix}
+                \frac{10}{9} \\
+                \frac{7}{9} \\
+                \frac{23}{9}
+            \end{pmatrix}
+        \end{equation*}
+    \end{solution}
+    \item[15.]\begin{solution}
+        \begin{equation*}
+            \bm{A}=\begin{pmatrix}
+                1 & 2 & 3 \\
+                2 & 4 & 1 \\
+                4 & 6 & 7
+            \end{pmatrix}
+        \end{equation*}
+        的 $D_1\neq 0, D_2=0, D_3\neq 0$，所以 $\bm{A}$ 不能进行 Doolittle 分解。
+        \begin{equation*}
+            \bm{B}=\begin{pmatrix}
+                1 & 1 & 1 \\
+                2 & 2 & 1 \\
+                3 & 3 & 1 \\
+            \end{pmatrix}
+        \end{equation*}
+        的 $D_1\neq 0,D_2 = 0,D_3=0$，存在 Doolittle 分解但不唯一， 
+        \begin{equation*}
+            \bm{B}=\begin{pmatrix}
+                1 \\
+                2 & 1 \\
+                3 & b & 1
+            \end{pmatrix}
+            \begin{pmatrix}
+                1 & 1 & 1 \\
+                  &  & -1 \\
+                  &  & b-2
+            \end{pmatrix}
+        \end{equation*}
+        其中 $b$ 为任意实数。
+        \begin{equation*}
+            \bm{C}=\begin{pmatrix}
+                1 & 2 & 6 \\
+                2 & 5 & 15 \\
+                6 & 15 & 46
+            \end{pmatrix}
+        \end{equation*}
+        的 $D_1=1, D_2=1, D_3=1$，故 $\bm{C}$ 有唯一的 Doolittle 分解：
+        \begin{equation*}
+            \bm{C}=\begin{pmatrix}
+                1 \\
+                2 & 1 \\
+                6 & 3 & 1
+            \end{pmatrix}\begin{pmatrix}
+                1 & 2 & 6 \\
+                   & 1 & 3 \\
+                  &  & 1 
+            \end{pmatrix}
+        \end{equation*}
+    \end{solution}
+    \item[18.] \begin{solution}
+        \begin{equation*}
+            \bm{A}=\begin{pmatrix}
+                0.6 & 0.5 \\
+                0.1 & 0.3
+            \end{pmatrix}
+        \end{equation*}
+        行范数
+        \begin{equation*}
+            ||\bm{A}||_{\infty}=1.1
+        \end{equation*}
+        列范数
+        \begin{equation*}
+            ||\bm{A}||_1=0.8
+        \end{equation*}
+        2-范数：由于
+        \begin{align*}
+            \bm{A}^\top\bm{A}&=\begin{pmatrix}
+                0.37 & 0.33 \\
+                0.33 & 0.34
+            \end{pmatrix}\\
+            \det(\lambda\bm{E}-\bm{A}^\top\bm{A})&=0\Rightarrow \lambda_{1} = 0.68534073, \lambda_2 = 0.02465927
+        \end{align*}
+        \begin{equation*}
+            ||\bm{A}||_2=\sqrt{0.68534073}=0.82785
+        \end{equation*}
+        $F$-范数
+        \begin{equation*}
+            ||\bm{A}||_F=\sqrt{0.6^2+0.5^2+0.1^2+0.3^2}=0.842615
+        \end{equation*}
+    \end{solution}
+    \item[20.]\begin{proof}
+        \begin{description}
+            \item[正定条件] $\Vert\bm{x}\Vert_{\bm{P}}=\lVert\bm{P}\bm{x}\rVert\geq 0$ 显然。因为 $\det\bm{P}\neq0$，所以$\Vert\bm{x}\Vert_{\bm{P}}=0\Leftrightarrow \bm{P}\bm{x}=0\Leftrightarrow \bm{x}=0$。
+            \item[齐次条件] $\Vert \alpha\bm{x}\Vert_{\bm{P}}=\Vert \bm{P}\alpha\bm{x}\Vert=\Vert \alpha\bm{P}\bm{x}\Vert=\alpha\Vert \bm{P}\bm{x}\Vert=\alpha\Vert\bm{x}\Vert_{\bm{P}},\forall \alpha\in \mathbf{R}$
+            \item[三角不等式]  $\Vert \bm{x}+\bm{y}\Vert_{\bm{P}}=\Vert\bm{P}(\bm{x}+\bm{y})\Vert=\Vert\bm{P}\bm{x}+\bm{P}\bm{y}\Vert\leq \Vert\bm{P}\bm{x}\Vert+\Vert\bm{P}\bm{y}\Vert=\Vert\bm{x}\Vert_{\bm{P}}+\Vert\bm{y}\Vert_{\bm{P}}$
+        \end{description}
+        故 $\Vert\bm{x}\Vert_{\bm{P}}$ 是 $\mathbf{R}^n$ 上向量的一种范数。
+    \end{proof}
+    \item[23.]\begin{solution}
+        令 $\bm{x}=(x,y)$，
+        \begin{align*}
+            \Vert \bm{x}\Vert_1 &= 1 &\Rightarrow |x|+|y|&=1\\
+            \Vert \bm{x}\Vert_2 &= 1 &\Rightarrow \sqrt{x^2+y^2}&=1\\
+            \Vert \bm{x}\Vert_\infty &= 1 &\Rightarrow \max\{x,y\}&=1
+        \end{align*}
+        \begin{figure}[H]
+            \begin{subfigure}{.33\textwidth}
+                \begin{tikzpicture}
+                    \begin{axis}[axis x line={middle},
+                    axis y line={middle},
+                    width={6cm},
+                    height={6cm},
+                    xmin={-2},
+                    xmax={2},
+                    ymin={-2},
+                    ymax={2},
+                    xlabel={$x$},
+                    ylabel={$y$},
+                    ]
+                     \addplot [domain=-1:1,thick,] {1-abs(x)};
+                     \addplot [domain=-1:1,thick,] {abs(x)-1};
+                    \end{axis}
+                \end{tikzpicture}
+                \caption{$\Vert \bm{x}\Vert_1 = 1 $}
+            \end{subfigure}
+            \begin{subfigure}{.33\textwidth}
+                \begin{tikzpicture}
+                    \begin{axis}[axis x line={middle},
+                    axis y line={middle},
+                    width={6cm},
+                    height={6cm},
+                    xmin={-2},
+                    xmax={2},
+                    ymin={-2},
+                    ymax={2},
+                    xlabel={$x$},
+                    ylabel={$y$},
+                    ]
+                     \addplot [domain=-1:1,thick,samples=201,] {sqrt(1-x^2)};
+                     \addplot [domain=-1:1,thick,samples=201,] {-sqrt(1-x^2)};
+                    \end{axis}
+                    \end{tikzpicture}     
+                \caption{$\Vert \bm{x}\Vert_2 = 1 $}               
+            \end{subfigure}
+            \begin{subfigure}{.33\textwidth}
+                \begin{tikzpicture}
+                    \begin{axis}[axis x line={middle},
+                    axis y line={middle},
+                    width={6cm},
+                    height={6cm},
+                    xmin={-2},
+                    xmax={2},
+                    ymin={-2},
+                    ymax={2},
+                    xlabel={$x$},
+                    ylabel={$y$},
+                    ]
+                    \draw[thick] (-1,1) rectangle (1,-1);
+                    \end{axis}
+                \end{tikzpicture}
+                \caption{$\Vert \bm{x}\Vert_\infty = 1 $}
+            \end{subfigure}
+        \end{figure}
+    \end{solution}
+    \item[29.] \begin{proof}
+        \begin{align*}
+            \bm{A}&=\begin{pmatrix}
+                2\lambda & \lambda \\
+                1 & 1
+            \end{pmatrix}&
+            \quad \bm{A}^{-1}&=\begin{pmatrix}
+                \frac{1}{\lambda} & -1 \\
+                -\frac{1}{\lambda} & 2
+            \end{pmatrix}\\
+            \Vert\bm{A}\Vert_\infty&=\max\{|3\lambda|, 2\} &\Vert\bm{A}^{-1}\Vert_\infty&=\max\left\{\left|\frac{1}{\lambda}\right|+1,\left|-\frac{1}{\lambda}\right|+2\right\}=\left|\frac{1}{\lambda}\right|+2
+        \end{align*}
+        % \begin{figure}[H]
+        %     \centering
+        %     \begin{tikzpicture}
+        %         \begin{axis}[ymin={-1},
+        %         xtick={-0.667,0,0.667},
+        %         xticklabels={$-\frac23$,$0$,$\frac23$},
+        %         axis x line={middle},
+        %         axis y line={middle},
+        %         ymax={9},
+        %         xlabel={$\lambda$},
+        %         legend pos={outer north east},
+        %         no markers,]
+        %          \addplot+ [thick,] coordinates { (-1,3) (-0.667,2) (0.667,2) (1,3)};
+        %         %  \addplot [red,thick,domain=0.1:0.667,] {1/x-1};
+        %         %  \addplot [red,thick,domain=0.667:1.5,] {2-1/x};
+        %         %  \addplot [red,thick,domain=-0.667:-0.1,] {-1/x-1};
+        %         %  \addplot [red,thick,domain=-1.5:-0.667,] {2+1/x};
+        %         \addplot [red,thick,domain=0.1:1,] {1/x+2};
+        %         \addplot [red,thick,domain=-1:-0.1,] {-1/x+2};
+        %          \legend{$\Vert \bm{A}\Vert_\infty$,$\Vert \bm{A}^{-1}\Vert_\infty$,}
+        %         \end{axis}
+        %     \end{tikzpicture}
+        % \end{figure}
+        \begin{equation*}
+            \text{cond}(\bm{A})_\infty=\Vert \bm{A}^{-1}\Vert_\infty\Vert \bm{A}\Vert_\infty=\left(\left|\frac{1}{\lambda}\right|+2\right)\cdot \max\{|3\lambda|, 2\}=\begin{cases}
+                \left(\left|\frac{1}{\lambda}\right|+2\right)\cdot |3\lambda|=3+6|\lambda|,& |\lambda|\geq \frac{2}{3},\\
+                2\left(\left|\frac{1}{\lambda}\right|+2\right),& |\lambda|<\frac{2}{3}
+            \end{cases}
+        \end{equation*}
+        三个分段分别单调，均在边界处取得最小值，即在 $\lambda=\pm \frac{2}{3}$ 处取得最小值 $7$。
+    \end{proof}
+    \item[31.]\begin{solution}
+        \begin{align*}
+            \bm{A}&=\begin{pmatrix}
+                100 & 99 \\
+                99 & 98
+            \end{pmatrix}\\
+            %&\bm{A}^{-1}&=\begin{pmatrix}
+            %    -98 & 99 \\
+            %    99 & -100
+            %\end{pmatrix}\\
+            \bm{A}^\top\bm{A}=\bm{A}^2&=\begin{pmatrix}
+                19801 & 19602 \\
+                19602 & 19405
+            \end{pmatrix}\\
+            %&(\bm{A}^{-1})^\top\bm{A}^{-1}=(\bm{A}^{-1})^2&=\begin{pmatrix}
+            %    19405 & -19602 \\
+            %    -19602 &  19801
+            %\end{pmatrix}\\
+            \det(\lambda E-\bm{A}^\top\bm{A})&=0\\
+            %&\det(\lambda E-(\bm{A}^{-1})^\top\bm{A}^{-1})&=0\\
+            \lambda_1&=3.92\times 10^4 & \\
+            \lambda_2&=2.55\times 10^{-5} &
+        \end{align*}
+        根据 $\bm{A}$ 是对称矩阵，$\lambda_1\lambda_2=\det(\bm{A}^\top\bm{A})=\det(\bm{A}^2)=\det(\bm{A})^2=(-1)^2=1$，故谱条件数：
+        \begin{equation}
+            \text{cond}(\bm{A})_2=\sqrt{\frac{\lambda_1}{\lambda_2}}=\sqrt{\lambda_1^2}=\lambda_1=3.92\times 10^4 
+        \end{equation}
+        \begin{align*}
+            \bm{A}&=\begin{pmatrix}
+                100 & 99 \\
+                99 & 98
+            \end{pmatrix}
+            &\bm{A}^{-1}&=\begin{pmatrix}
+                -98 & 99 \\
+                99 & -100
+            \end{pmatrix}\\
+            \Vert\bm{A}\Vert_\infty&=199&\Vert\bm{A}^{-1}\Vert_\infty&=199
+        \end{align*}
+        则
+        \begin{equation}
+            \text{cond}(\bm{A})_\infty=\Vert\bm{A}^{-1}\Vert_\infty\Vert\bm{A}\Vert_\infty=39601
+        \end{equation}
+    \end{solution}
+    \item[32.]\begin{proof}
+        由于 $\bm{A}$ 是正交矩阵，则
+        \begin{equation*}
+            \bm{A}^\top\bm{A}=\bm{E}
+        \end{equation*}
+        则谱条件数
+        \begin{equation*}
+            \text{cond}(\bm{A})_2=\sqrt{\frac{\lambda_{\text{max}}(\bm{A}^\top\bm{A})}{\lambda_{\text{min}}(\bm{A}^\top\bm{A})}}=\sqrt{\frac{\lambda_{\text{max}}(\bm{E})}{\lambda_{\text{min}}(\bm{E})}}=\sqrt{\frac{1}{1}}=1
+        \end{equation*}
+    \end{proof}
 \end{itemize}
 
 \end{document}
