@@ -1,0 +1,120 @@
+\documentclass{sjtuarticle}
+\allowdisplaybreaks[1]
+\usepackage{ntheorem}
+\usepackage{float}
+\usepackage{bm}
+\usepackage{subcaption}
+\usepackage{physics}
+\usepackage[colorlinks]{hyperref}
+\title{作业4}
+\author{李子龙\\123033910195}
+\begin{document}
+\maketitle
+% P217： 1，8，9，11，13，14，19
+
+\begin{itemize}
+    \item[1.]\begin{solution}
+    \begin{align*}
+        \bm{A}&=\begin{pmatrix}
+            5 & 2 & 1 \\
+            -1 & 4 & 2 \\
+            2 & -3 & 10
+        \end{pmatrix}=\begin{pmatrix}
+            5\\ & 4\\ & & 10 
+        \end{pmatrix}-\begin{pmatrix}
+            \\ 1 \\ -2 & 3 &
+        \end{pmatrix}-\begin{pmatrix}
+            & -2 & -1 \\ & & -2 \\ &
+        \end{pmatrix}=\bm{D}-\bm{L}-\bm{U} \\
+        \bm{b}&=\begin{pmatrix}
+            -12 \\ 20 \\ 3
+        \end{pmatrix}
+    \end{align*}
+    \begin{itemize}
+        \item[(1)] 由于 $\bm{A}$ 是严格占优矩阵，所以 Jacobi 迭代法和 Guass--Seidel 迭代法解这个方程组都是收敛的。
+
+        \item[(2)] 
+        \begin{description}
+            \item[Jacobi 迭代法] 
+        对于 Jacobi 迭代法，其迭代矩阵
+        \begin{align*}
+            \bm{B}&=\bm{D}^{-1}(\bm{L}+\bm{U})=\begin{pmatrix}
+                & -\frac{2}{5} & -\frac{1}{5} \\
+                \frac{1}{4} & & -\frac{1}{2} \\
+                -\frac{1}{5} & \frac{3}{10} & 
+            \end{pmatrix} & \bm{f}&=\bm{D}^{-1}\bm{b}=\begin{pmatrix}
+                -\frac{12}{5} \\ 5 \\ \frac{3}{10}
+            \end{pmatrix}
+        \end{align*}
+        取迭代初值 $\bm{x}^{(0)}=(0,0,0)^\top$，有
+        \begin{align*}
+            \bm{x}^{(1)}&=\bm{B}\bm{x}^{(0)}+\bm{f}=\left(-2.4, 5, 0.3\right)^\top & \lVert\bm{\epsilon}^{(1)}\rVert_{\infty}&=5. \\
+            \bm{x}^{(2)}&=\bm{B}\bm{x}^{(1)}+\bm{f}=\left(-4.46, 4.25, 2.28\right)^\top & \lVert\bm{\epsilon}^{(2)}\rVert_{\infty}&=2.06 \\
+            \bm{x}^{(3)}&=\bm{B}\bm{x}^{(2)}+\bm{f}=\left(-4.556, 2.745, 2.467\right)^\top & \lVert\bm{\epsilon}^{(3)}\rVert_{\infty}&=1.505 \\
+            \bm{x}^{(4)}&=\bm{B}\bm{x}^{(3)}+\bm{f}=\left(-3.9914, 2.6275, 2.0347\right)^\top & \lVert\bm{\epsilon}^{(4)}\rVert_{\infty}&=0.5646 \\
+            \bm{x}^{(5)}&=\bm{B}\bm{x}^{(4)}+\bm{f}=\left(-3.85794, 2.9848, 1.88653\right)^\top & \lVert\bm{\epsilon}^{(5)}\rVert_{\infty}&=0.3573 \\
+            \bm{x}^{(6)}&=\bm{B}\bm{x}^{(5)}+\bm{f}=\left(-3.971226, 3.09225, 1.967028\right)^\top & \lVert\bm{\epsilon}^{(6)}\rVert_{\infty}&=0.113286 \\
+            \bm{x}^{(7)}&=\bm{B}\bm{x}^{(6)}+\bm{f}=\left(-4.0303056, 3.0236795, 2.0219202\right)^\top & \lVert\bm{\epsilon}^{(7)}\rVert_{\infty}&=0.0685705 \\
+            \bm{x}^{(8)}&=\bm{B}\bm{x}^{(7)}+\bm{f}=\left(-4.01385584, 2.9814635, 2.01316497\right)^\top & \lVert\bm{\epsilon}^{(8)}\rVert_{\infty}&=0.042216 \\
+            \bm{x}^{(9)}&=\bm{B}\bm{x}^{(8)}+\bm{f}=\left(-3.99521839, 2.98995356, 1.99721022\right)^\top & \lVert\bm{\epsilon}^{(9)}\rVert_{\infty}&=0.01863745 \\
+            \bm{x}^{(10)}&=\bm{B}\bm{x}^{(9)}+\bm{f}=\left(-3.99542347, 3.00259029, 1.99602975\right)^\top & \lVert\bm{\epsilon}^{(10)}\rVert_{\infty}&=0.01263674 \\
+            \bm{x}^{(11)}&=\bm{B}\bm{x}^{(10)}+\bm{f}=\left(-4.00024207, 3.00312926, 1.99986178\right)^\top & \lVert\bm{\epsilon}^{(11)}\rVert_{\infty}&=0.0048186 \\
+            \bm{x}^{(12)}&=\bm{B}\bm{x}^{(11)}+\bm{f}=\left(-4.00122406, 3.00000859, 2.00098719\right)^\top & \lVert\bm{\epsilon}^{(12)}\rVert_{\infty}&=0.00312067 \\
+            \bm{x}^{(13)}&=\bm{B}\bm{x}^{(12)}+\bm{f}=\left(-4.00020088, 2.99920039, 2.00024739\right)^\top & \lVert\bm{\epsilon}^{(13)}\rVert_{\infty}&=0.00102319 \\
+            \bm{x}^{(14)}&=\bm{B}\bm{x}^{(13)}+\bm{f}=\left(-3.99972963, 2.99982609, 1.99980029\right)^\top & \lVert\bm{\epsilon}^{(14)}\rVert_{\infty}&=0.0006257 \\
+            \bm{x}^{(15)}&=\bm{B}\bm{x}^{(14)}+\bm{f}=\left(-3.99989049, 3.00016745, 1.99989375\right)^\top & \lVert\bm{\epsilon}^{(15)}\rVert_{\infty}&=0.00034136 \\
+            \bm{x}^{(16)}&=\bm{B}\bm{x}^{(15)}+\bm{f}=\left(-4.00004573, 3.0000805, 2.00002833\right)^\top & \lVert\bm{\epsilon}^{(16)}\rVert_{\infty}&=0.00015524 \\
+            \bm{x}^{(17)}&=\bm{B}\bm{x}^{(16)}+\bm{f}=\left(-4.00003787, 2.9999744, 2.0000333, \right)^\top & \lVert\bm{\epsilon}^{(17)}\rVert_{\infty}&=0.0001061 \\
+            \bm{x}^{(18)}&=\bm{B}\bm{x}^{(17)}+\bm{f}=\left(-3.99999642, 2.99997389, 1.99999989\right)^\top & \lVert\bm{\epsilon}^{(18)}\rVert_{\infty}&=4.14468074\times 10^{-5}
+        \end{align*}
+        总共需要 18 次满足要求。
+        \item[Guass--Seidel迭代法] 对于Guass--Seidel迭代法，
+        \begin{align*}
+            \bm{G}&=(\bm{D}-\bm{L})^{-1}\bm{U}=\begin{pmatrix}
+                5 &  &  \\
+                -1 & 4 &  \\
+                2 & -3 & 10
+            \end{pmatrix}^{-1}\begin{pmatrix}
+                & -2 & -1 \\ & & -2 \\ &
+            \end{pmatrix}
+            % =\begin{pmatrix}
+            %     0.2 \\
+            %     0.05 & 0.25 & \\
+            %     -0.025 & 0.075 & 0.1
+            % \end{pmatrix}\begin{pmatrix}
+            %     & -2 & -1 \\ & & -2 \\ &
+            % \end{pmatrix}
+            =\begin{pmatrix}
+                0 & -0.4 & -0.2 \\
+                0 & -0.1 & -0.55 \\
+                0 & 0.05 & -0.125
+            \end{pmatrix}\\
+            \bm{f}&=(\bm{D}-\bm{L})^{-1}\bm{b}=\begin{pmatrix}
+                5 &  &  \\
+                -1 & 4 &  \\
+                2 & -3 & 10
+            \end{pmatrix}^{-1}\begin{pmatrix}
+                -12 \\ 20 \\ 3
+            \end{pmatrix}=\begin{pmatrix}
+                -2.4 \\ 4.4 \\ 2.1
+            \end{pmatrix}
+        \end{align*}
+        取迭代初值 $\bm{x}^{(0)}=(0,0,0)^\top$，有
+        \begin{align*}
+            \bm{x}^{(1)}&=\bm{G}\bm{x}^{(0)}+\bm{f}=\left(-2.4, 4.4, 2.1\right)^\top & \lVert\bm{\epsilon}^{(1)}\rVert_{\infty}&=4.4 \\
+\bm{x}^{(2)}&=\bm{G}\bm{x}^{(1)}+\bm{f}=\left(-4.58, 2.805, 2.0575\right)^\top & \lVert\bm{\epsilon}^{(2)}\rVert_{\infty}&=2.18 \\
+\bm{x}^{(3)}&=\bm{G}\bm{x}^{(2)}+\bm{f}=\left(-3.9335, 2.987875, 1.9830625\right)^\top & \lVert\bm{\epsilon}^{(3)}\rVert_{\infty}&=0.6465 \\
+\bm{x}^{(4)}&=\bm{G}\bm{x}^{(3)}+\bm{f}=\left(-3.9917625, 3.01052813, 2.00151094\right)^\top & \lVert\bm{\epsilon}^{(4)}\rVert_{\infty}&=0.0582625 \\
+\bm{x}^{(5)}&=\bm{G}\bm{x}^{(4)}+\bm{f}=\left(-4.00451344, 2.99811617, 2.00033754\right)^\top & \lVert\bm{\epsilon}^{(5)}\rVert_{\infty}&=0.01275094 \\
+\bm{x}^{(6)}&=\bm{G}\bm{x}^{(5)}+\bm{f}=\left(-3.99931398, 3.00000274, 1.99986362\right)^\top & \lVert\bm{\epsilon}^{(6)}\rVert_{\infty}&=0.00519946 \\
+\bm{x}^{(7)}&=\bm{G}\bm{x}^{(6)}+\bm{f}=\left(-3.99997382, 3.00007474, 2.00001718\right)^\top & \lVert\bm{\epsilon}^{(7)}\rVert_{\infty}&=0.00065984 \\
+\bm{x}^{(8)}&=\bm{G}\bm{x}^{(7)}+\bm{f}=\left(-4.00003333, 2.99998307, 2.00000159\right)^\top & \lVert\bm{\epsilon}^{(8)}\rVert_{\infty}&=9.16628308\times 10^{-5}
+        \end{align*}
+        总共需要 8 次满足要求。
+    \end{description}
+    \end{itemize}
+    \end{solution}
+    \item[8.]
+\end{itemize}
+
+\end{document}
