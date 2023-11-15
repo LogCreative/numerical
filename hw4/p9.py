@@ -6,7 +6,7 @@ omega = 1.03
 # SOR
 DoL = np.linalg.inv(np.array([[4,0,0],[-omega,4,0],[0,-omega,4]]))
 L = DoL @ np.array([[4*(1-omega),omega,0],[0,4*(1-omega),omega],[0,0,4*(1-omega)]])
-f = np.array(omega * DoL @ np.array([1,4,-3]).transpose()).transpose()
+f = omega * DoL @ np.array([1,4,-3])
 
 x = np.array([0,0,0])
 xnorm = 10000
