@@ -267,7 +267,192 @@
         \end{enumerate}
     \end{solution}
     \item[11.]\begin{proof}
-        由于 $\bm{A}$ 是对称正定矩阵，
+        迭代公式
+        \begin{equation*}
+            \bm{x}^{(k+1)}=\bm{x}^{(k)}+\omega(\bm{b}-\bm{A}\bm{x}^{(k)})=(\bm{E}-\omega\bm{A})\bm{x}^{(k)}+\omega\bm{b}
+        \end{equation*}
+        讨论 $\bm{L}_\omega=\bm{E}-\omega\bm{A}$ 的特征值 $\lambda$，对于任意的 $\bm{y}\in\mathbf{R}^{n}$，有
+        \begin{align}
+            \bm{L}_\omega\bm{y}&=\lambda\bm{y} \nonumber \\
+            (\bm{E}-\omega\bm{A})\bm{y}&=\lambda\bm{y} \nonumber \\
+            \bm{y}-\omega\bm{A}\bm{y}&=\lambda\bm{y} \label{eq:one}
+        \end{align}
+        对于 $\bm{A}$ 的特征值 $0<\alpha\leq\lambda^\prime\leq\beta$，有
+        \begin{equation}
+            \bm{A}\bm{y}=\lambda^\prime\bm{y} \label{eq:two}
+        \end{equation}
+        结合式 \eqref{eq:one} 和 \eqref{eq:two} 有
+        \begin{equation*}
+            (1-\omega\lambda^\prime-\lambda)\bm{y}=\bm{0}
+        \end{equation*}
+        考虑到对于 $\forall \bm{y}\in \mathbf{R}^n$ 都成立，有
+        \begin{equation*}
+            \lambda = 1-\omega\lambda^\prime
+        \end{equation*}
+        当 $0<\omega<\frac{2}{\beta}$ 时，有
+        \begin{equation*}
+            -1=1-\frac{2}{\beta}\beta<\lambda<1-0=1
+        \end{equation*}
+        即 $|\lambda|< 1$，则迭代法收敛。
+    \end{proof}
+    \item[13.] \begin{solution}
+        \begin{itemize}
+            \item[(1)] 设 $\bm{z}^{(m)}=\begin{pmatrix}
+                \bm{z}_1^{(m)} \\ \bm{z}_2^{(m)}
+            \end{pmatrix}$，$\bm{b}=\begin{pmatrix}
+                \bm{b}_1 \\ \bm{b}_2
+            \end{pmatrix}$，则对于迭代方法
+            \begin{equation*}
+                \bm{A}\bm{z}_1^{(m+1)}=\bm{b}_1-\bm{B}\bm{z}_2^{(m)},\quad \bm{A}\bm{z}_2^{(m+1)}=\bm{b}_2-\bm{B}\bm{z}_1^{(m)}
+            \end{equation*}
+            等价为
+            \begin{align*}
+                \begin{pmatrix}\bm{A} \\ & \bm{A}\end{pmatrix}\bm{z}^{(m+1)}&=\bm{b}-\begin{pmatrix}
+                     & \bm{B} \\ \bm{B}
+                \end{pmatrix}\bm{z}^{(m)}\\
+                \bm{z}^{(m+1)}&=-\begin{pmatrix}\bm{A} \\ & \bm{A}\end{pmatrix}^{-1}\begin{pmatrix}
+                    & \bm{B} \\ \bm{B}
+               \end{pmatrix}\bm{z}^{(m)}+\begin{pmatrix}\bm{A} \\ & \bm{A}\end{pmatrix}^{-1}\bm{b} \\
+               &=-\begin{pmatrix}\bm{A}^{-1} \\ & \bm{A}^{-1}\end{pmatrix}\begin{pmatrix}
+                & \bm{B} \\ \bm{B}
+                \end{pmatrix}\bm{z}^{(m)}+\begin{pmatrix}\bm{A}^{-1} \\ & \bm{A}^{-1}\end{pmatrix}\bm{b} \\
+                &= \begin{pmatrix}
+                    & -\bm{A}^{-1}\bm{B} \\ -\bm{A}^{-1}\bm{B} 
+                \end{pmatrix}\bm{z}^{(m)}+\begin{pmatrix}\bm{A}^{-1} \\ & \bm{A}^{-1}\end{pmatrix}\bm{b} 
+            \end{align*}
+            对于迭代矩阵，它的特征值为 $\lambda$，则对于 $\forall \bm{z}=\begin{pmatrix}\bm{z}_1\\\bm{z}_2\end{pmatrix}\in \mathbf{R}^{2n}$，有
+            \begin{align*}
+                \begin{pmatrix}
+                    & -\bm{A}^{-1}\bm{B} \\ -\bm{A}^{-1}\bm{B} 
+                \end{pmatrix}\begin{pmatrix}\bm{z}_1\\\bm{z}_2\end{pmatrix}&=\lambda\begin{pmatrix}\bm{z}_1\\\bm{z}_2\end{pmatrix}\\
+                \begin{cases}
+                    -\bm{A}^{-1}\bm{B}\bm{z}_2=\lambda \bm{z}_1 \\
+                    -\bm{A}^{-1}\bm{B}\bm{z}_1=\lambda \bm{z}_2
+                \end{cases}\\
+                \Rightarrow \begin{cases}
+                    (\bm{A}^{-1}\bm{B})^2 \bm{z}_1=\lambda^2 \bm{z}_1\\
+                    (\bm{A}^{-1}\bm{B})^2 \bm{z}_2=\lambda^2 \bm{z}_2\\
+                \end{cases}
+            \end{align*}
+            即 $\rho\begin{pmatrix}
+                & -\bm{A}^{-1}\bm{B} \\ -\bm{A}^{-1}\bm{B} 
+            \end{pmatrix}=\rho(\bm{A}^{-1}\bm{B})$，迭代法收敛的充要条件即 $\rho(\bm{A}^{-1}\bm{B})<1$。
+            \item[(2)] 设 $\bm{z}^{(m)}=\begin{pmatrix}
+                \bm{z}_1^{(m)} \\ \bm{z}_2^{(m)}
+            \end{pmatrix}$，$\bm{b}=\begin{pmatrix}
+                \bm{b}_1 \\ \bm{b}_2
+            \end{pmatrix}$，则对于迭代方法
+            \begin{equation*}
+                \bm{A}\bm{z}_1^{(m+1)}=\bm{b}_1-\bm{B}\bm{z}_2^{(m)},\quad \bm{A}\bm{z}_2^{(m+1)}=\bm{b}_2-\bm{B}\bm{z}_1^{(m+1)}
+            \end{equation*}
+            等价为
+            \begin{align*}
+                \begin{pmatrix}\bm{A} & \bm{0}\\ \bm{B} & \bm{A}\end{pmatrix}\bm{z}^{(m+1)}&=\bm{b}-\begin{pmatrix}
+                    \bm{0}  & \bm{B} \\ \bm{0} & \bm{0}
+                \end{pmatrix}\bm{z}^{(m)} \\
+                \bm{z}^{(m+1)}&=-\begin{pmatrix}\bm{A} & \bm{0}\\ \bm{B} & \bm{A}\end{pmatrix}^{-1}\begin{pmatrix}
+                    \bm{0}  & \bm{B} \\ \bm{0} & \bm{0}
+                \end{pmatrix}\bm{z}^{(m)}+\begin{pmatrix}\bm{A} & \bm{0}\\ \bm{B} & \bm{A}\end{pmatrix}^{-1}\bm{b}\\
+                &=-\begin{pmatrix}
+                    \bm{A}^{-1} & \bm{0} \\ -\bm{A}^{-1}\bm{B}\bm{A}^{-1} & \bm{A}^{-1}
+                \end{pmatrix}\begin{pmatrix}
+                    \bm{0}  & \bm{B} \\ \bm{0} & \bm{0}
+                \end{pmatrix}\bm{z}^{(m)}+\begin{pmatrix}\bm{A} & \bm{0}\\ \bm{B} & \bm{A}\end{pmatrix}^{-1}\bm{b} \\
+                &=\begin{pmatrix}
+                    \bm{0} & -\bm{A}^{-1}\bm{B} \\ \bm{0} & \bm{A}^{-1}\bm{B}\bm{A}^{-1}\bm{B}
+                \end{pmatrix}\bm{z}^{(m)}+\begin{pmatrix}\bm{A} & \bm{0}\\ \bm{B} & \bm{A}\end{pmatrix}^{-1}\bm{b} 
+            \end{align*}
+            对于迭代矩阵，它的特征值为 $\lambda$，则对于 $\forall \bm{z}=\begin{pmatrix}\bm{z}_1\\\bm{z}_2\end{pmatrix}\in \mathbf{R}^{2n}$，有
+            \begin{align*}
+                \begin{pmatrix}
+                    \bm{0} & -\bm{A}^{-1}\bm{B} \\ \bm{0} & \bm{A}^{-1}\bm{B}\bm{A}^{-1}\bm{B}
+                \end{pmatrix}\begin{pmatrix}\bm{z}_1\\\bm{z}_2\end{pmatrix}&=\lambda\begin{pmatrix}\bm{z}_1\\\bm{z}_2\end{pmatrix}\\
+                \begin{cases}
+                    -\bm{A}^{-1}\bm{B}\bm{z}_2=\lambda\bm{z}_1\\
+                    (\bm{A}^{-1}\bm{B})^2\bm{z}_2=\lambda\bm{z}_2
+                \end{cases}\\
+                \Rightarrow
+                \begin{cases}
+                    (\bm{A}^{-1}\bm{B})^2\bm{z}_1=\lambda\bm{z}_1\\
+                    (\bm{A}^{-1}\bm{B})^2\bm{z}_2=\lambda\bm{z}_2
+                \end{cases}
+            \end{align*}
+            即 $\rho \begin{pmatrix}
+                \bm{0} & -\bm{A}^{-1}\bm{B} \\ \bm{0} & \bm{A}^{-1}\bm{B}\bm{A}^{-1}\bm{B}
+            \end{pmatrix}=\rho((\bm{A}^{-1}\bm{B})^2)$，迭代法的充要条件即 $\rho((\bm{A}^{-1}\bm{B})^2)=\rho((\bm{A}^{-1}\bm{B}))^2<1$。
+        \end{itemize}
+        方法 (1) 的收敛速度为 $R_1=-\ln \rho ((\bm{A}^{-1}\bm{B}))$，方法 (2) 的收敛速度为 $R_2=-2\ln \rho((\bm{A}^{-1}\bm{B}))$，即 $R_2=2R_1$，方法 (2) 的收敛速度是方法 (1) 的 2 倍。
+    \end{solution}
+    \item[14.] \begin{proof}
+        若矩阵 $\bm{A}=\begin{pmatrix}
+            1 & a & a \\ a & 1 & a \\ a & a & 1
+        \end{pmatrix}$ 是正定的，那么
+        \begin{equation*}
+            \begin{cases}
+                \det \begin{pmatrix}
+                    1 & a \\ a & 1
+                \end{pmatrix}=1-a^2>0&\Rightarrow -1 < a < 1 \\
+                \det \bm{A}= (a-1)^2(2a+1)> 0 &\Rightarrow a>-\frac{1}{2}
+            \end{cases}
+        \end{equation*}
+        即当 $-\frac{1}{2}<a<1$ 时，矩阵 $\bm{A}$ 是正定的。
+
+        考察
+        \begin{equation*}
+            \bm{A}=\begin{pmatrix}
+                1 & a & a \\ a & 1 & a \\ a & a & 1
+            \end{pmatrix}=\bm{D}-\bm{L}-\bm{U}=\begin{pmatrix}
+                1 \\ & 1 \\ & & 1
+            \end{pmatrix}-\begin{pmatrix}
+                \\ -a \\ -a & -a & 
+            \end{pmatrix}-\begin{pmatrix}
+                & -a & -a \\ & & -a \\ & &
+            \end{pmatrix}
+        \end{equation*}
+        在 Jacobi 迭代法中，迭代矩阵
+        \begin{equation*}
+            \bm{B}=\bm{D}^{-1}(\bm{L}+\bm{U})=\begin{pmatrix}
+                1 \\ & 1 \\ & & 1
+            \end{pmatrix}^{-1}\begin{pmatrix}
+                & -a & -a \\
+                -a & & -a \\
+                -a & -a &
+            \end{pmatrix}=\begin{pmatrix}
+                & -a & -a \\
+                -a & & -a \\
+                -a & -a &
+            \end{pmatrix}
+        \end{equation*}
+        考察它的特征值
+        \begin{equation*}
+            |\lambda \bm{E}-\bm{B}|=0\Rightarrow \left|\begin{matrix}
+                \lambda & a & a \\
+                a & \lambda & a \\
+                a & a & \lambda
+            \end{matrix}\right|=(\lambda-a)^2(\lambda+2a)=0\Rightarrow\lambda_{1,2} =a,\lambda_3=-\frac{1}{2a} 
+        \end{equation*}
+        为了使迭代法收敛，有 $|\lambda|<1$，则需要 $-\frac{1}{2}<a<\frac{1}{2}$。
+    \end{proof}
+    \item[19.]\begin{proof}
+        \begin{itemize}
+            \item[(1)] 由于 $(\bm{A}^\top\bm{A})^\top=\bm{A}^\top(\bm{A}^\top)^\top=\bm{A}^\top\bm{A}$，则 $\bm{A}^\top\bm{A}$ 是对称矩阵。
+            
+            由于 $\bm{A}$ 是非奇异矩阵，对 $\forall \bm{x}\neq 0$，有 $\bm{x}^\top\bm{A}^\top\bm{A}\bm{x}=(\bm{Ax})^\top(\bm{Ax})>0$，所以 $\bm{A}^\top\bm{A}$ 是正定矩阵。
+
+            综上，$\bm{A}^\top\bm{A}$ 是对称正定矩阵。
+            \item[(2)] 由于 $\bm{A}^\top\bm{A}$ 是对称矩阵，所以
+            \begin{equation}\label{eq:three}
+                \text{cond}(\bm{A}^\top\bm{A})_2=\frac{|\lambda_{\max}(\bm{A}^\top\bm{A})|}{|\lambda_{\min}(\bm{A}^\top\bm{A})|}
+            \end{equation}
+            另一方面，
+            \begin{equation}\label{eq:four}
+                \text{cond}(\bm{A})_2=\sqrt{\frac{\lambda_{\max}(\bm{A}^\top\bm{A})}{\lambda_{\min}(\bm{A}^\top\bm{A})}}
+            \end{equation}
+            综合式 \eqref{eq:three} 和 \eqref{eq:four} 有
+            \begin{equation*}
+                \text{cond}(\bm{A}^\top\bm{A})_2=(\text{cond}(\bm{A})_2)^2
+            \end{equation*}
+        \end{itemize}
     \end{proof}
 \end{itemize}
 
