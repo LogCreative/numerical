@@ -98,8 +98,8 @@ frame=lines,framesep=3mm,fontsize=\small}
             \toprule
             阶数 $n$ & $\infty$-范数 $\lVert \bm{x}-\bm{x}^* \rVert_\infty$ \\
             \midrule
-            10  & 0      \\
-            30  & 0      \\
+            10  & $0.000$      \\
+            30  & $0.000$      \\
             100 & $0.183$\\
             \bottomrule
         \end{tabular}
@@ -224,7 +224,7 @@ frame=lines,framesep=3mm,fontsize=\small}
 \begin{figure}[h]
     \centering
     \includegraphics[height=8cm]{pic/iter.pdf}
-    \caption{$n=100$，Jacobi 迭代法和 Guass--Seidel 迭代法 $\left\lVert x^{(k)}-x^{(k-1)}\right\rVert$ 与迭代次数 $T$ 的关系}
+    \caption{$n=100$，Jacobi 迭代法和 Guass--Seidel 迭代法 $\left\lVert x^{(k)}-x^{(k-1)}\right\rVert_\infty$ 与迭代次数 $T$ 的关系}
     \label{fig:iter}
 \end{figure}
 
@@ -238,8 +238,8 @@ frame=lines,framesep=3mm,fontsize=\small}
         \toprule
         $n$ & 顺序 Guass 迭代法 & 列主元 Guass 迭代法 & 追赶法 & Jacobi 迭代法 & Guass--Seidel 迭代法 \\
         \midrule
-        10  & $2.84\times 10^{-14}$ & 0       & $2.84\times 10^{-14}$ & $5.59\times 10^{-5}$ & $0.000431$           \\
-        30  & $2.98\times 10^{-8}$  & 0       & $2.98\times 10^{-8}$  & $3.97\times 10^{-5}$ & $0.000690$           \\
+        10  & $2.84\times 10^{-14}$ & $0.000$       & $2.84\times 10^{-14}$ & $5.59\times 10^{-5}$ & $0.000431$           \\
+        30  & $2.98\times 10^{-8}$  & $0.000$       & $2.98\times 10^{-8}$  & $3.97\times 10^{-5}$ & $0.000690$           \\
         100 & $3.52\times 10^{13}$  & $0.183$ & $3.52\times 10^{13}$  & $1.64\times 10^{14}$ & $9.38\times 10^{13}$ \\
         \bottomrule
     \end{tabular}
