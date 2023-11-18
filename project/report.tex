@@ -188,15 +188,7 @@ frame=lines,framesep=3mm,fontsize=\small}
 \label{sec:gs}
 
 \inputminted[firstline=186,lastline=211,highlightlines=201-204]{python3}{main.py}
-蓝色部分为 Guass--Seidel 迭代法相较于 Jacobi 迭代法修改的部分。
-
-\begin{figure}[b]
-    \centering
-    \includegraphics[height=8cm]{pic/iter.pdf}
-    \caption{$n=100$，Jacobi 迭代法和 Guass--Seidel 迭代法 $\left\lVert x^{(k)}-x^{(k-1)}\right\rVert$ 与迭代次数 $T$ 的关系}
-    \label{fig:iter}
-\end{figure}
-
+\vspace*{-0.6cm}
 \begin{minipage}{0.5\textwidth}
     \begin{figure}[H]
         \centering
@@ -208,7 +200,7 @@ frame=lines,framesep=3mm,fontsize=\small}
 \begin{minipage}{0.45\textwidth}
     \begin{table}[H]
         \centering
-        \caption{Guass--Seidel 迭代法结果与精确值的比较}
+        \caption{Guass--Seidel 迭代法结果与精确值比较}
         \begin{tabular}{ccc}
             \toprule
             阶数 $n$ & 迭代次数 $T$ & $\infty$-范数 $\lVert \bm{x}-\bm{x}^* \rVert_\infty$ \\
@@ -226,6 +218,15 @@ frame=lines,framesep=3mm,fontsize=\small}
         \caption{Guass--Seidel 迭代法 $n=100$ 时结果每个坐标与精确值的差值绝对值}
     \end{figure}
 \end{minipage}
+
+蓝色部分为 Guass--Seidel 迭代法相较于 Jacobi 迭代法修改的部分。
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[height=8cm]{pic/iter.pdf}
+    \caption{$n=100$，Jacobi 迭代法和 Guass--Seidel 迭代法 $\left\lVert x^{(k)}-x^{(k-1)}\right\rVert$ 与迭代次数 $T$ 的关系}
+    \label{fig:iter}
+\end{figure}
 
 \section{总结}
 
