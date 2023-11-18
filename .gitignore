@@ -250,3 +250,7 @@ playground/
 
 .idea
 cmake-build-debug
+
+_minted-*/
+
+__pycache__
