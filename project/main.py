@@ -264,3 +264,8 @@ if __name__ == '__main__':
     plt.plot(range(len(gssol.xnormlist))[1:], gssol.xnormlist[1:], label="Guass-Seidel")
     plt.legend()
     plt.savefig("pic/iter.pdf")
+
+    # cond
+    for n in [10, 30, 100]:
+        A, b = construct_input(n)
+        print("n={}, cond(A)={}".format(n, np.linalg.cond(A)))

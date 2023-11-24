@@ -228,7 +228,26 @@ frame=lines,framesep=3mm,fontsize=\small}
     \label{fig:iter}
 \end{figure}
 
-\section{总结}
+\section{结果比较与总结}
+
+首先，分析问题本身的情况。讨论在 $n=10,30,100$ 时矩阵 $\bm{A}$ 的条件数，有表 \ref{tab:cond} 的结果。
+
+\begin{table}[H]
+    \centering
+    \caption{矩阵条件数}
+    \label{tab:cond}
+    \begin{tabular}{cc}
+        \toprule
+        $n$ & $\text{cond}(\bm{A})$ \\
+        \midrule
+        10 & $1727.556025$ \\
+        30 & $1.83702\times 10^9$ \\
+        100 & $2.95670\times 10^{16}$ \\
+        \bottomrule
+    \end{tabular}    
+\end{table}
+
+可以看到这个问题本身就是病态的，在 $n=30,100$ 时已经非常病态，容易产生累积误差，也就越难得到方程组准确的解。
 
 \begin{table}[H]
     \centering
