@@ -1,0 +1,521 @@
+\documentclass{sjtuarticle}
+\allowdisplaybreaks[1]
+\usepackage{array}
+\usepackage{ntheorem}
+\usepackage{float}
+\usepackage{bm}
+\usepackage{booktabs}
+\usepackage{subcaption}
+\usepackage[colorlinks]{hyperref}
+\title{作业5}
+\author{李子龙\\123033910195}
+\begin{document}
+\maketitle
+
+% P43： 2，3，4，5，6，7，8，15，16，19，21，其中第3、8题修改及补充题见附件
+
+\begin{itemize}
+    \item[2.] \begin{solution}
+    \begin{equation*}
+        f(x)=-3\times \frac{(x-1)(x-2)}{(-1-1)\cdot (-1-2)}+4\times \frac{(x-1)(x+1)}{(2-1)\cdot (2+1)}=\frac{5}{6}x^2+\frac{3}{2}x-\frac{7}{3}
+    \end{equation*}
+    \end{solution}
+    \item[3.] \begin{solution}
+        计算差商表：
+        
+        \begin{table}[H]
+            \centering
+            \begin{tabular}{cccc}
+                \toprule
+                $x_k$ & $f(x_k)$ & 一阶差商 & 二阶差商 \\
+                \midrule
+                0.4 & -0.916291 & 2.23144 & -2.04115 \\
+                0.5 & -0.693147 & 1.82321 & \\
+                0.6 & -0.510826 & 1.53061 & -0.922 \\
+                0.7 & -0.357765 & 1.34621 &\\
+                0.8 & -0.223144 & \\
+                \bottomrule
+            \end{tabular}
+        \end{table}
+
+        分段线性插值：
+        \begin{equation*}
+            I_l(x)=\begin{cases}
+                \frac{x-0.5}{-0.1}\ln(0.4)+\frac{x-0.4}{0.1}\ln(0.5)=2.23144x-1.808867, &0.4\leq x\leq 0.5, \\
+                \frac{x-0.6}{-0.1}\ln(0.5)+\frac{x-0.5}{0.1}\ln(0.6)=1.82321x-1.604752, &0.5\leq x\leq 0.6, \\
+                \frac{x-0.7}{-0.1}\ln(0.6)+\frac{x-0.6}{0.1}\ln(0.7)=1.53061x-1.429192, &0.6\leq x\leq 0.7, \\
+                \frac{x-0.8}{-0.1}\ln(0.7)+\frac{x-0.7}{0.1}\ln(0.8)=1.34621x-1.300112, &0.7\leq x\leq 0.8.
+            \end{cases}
+        \end{equation*}
+        分段二次插值：
+        \begin{align*}
+            I_d(x)&=\begin{cases}
+                2.23144x-1.808867-2.04115(x-0.4)(x-0.5), &0.4\leq x\leq 0.6 \\
+                1.53061x-1.429192-0.922(x-0.6)(x-0.7), &0.6\leq x\leq 0.8
+            \end{cases}\\
+            &=\begin{cases}
+                -2.04115x^2 + 4.068475x - 2.217097, &0.4\leq x\leq 0.6 \\
+                -0.922x^2 + 2.72921x - 1.816432, &0.6\leq x\leq 0.8
+            \end{cases}
+        \end{align*}
+        分别计算 $\ln 0.54$ 的近似值：
+        \begin{align*}
+            I_l(0.54)&=-0.6202186\\
+            I_d(0.54)&=-0.61531984
+        \end{align*}
+    \end{solution}  
+    \item[4.] \begin{solution} 令 $f(x)=\cos x$，$h=x_{i+1}-x_{i}=1^\prime=\frac{\pi}{10800}$，根据分段线性插值，当 $x_i\leq x\leq x_{i+1}$ 时，
+        \begin{align*}
+            L(x)&=\frac{x-x_{i+1}}{x_i-x_{i+1}}f(x_i)+\frac{x-x_i}{x_{i+1}-x_i}f(x_{i+1})\\
+            &=\frac{1}{h}[-(x-x_{i+1})f(x_i)+(x-x_i)f(x_{i+1})]\\
+            L^*(x)&=\frac{1}{h}[-(x-x_{i+1})f^*(x_i)+(x-x_i)f^*(x_{i+1})]
+        \end{align*}
+        则
+        \begin{align*}
+            \left|f(x)-L^*(x)\right|&=\left|f(x) - L(x) + L(x) - L^*(x)\right|\\
+            &\leq \left|f(x) - L(x)\right| + \left|L(x) - L^*(x)\right|
+        \end{align*}
+        而根据插值余项，有 $\xi\in (x_i,x_{i+1})$ 使得，
+        \begin{align*}
+            \left|f(x) - L(x)\right| &= \left|\frac{f^{\prime\prime}(\xi)}{2!}(x-x_i)(x-x_{i+1})\right| \\
+            &= \left|-\frac{\cos \xi}{2}(x-x_i)(x-x_{i+1})\right|\\
+            &\leq \frac{1}{2}\left|(x-x_i)(x-x_{i+1})\right|\\
+            &\leq \frac{1}{2}\frac{h^2}{4}=\frac{h^2}{8}
+        \end{align*}
+        另一方面，考虑到函数表有五位有效数字，
+        \begin{align*}
+            \left|L(x) - L^*(x)\right|&=\frac{1}{h}\left|-(x-x_{i+1})(f^*(x_i)-f(x_i))+(x-x_i)(f^*(x_{i+1})-f(x_{i+1}))\right|\\
+            &\leq \frac{1}{h} \left( \left| (x-x_{i+1})(f^*(x_i)-f(x_i)) \right| + \left|(x-x_i)(f^*(x_{i+1})-f(x_{i+1})) \right| \right)\\
+            &\leq \frac{1}{h} \cdot \frac{1}{2}\times 10^{-5} \cdot (|x-x_{i+1}|+|x-x_i|)\\
+            &= \frac{1}{h} \cdot \frac{1}{2}\times 10^{-5}\cdot  h\\
+            &= \frac{1}{2}\times 10^{-5}
+        \end{align*}
+        综上，有总误差限
+        \begin{align*}
+            \left|f(x)-L^*(x)\right|\leq \frac{h^2}{8}+\frac{1}{2}\times 10^{-5}=0.501\times 10^{-5}
+        \end{align*}
+    \end{solution}
+    \item[5.] \begin{solution}
+        \begin{align*}
+            l_2(x)&=\frac{(x-x_0)(x-x_1)(x-x_3)}{(x_2-x_0)(x_2-x_1)(x_2-x_3)}\\
+            &=-\frac{1}{2h^3}(x-x_0)(x-x_1)(x-x_3)
+        \end{align*}
+        令 $t=x-x_0\in [0,3h]$，有
+        \begin{align*}
+            L_2(t)&=-\frac{1}{2h^3}t(t-h)(t-3h)\\
+            &=-\frac{1}{2h^3}(t^3-4ht^2+3h^2t)
+        \end{align*}
+        为了求 $\max_{x_0\leq x\leq x_3}l_2(x)$，也就是求 $\min_{0\leq t\leq 3h}\phi(t)$，其中
+        \begin{equation*}
+            \phi(t)=t^3-4ht^2+3h^2t
+        \end{equation*}
+        考虑到
+        \begin{equation*}
+            \phi^\prime (t)=3t^2-8ht+3h^2 = 0
+        \end{equation*}
+        有
+        \begin{equation*}
+            t_{1,2}=\frac{4h\pm \sqrt{7}h}{3}
+        \end{equation*}
+        则最小值应该在 $t=0$ 或 $t=\frac{4+\sqrt{7}}{3}h$ 处取到，代入有
+        \begin{equation*}
+            %  sympy.simplify("((4+sqrt(7))*x/3)**3-4*x*((4+sqrt(7))*x/3)**2+3*x*x*(((4+sqrt(7))*x/3))")
+            \min_{0\leq t\leq 3h}\phi(t)=\phi\left(\frac{4+\sqrt{7}}{3}h\right)=-\frac{2(7\sqrt{7} +10)h^3}{27}
+        \end{equation*}
+        则
+        \begin{equation*}
+            \min_{x_0\leq x\leq x_3}l_2(x)=l_2\left(x_0+\frac{4+\sqrt{7}}{3}h\right)=\frac{7\sqrt{7} +10}{27}
+        \end{equation*}
+    \end{solution}
+    \item[6.]\begin{proof}
+        \begin{itemize}
+            \item[(1)] Lagrange 插值多项式
+            \begin{equation*}
+                L(x)=\sum_{j=0}^n x_j^kl_j(x)
+            \end{equation*}
+            就是 $x^k (k=0,1,\cdots,n)$ 的插值多项式，根据插值余项
+            \begin{align*}
+                x^k - \sum_{j=0}^n x_j^kl_j(x) = R_n(x) = \frac{(\xi^k)^{(n+1)}}{(n+1)!}\omega_{n+1}(x)\equiv 0
+            \end{align*}
+            其中 $\xi\in (\min\{x_0,\cdots,x_n\}, \max\{x_0,\cdots,x_n\})$，由于 $k<n$，所以导数 $(\xi^k)^{(n+1)}$ 为0，最后一个等号成立。
+            \item[(2)] 根据二项式定理展开
+            \begin{align*}
+                \sum_{j=0}^n (x_j-x)^k l_j(x) &= \sum_{j=0}^n \sum_{l=0}^k \binom{k}{l} x_j^l(-x)^{k-l}l_j(x)\\
+                &= \sum_{l=0}^k \binom{k}{l} (-x)^{k-l}  \sum_{j=0}^n x_k^l l_j(x) \\
+                &= \sum_{l=0}^k \binom{k}{l} (-x)^{k-l} x^l && \text{由 (1) 可得}\\
+                &= (-x+x)^k\\
+                &\equiv 0
+            \end{align*}
+        \end{itemize}
+    \end{proof}
+    \item[7.] \begin{proof}
+        对 $(a,f(a)=0),(b,f(b)=0)$ 建立 $f(x)$ 的插值多项式，有
+        \begin{equation*}
+            L(x)=f(a)\frac{x-b}{a-b}+f(b)\frac{x-a}{b-a}\equiv 0
+        \end{equation*}
+        考虑插值余项，存在 $\xi\in (a,b)$ 满足
+        \begin{equation*}
+            f(x)=f(x)-L(x)=R(x)=\frac{f^{\prime\prime}(\xi)}{2}(x-a)(x-b)%\leq \frac{f^{\prime\prime}(\xi)}{2} \left(\frac{b-a}{2}\right)^2
+        \end{equation*}
+        立刻有
+        \begin{equation*}
+            \max_{a\leq x\leq b}|f(x)|\leq \frac{1}{8}(b-a)^2 \max_{a\leq x\leq b}|f^{\prime\prime}(x)|
+        \end{equation*}
+        等号在 $x=\frac{a+b}{2}$ 取到。
+    \end{proof}
+    \item[8.] \begin{solution}
+        根据分段二次插值插值余项，对于 $x_0\leq x\leq x_2$，存在 $\xi \in (x_0,x_2)$ 使得
+        \begin{equation*}
+            R(x)=\frac{f^{(3)}(\xi)}{3!}(x-x_0)(x-x_1)(x-x_2)=\frac{\mathrm{e}^\xi}{6}(x-x_0)(x-x_1)(x-x_2)
+        \end{equation*}
+        则
+        \begin{equation*}
+            |R(x)|\leq \frac{1}{6}|x-x_0||x-x_1||x-x_2|\max_{-4\leq x\leq x}|\mathrm{e}^x|=\frac{\mathrm{e}^4}{6}|x-x_0||x-x_1||x-x_2|
+        \end{equation*}
+        令 $t=|x-x_1|\in [0,h]$，有
+        \begin{equation*}
+            r(t)=\frac{\mathrm{e}^4}{6}(h-t)t(h+t)=\frac{\mathrm{e}^4}{6}(-t^3+h^2t)\leq r\left(\frac{h}{\sqrt{3}}\right)=\frac{\mathrm{e}^4}{6}\frac{2h^3}{3\sqrt{3}}=\frac{\sqrt{3}\mathrm{e}^4h^3}{27}
+        \end{equation*}
+        根据总误差限不超过 $10^{-6}$ 有，
+        \begin{align*}
+            \frac{\sqrt{3}\mathrm{e}^4h^3}{27}&\leq 10^{-6}\\
+            h&\leq \frac{3\times 10^{-2}}{\mathrm{e}}\sqrt[3]{\frac{1}{\sqrt{3}\mathrm{e}}}=0.00658
+        \end{align*}
+    \end{solution}
+    \item[15.] \begin{proof}
+        % 归纳法
+        \begin{itemize}
+            \item[(1)] \begin{description}
+                \item[起步] \begin{equation*}
+                    F[x_0,x_1]=\frac{F(x_1)-F(x_0)}{x_1-x_0}=\frac{cf(x_1)-cf(x_0)}{x_1-x_0}=cf[x_0,x_1]
+                \end{equation*}
+                \item[步进] 假设
+                \begin{equation*}
+                    F[x_0,x_1,\cdots,x_k] = cf[x_0,x_1,\cdots,x_k]
+                \end{equation*}
+                则
+                \begin{align*}
+                    F[x_0,x_1,\cdots,x_k,x_{k+1}]&=\frac{F[x_1,\cdots,x_k,x_{k+1}]-F[x_0,\cdots,x_k]}{x_{k+1}-x_0}\\
+                    &=\frac{cf[x_1,\cdots,x_k,x_{k+1}]-cf[x_0,\cdots,x_k]}{x_{k+1}-x_0}\\&=cf[x_0,x_1,\cdots,x_k,x_{k+1}]
+                \end{align*}
+                \item[结论] 根据数学归纳法原理，结论成立：
+                \begin{equation}\label{eq:cf}
+                    F[x_0,x_1,\cdots,x_n]=cf[x_0,x_1,\cdots,x_n]
+                \end{equation}
+            \end{description}
+            \item[(2)] \begin{description}
+                \item[起步] \begin{align*}
+                    F[x_0,x_1]&=\frac{F(x_1)-F(x_0)}{x_1-x_0}\\
+                    &=\frac{[f(x_1)+g(x_1)]-[f(x_0)+g(x_0)]}{x_1-x_0}\\
+                    &=\frac{f(x_1)-f(x_0)}{x_1-x_0}+\frac{g(x_1)-g(x_0)}{x_1-x_0}\\
+                    &=f[x_0,x_1]+g[x_0,x_1]
+                \end{align*}
+                \item[步进] 假设
+                \begin{equation*}
+                    F[x_0,\cdots,x_k]=f[x_0,\cdots,x_k]+g[x_0,\cdots,x_k]
+                \end{equation*}
+                则
+                \begin{align*}
+                    F[x_0,\cdots,x_k,x_{k+1}]&=\frac{F[x_1,\cdots,x_{k+1}]-F[x_0,\cdots,x_k]}{x_{k+1}-x_0}\\
+                    &=\frac{(f[x_1,\cdots,x_{k+1}]+g[x_1,\cdots,x_{k+1}])-(f[x_0,\cdots,x_k]+g[x_0,\cdots,x_k])}{x_{k+1}-x_0}\\
+                    &=\frac{f[x_1,\cdots,x_{k+1}]-f[x_0,\cdots,x_k]}{x_{k+1}-x_0}+\frac{g[x_1,\cdots,x_{k+1}]-g[x_0,\cdots,x_k]}{x_{k+1}-x_0}\\
+                    &=f[x_0,\cdots,x_k,x_{k+1}]+g[x_0,\cdots,x_k,x_{k+1}]
+                \end{align*}
+                \item[结论] 根据数学归纳法原理，结论成立：
+                \begin{equation}\label{eq:fg}
+                    F[x_0,\cdots,x_n]=f[x_0,\cdots,x_n]+g[x_0,\cdots,x_n]
+                \end{equation}
+            \end{description}
+        \end{itemize}
+    \end{proof}
+    \item[16.] \begin{solution}
+        令 $\mathcal{F}_k(x)=x^k$，下面证明：
+        \begin{equation}\label{eq:fk}
+            \mathcal{F}_k[2^0,2^{1},\cdots,2^{m}]=\prod_{i=0}^{m-1}\frac{2^{k-i}-1}{2^{i+1}-1} \quad (m\geq 1)
+        \end{equation}
+        \begin{description}
+            \item[起步]  \begin{equation*}
+                \mathcal{F}_k[2^0,2^1]=\frac{(2^1)^k-(2^0)^k}{2^1-2^0}=\frac{(2\cdot 2^0)^k-(2^0)^k}{2^1-2^0}=\frac{2^k-1}{2^1-1}
+            \end{equation*}
+            \item[步进] 假设
+            \begin{equation*}
+                \mathcal{F}_k[2^0,\cdots,2^n]=\prod_{i=0}^{n-1}\frac{2^{k-i}-1}{2^{i+1}-1}
+            \end{equation*}
+            则根据差商的性质，有
+            \begin{align*}
+                %\mathcal{F}_k[2^0,\cdots,2^n]&=\sum_{j=0}^{n}\frac{\mathcal{F}_k(2^j)}{\prod_{\substack{i=0\\i\neq j}}^{n}(2^j-2^i)}\\
+                \mathcal{F}_k[2^1,\cdots,2^{n+1}]&=\sum_{j=1}^{n+1}\frac{\mathcal{F}_k(2^j)}{\prod_{\substack{i=1\\i\neq j}}^{n+1}(2^j-2^i)}\\
+                &=\sum_{j=1}^{n+1}\frac{2^k\mathcal{F}_k(2^{j-1})}{2^n\prod_{\substack{i=1\\i\neq j}}^{n+1}(2^{j-1}-2^{i-1})}\\
+                &=\frac{2^k}{2^n}\sum_{j=0}^{n}\frac{\mathcal{F}_k(2^{j})}{\prod_{\substack{i=0\\i\neq j}}^{n}(2^{j}-2^{i})}\\
+                &=2^{k-n}\mathcal{F}_k[2^0,\cdots,2^{n}]
+            \end{align*}
+            故
+            \begin{align*}
+                \mathcal{F}_k[2^0,\cdots,2^{n+1}]&=\frac{\mathcal{F}_k[2^1,\cdots,2^{n+1}]-\mathcal{F}_k[2^0,\cdots,2^{n}]}{2^{n+1}-2^0}\\
+                &=\frac{2^{k-n}-1}{2^{n+1}-1}\mathcal{F}_k[2^0,\cdots,2^{n}]\\
+                &=\prod_{i=0}^{n}\frac{2^{k-i}-1}{2^{i+1}-1}
+            \end{align*}
+            \item[结论] 根据数学归纳法原理，有结论成立：
+            \begin{equation*}
+                \mathcal{F}_k[2^0,2^{1},\cdots,2^{m}]=\prod_{i=0}^{m-1}\frac{2^{k-i}-1}{2^{i+1}-1} \quad (m\geq 1)
+            \end{equation*}
+        \end{description}
+        实际上有下面结论的成立，此处不证：
+        \begin{equation*}
+            \mathcal{F}_k[2^a,2^{a+1},\cdots,2^{a+m}]=(2^a)^{k-m}\prod_{i=0}^{m-1}\frac{2^{k-i}-1}{2^{i+1}-1} \quad (a\geq 0,m\geq 1)
+        \end{equation*}
+
+        % \begin{align*}
+        %     \mathcal{F}_k[2^a,2^{a+1},\cdots,2^{a+m}]&=(2^a)^{k-m}\prod_{i=0}^{m-1}\frac{2^{k-i}-1}{2^{i+1}-1} \quad (a\geq 0,m\geq 1)
+        %     %\\
+        %     %\mathcal{F}_k[2^1,2^2,\cdots,2^{m+1}]&=2^{k-m}\prod_{i=0}^{m-1}\frac{2^{k-i}-1}{2^{i+1}-1}
+        % \end{align*}
+        % \begin{description}
+        %     \item[起步] \begin{align*}
+        %         \mathcal{F}_k[2^0,2^1]&=\frac{(2^1)^k-(2^0)^k}{2^1-2^0}=\frac{(2\cdot 2^0)^k-(2^0)^k}{2^1-2^0}=\frac{2^k-1}{2^1-1}\\
+        %         \mathcal{F}_k[2^1,2^2]&=\frac{(2^2)^k-(2^1)^k}{2^2-2^1}=\frac{(2\cdot 2^1)^k-(2^1)^k}{2^2-2^1}=2^{k-1}\frac{2^k-1}{2^1-1}\\
+        %         \mathcal{F}_k[2^2,2^3]&=\frac{(2^3)^k-(2^2)^k}{2^3-2^2}=\frac{(2\cdot 2^2)^k-(2^2)^k}{2^3-2^2}=(2^2)^{k-1}\frac{2^k-1}{2^1-1}\\
+        %         \mathcal{F}_k[2^0,2^1,2^2]&=\frac{\mathcal{F}_k[2^1,2^2]-\mathcal{F}_k[2^0,2^1]}{2^2-2^0}=\frac{(2^k-1)\cdot[(2^1)^{k-1}-(2^0)^{k-1}]}{2^2-2^0}=\frac{(2^k-1)(2^{k-1}-1)}{(2^2-1)(2^1-1)}\\
+        %         \mathcal{F}_k[2^1,2^2,2^3]&=\frac{(2^k-1)\cdot[(2^2)^{k-1}-(2^1)^{k-1}]}{2(2^2-2^0)}=(2^1)^{k-2}\frac{(2^k-1)(2^{k-1}-1)}{(2^2-1)(2^1-1)}
+        %     \end{align*}
+        %     \item[步进] 假设 \begin{align*}
+        %         \mathcal{F}_k[2^a,\cdots,2^{a+m}]&=\prod_{i=0}^{m-1}\frac{2^{k-i}-1}{2^{i+1}-1} \quad (0\leq a\leq A,1\leq m\leq M)
+        %     \end{align*}
+        %     则
+        %     \begin{align*}
+        %         \mathcal{F}_k[2^{A+1},\cdots,2^{A+1+M}]=
+        %     \end{align*}
+        %     % \begin{align*}
+        %     %     \mathcal{F}_k[2^0,\cdots,2^n,2^{n+1}]&=\frac{\mathcal{F}_k[2^1,\cdots,2^n,2^{n+1}]-\mathcal{F}_k[2^0,\cdots,2^n]}{2^{n+1}-1}\\
+        %     %     &=\frac{2^{k-n}-1}{2^{n+1}-1}\prod_{i=0}^{n-1}\frac{2^{k-i}-1}{2^{i+1}-1}\\
+        %     %     &=\prod_{i=0}^{n}\frac{2^{k-i}-1}{2^{i+1}-1}
+        %     % \end{align*}
+        % \end{description}
+        % % \begin{align*}
+        % %     \mathcal{F}_k[2^0,2^1]&=\frac{(2^1)^k-(2^0)^k}{2^1-2^0}=\frac{(2\cdot 2^0)^k-(2^0)^k}{2^1-2^0}=(2^k-1)\cdot (2^0)^{k-1}=2^k-1\\
+        % %     \mathcal{F}_k[2^1,2^2]&=\frac{(2^2)^k-(2^1)^k}{2^2-2^1}=\frac{(2\cdot 2^1)^k-(2^1)^k}{2^2-2^1}=\frac{(2^k-1)\cdot(2^1)^k}{2^1}=(2^k-1)\cdot(2^1)^{k-1}\\
+        % %     \mathcal{F}_k[2^0,2^1,2^2]&=\frac{\mathcal{F}_k[2^1,2^2]-\mathcal{F}_k[2^0,2^1]}{2^2-2^0}=\frac{(2^k-1)\cdot[(2^1)^{k-1}-(2^0)^{k-1}]}{2^2-2^0}=\frac{(2^k-1)(2^{k-1}-1)}{2^2-2^0}\\
+        % %     \mathcal{F}_k[2^1,2^2,2^3]&=\frac{(2^k-1)\cdot[(2^2)^{k-1}-(2^1)^{k-1}]}{2(2^2-2^0)}=\frac{(2^k-1)(2^{k-1}-1)(2^1)^{k-2}}{2^2-2^0}\\
+        % %     \mathcal{F}_k[2^0,2^1,2^2,2^3]&=\frac{(2^k-1)(2^{k-1}-1)(2^{k-2}-1)}{(2^3-2^0)(2^2-2^0)(2^1-2^0)}
+        % % \end{align*}
+
+        在结论式子 \eqref{eq:fk} 注意到：当 $m\geq k+1$ 时，分子存在 0 因子，\begin{equation}
+            \mathcal{F}_k[2^0,2^{1},\cdots,2^{m}]=0\quad (m\geq k+1)
+        \end{equation}
+
+        考虑到结论式子 \eqref{eq:cf} 和 \eqref{eq:fg} 的线性性质，有
+        \begin{align*}
+            f[2^0,\cdots,2^7]&=\mathcal{F}_7[2^0,\cdots,2^7]+\mathcal{F}_4[2^0,\cdots,2^7]+3\mathcal{F}_3[2^0,\cdots,2^7]+\mathcal{F}_0[2^0,\cdots,2^7]\\
+            &=\mathcal{F}_7[2^0,\cdots,2^7]\\
+            &=\prod_{i=0}^{6}\frac{2^{7-i}-1}{2^{i+1}-1}\\
+            &=1
+        \end{align*}
+        以及
+        \begin{align*}
+            f[2^0,\cdots,2^8]&=\mathcal{F}_7[2^0,\cdots,2^8]+\mathcal{F}_4[2^0,\cdots,2^8]+3\mathcal{F}_3[2^0,\cdots,2^8]+\mathcal{F}_0[2^0,\cdots,2^8]\\
+            &=0
+        \end{align*}
+    \end{solution}
+    \item[19.] \begin{solution}
+        使用 Newton--Hermite 插值，差商表
+        \begin{table}[H]
+            \centering
+            \begin{tabular}{cccccc}
+                \toprule
+                $x_i$ & $f(x_i)$ & 一阶差商 & 二阶差商 & 三阶差商 & 四阶差商 \\
+                \midrule
+                0 & 0 & $f[0,0]=0$ & $f[0,0,1]=1$ & $f[0,0,1,1]=-1$ & $f[0,0,1,1,2]=\frac{1}{4}$\\
+                0 & 0 & $f[0,1]=1$ & $f[0,1,1]=0$ & $f[0,1,1,2]=-\frac{1}{2}$\\ 
+                1 & 1 & $f[1,1]=1$ & $f[1,1,2]=-1$ & \\
+                1 & 1 & $f[1,2]=0$ & \\
+                2 & 1 & \\
+                \bottomrule
+            \end{tabular}
+        \end{table}        
+        \begin{align*}
+            F(x)&=f(0)+f[0,0](x-0)+f[0,0,1](x-0)^2+f[0,0,1,1](x-0)^2(x-1)+f[0,0,1,1,2](x-0)^2(x-1)^2\\
+            &=0+0\times (x-0)+1\times (x-0)^2+(-1)\times (x-0)^2(x-1)+\frac{1}{4}(x-0)^2(x-1)^2\\
+            &=\frac{1}{4}x^4-\frac{3}{2}x^3+\frac{9}{4}x^2
+        \end{align*}
+    \end{solution}
+    \item[21.] \begin{solution}
+        等距节点函数值
+        \begin{table}[H]
+            \centering
+            \begin{tabular}{c*{11}{c}}
+                \toprule
+                $x$    & $-5$ & $-4$ & $-3$ & $-2$ & $-1$ & $0$ & $1$ & $2$ &$3$ & $4$ & $5$\\
+                \midrule
+                $f(x)$ & $0.038462$ & $0.058824$ & $0.1$ & $0.2$ & $0.5$ & $1$ & $0.5$ & $0.2$ & $0.1$ & $0.058824$ & $0.038462$ \\
+                \bottomrule
+            \end{tabular}
+        \end{table}
+        分段线性插值函数
+        \begin{align*}
+            I_h(x)&=\frac{x-x_{i+1}}{x_i-x_{i+1}}f(x_i)+\frac{x-x_i}{x_{i+1}-x_i}f(x_{i+1})\\
+            &=\frac{1}{h}[-(x-x_{i+1})f(x_i)+(x-x_i)f(x_{i+1})]\\
+            &=\frac{1}{h}(f(x_{i+1})-f(x_i))x+\frac{1}{h}[x_{i+1}f(x_i)-x_if(x_{i+1})]
+        \end{align*}
+        令 $I_h(x)=ax+b$，有
+        \begin{table}[H]
+            \centering
+            \begin{tabular}{c*{10}{c}}
+                \toprule
+                $x$ & $[-5,-4]$ & $[-4,-3]$ & $[-3,-2]$ & $[-2,-1]$ & $[-1,0]$ & $[0,1]$ & $[1,2]$ & $[2,3]$ & $[3,4]$ & $[4,5]$ \\
+                \midrule
+                $a$ & 0.02036 & 0.04118 & 0.1 & 0.3 & 0.5 & $-0.5$ & $-0.3$ & $-0.1$ & $-0.04118$ & $-0.02036$ \\
+                $b$ & 0.14027 & 0.22353 & 0.4 & 0.8 & 1 & 1 & 0.8 & 0.4 & 0.22353 & 0.14027 \\
+                \bottomrule
+            \end{tabular}
+        \end{table}
+        得到中点值与真实值，并计算误差
+        \begin{table}[H]
+            \centering
+            \begin{tabular}{c*{10}{c}}
+                \toprule
+                $x$          & $-4.5$  & $-3.5$ & $-2.5$ & $-1.5$ & $-0.5$ & $0.5$ & 1.5 & 2.5 & 3.5 & 4.5 \\
+                \midrule
+                $I_h(x)$     & 0.04864 & 0.07941 & 0.15 & 0.35 & 0.75 & 0.75 & 0.35 & 0.15 & 0.07941 & 0.04864 \\
+                $f(x)$       & 0.04706 & 0.07547 & 0.13793 & 0.30769 & 0.8 & 0.8 & 0.30769 & 0.13793 & 0.07547 & 0.04706 \\
+                $\increment$ & 0.00158 & 0.00394 & 0.01207 & 0.04231 & $-0.05$ & $-0.05$ & 0.04231 & 0.01207 & 0.00394 & 0.00158 \\
+                \bottomrule
+            \end{tabular}
+        \end{table}
+        误差估计，根据线性插值余项
+        \begin{align*}
+            |R(x)|=\left|\frac{f^{\prime\prime}(\xi)}{2!}(x-x_{i})(x-x_{i+1})\right|\leq \frac{1}{8} \max_{-5\leq x \leq 5}|f^{\prime\prime}(x)|
+        \end{align*}
+        其中
+        \begin{equation*}
+            f^{\prime\prime}(x)=\frac{2(3x^2 - 1)}{(x^2 + 1)^3}
+        \end{equation*}
+        而
+        \begin{align*}
+            f^{\prime\prime\prime}(x)&=\frac{-24x(x^2 - 1)}{(x^2 + 1)^4}=0 \\
+            x&=-1,0,1\\
+            f^{\prime\prime}(0)&=-2\\
+            f^{\prime\prime}(-1)&=f^{\prime\prime}(1)=0.5\\
+            f^{\prime\prime}(-5)&=f^{\prime\prime}(5)=0.008421
+        \end{align*}
+        故
+        \begin{equation*}
+            |R(x)|\leq \frac{1}{4}=0.25
+        \end{equation*}
+    \end{solution}
+    \item[补充题] \begin{solution}
+        \begin{itemize}
+            \item[(1)] 根据三转角方程，有
+            \begin{equation}\label{eq:zhuanjiao}
+                \begin{pmatrix}
+                    2 & \mu_1 \\
+                    \lambda_2 & 2
+                \end{pmatrix}
+                \begin{pmatrix}
+                    m_1 \\ m_2
+                \end{pmatrix}=
+                \begin{pmatrix}
+                    g_1-\lambda_1m_0\\
+                    g_2-\mu_2m_3
+                \end{pmatrix}
+            \end{equation}
+            其中
+            \begin{align*}
+                \lambda_i &= \frac{h_i}{h_{i-1}+h_i}=\frac{1}{2} \\
+                \mu_i &=\frac{h_{i-1}}{h_{i-1}+h_i}=\frac{1}{2} \\
+                g_i &= 3(\lambda_if[x_i,x_{i+1}]+\mu_{i}f[x_{i-1},x_i])=0
+            \end{align*}
+            考虑到已知 $m_0=1,m_3=0$，故式 \eqref{eq:zhuanjiao} 可化为
+            \begin{equation*}
+                \begin{pmatrix}
+                    2 & \frac{1}{2} \\
+                    \frac12 & 2
+                \end{pmatrix}
+                \begin{pmatrix}
+                    m_1 \\ m_2
+                \end{pmatrix}=
+                \begin{pmatrix}
+                    -\frac12\\
+                    0
+                \end{pmatrix}
+            \end{equation*}
+            解得
+            \begin{equation*}
+                m_1=-\frac{4}{15}\quad m_2=\frac{1}{15}
+            \end{equation*}
+            则根据分段三次 Hermite 插值有
+            \begin{align*}
+                S(x)&=y_i\alpha_i(x)+y_{i+1}\alpha_{i1}(x)+m_i\beta_i(x)+m_{i+1}\beta_{i1}(x) \\
+                &=m_i\beta_i(x)+m_{i+1}\beta_{i1}(x) &&x\in\increment_i=[x_i,x_{i+1}]
+            \end{align*}
+            其中
+            \begin{align*}
+                \alpha_i(x)&=\left(1-2\frac{x-x_i}{x_i-x_{i+1}}\right)\left(\frac{x-x_{i+1}}{x_i-x_{i+1}}\right)^2=(1+2(x-x_i))(x-x_{i+1})^2 \\
+                \alpha_{i1}(x)&=\left(1-2\frac{x-x_{i+1}}{x_{i+1}-x_{i}}\right)\left(\frac{x-x_{i}}{x_{i+1}-x_{i}}\right)^2=(1-2(x-x_{i+1}))(x-x_i)^2\\
+                \beta_i(x)&=(x-x_i)\left(\frac{x-x_{i+1}}{x_i-x_{i+1}}\right)^2=(x-x_i)(x-x_{i+1})^2\\
+                \beta_{i1}(x)&=(x-x_{i+1})\left(\frac{x-x_{i}}{x_{i+1}-x_i}\right)^2=(x-x_{i+1})(x-x_i)^2
+            \end{align*}
+            将下述参数代入
+            \begin{table}[H]
+                \centering
+                \begin{tabular}{c*{4}{c}}
+                    \toprule
+                    $x_i$ & 0 & 1 & 2 & 3 \\
+                    \midrule
+                    $y_i$ & 0 & 0 & 0 & 0 \\
+                    $m_i$ & 1 & $-\frac{4}{15}$ & $\frac{1}{15}$ & 0 \\
+                    \bottomrule
+                \end{tabular}
+            \end{table}
+            有
+            \begin{equation*}
+                S(x)=\begin{cases}
+                    \frac{11 }{15}x^{3} - \frac{26 }{15}x^{2} + x,& x\in[0,1],\\
+                    - \frac{1}{5}x^{3} + \frac{16 }{15}x^{2} - \frac{9 }{5}x + \frac{14}{15},&x\in[1,2],\\
+                    \frac{1}{15}x^{3} - \frac{8 }{15}x^{2} + \frac{7 }{5}x - \frac{6}{5},&x\in[2,3].
+                \end{cases}
+            \end{equation*}
+            \item[(2)] 根据三弯矩方程，已知 $M_0=1,M_3=0$，有
+            \begin{align*}
+                2m_0+m_1&=3f[x_0,x_1]-\frac{h_0}{2}M_0=-\frac{1}{2} \\
+                m_2+2m_3&=3f[x_2,x_3]+\frac{h_2}{2}M_3=0
+            \end{align*}
+            结合式 \eqref{eq:zhuanjiao}，即解方程组
+            \begin{equation*}
+                \begin{pmatrix}
+                    2 & 1 \\
+                    \frac{1}{2} & 2 & \frac{1}{2} \\
+                    & \frac{1}{2} & 2 & \frac{1}{2} \\
+                    & & 1 & 2
+                \end{pmatrix}
+                \begin{pmatrix}
+                    m_0 \\ m_1 \\ m_2 \\ m_3
+                \end{pmatrix}
+                =\begin{pmatrix}
+                    -\frac{1}{2} \\ 0 \\ 0 \\ 0
+                \end{pmatrix}
+            \end{equation*}
+            解得参数
+            \begin{table}[H]
+                \centering
+                \begin{tabular}{c*{4}{c}}
+                    \toprule
+                    $x_i$ & 0 & 1 & 2 & 3 \\
+                    \midrule
+                    $y_i$ & 0 & 0 & 0 & 0 \\
+                    $m_i$ & $-\frac{13}{45}$ & $\frac{7}{90}$ & $-\frac{1}{45}$ & $\frac{1}{90}$ \\
+                    \bottomrule
+                \end{tabular}
+            \end{table}
+            有
+            \begin{equation*}
+                S(x)=\begin{cases}
+                    - \frac{19 }{90}x^{3} + \frac{1}{2}x^{2} - \frac{13 }{45}x,& x\in[0,1],\\
+                    \frac{1}{18}x^{3} - \frac{3 }{10}x^{2} + \frac{23 }{45}x - \frac{4}{15},&x\in[1,2],\\
+                    - \frac{1}{90}x^{3} + \frac{1}{10}x^{2} - \frac{13 }{45}x + \frac{4}{15},&x\in[2,3].
+                \end{cases}
+            \end{equation*}
+        \end{itemize}
+    \end{solution}
+\end{itemize}
+
+\end{document}
