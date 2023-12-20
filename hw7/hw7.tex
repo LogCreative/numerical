@@ -225,6 +225,23 @@
         \begin{equation*}
             n\sin\frac{\pi}{n}=n(\frac{\pi}{n}-\frac{\pi^3}{3!n^3}+\frac{\pi^5}{5!n^5}-\cdots)=\pi-\frac{\pi^3}{3!n^2}+\frac{\pi^5}{5!n^4}-\cdots
         \end{equation*}
+        对于 $f(n)=n\sin\frac{\pi}{n}$，考虑到 Richardson 外推加速方法
+        \begin{equation*}
+            f_m(2n)=\frac{4^m}{4^m-1}f_{m-1}(n)-\frac{1}{4^m-1}f_{m-1}(2n)
+        \end{equation*}
+        有
+        \begin{center}
+            \begin{tabular}{cccc}
+                \toprule
+                $n$ & $f_0(n)$ & $f_1(n)$ & $f_2(n)$ \\
+                \midrule
+                3  &  2.598076  \\
+                6  &  3.000000   &  3.133975  \\
+                12  &  3.105829    &    3.141105    &    3.141580   \\
+                \bottomrule
+            \end{tabular}
+        \end{center}
+        得到 $\pi\approx 3.141580$。
     \end{proof}
     \item[11.] \begin{solution}
         \begin{itemize}
@@ -243,6 +260,7 @@
             \bottomrule
             \end{tabular}
             \end{center}
+            \item[(2)]
         \end{itemize}
     \end{solution}
 \end{itemize}
