@@ -11,6 +11,7 @@
 \usepackage[colorlinks]{hyperref}
 
 \def\dd{\mathrm{d}}
+\def\ee{\mathrm{e}}
 
 \title{作业7}
 \author{李子龙\\123033910195}
@@ -139,6 +140,109 @@
             \begin{equation*}
                 \int_{0}^1 \frac{x}{4+x^2}\dd x = \frac{1}{48}\left(\frac{1}{4}+4\sum_{k=0}^7\frac{32k+16}{4k^2+4k+1025}+2\sum_{k=1}^7\frac{8k}{256+k^2}+\frac{1}{5}\right)=0.11678
             \end{equation*}
+        \end{itemize}
+    \end{solution}
+    \item[4.] \begin{solution}
+        使用 Simpson 公式，
+        \begin{equation*}
+            S = \frac{1}{6}(1+4\frac{1}{\sqrt{\ee}}+\frac{1}{\ee})\approx 0.63233
+        \end{equation*}
+        误差为
+        \begin{equation*}
+            R_S = -\frac{1}{180}(\frac{1}{2})^4\ee^{-\eta}=-\frac{1}{2880}\ee^{-\eta}
+        \end{equation*}
+        其中 $\eta\in(0,1)$，故
+        \begin{equation*}
+            |R_S|\leq \frac{1}{2880} \approx 3.47 \times 10^{-4}
+        \end{equation*}
+    \end{solution}
+    \item[5.] \begin{solution}
+        根据插值型求积公式的余项，
+        \begin{align*}
+            I_n &= \sum_{k=0}^n f(x_k) \int_a^b l_k(x)\dd x\\
+            R[f]&=I-I_n=\int_{a}^b \frac{f^{(n+1)}(\eta)}{(n+1)!}\prod_{i=0}^n (x-x_i)\dd x
+        \end{align*}
+        有
+        \begin{align*}
+            \int_a^b f(x)\dd x&=f(a)\int_a^b 1\dd x+\int_a^b f^\prime(\eta)(x-a)\dd x=(b-a)f(a)+\frac{f^\prime(\eta)}{2}(b-a)^2\\
+            \int_a^b f(x)\dd x&=f(b)\int_a^b 1\dd x+\int_a^b f^\prime(\eta)(x-b)\dd x=(b-a)f(b)-\frac{f^\prime(\eta)}{2}(b-a)^2
+        \end{align*}
+        根据泰勒展开式和积分中值定理，$(x-\frac{a+b}{2})^2$ 在 $x\in(a,b)$ 上不变号，有
+        \begin{align*}
+            \int_a^b f(x)\dd x&=\int_a^b \left[f\left(\frac{a+b}{2}\right)+f^\prime\left(\frac{a+b}{2}\right)\left(x-\frac{a+b}{2}\right)+\frac{f^{\prime\prime}(\eta)}{2}\left(x-\frac{a+b}{2}\right)^2\right]\dd x\\
+            &=\left.\left[f\left(\frac{a+b}{2}\right)x+f^\prime\left(\frac{a+b}{2}\right)\left(x-\frac{a+b}{2}\right)^2+\frac{f^{\prime\prime}(\eta)}{6}\left(x-\frac{a+b}{2}\right)^3\right]\right|_a^b\\
+            &=(b-a)f\left(\frac{a+b}{2}\right)+\frac{f^{\prime\prime}(\eta)}{24}(b-a)^3
+        \end{align*}
+    \end{solution}
+    \item[7.] \begin{solution}
+        复化梯形公式的积分余项为
+        \begin{equation*}
+            R = -\frac{b-a}{12}h^2f^{\prime\prime}(\eta)
+        \end{equation*}
+        令 $M=\max_{x\in(a,b)}f^{\prime\prime}(x)$，则
+        \begin{equation*}
+            |R|\leq \frac{b-a}{12}h^2M \leq \epsilon
+        \end{equation*}
+        则
+        \begin{equation*}
+            h=\frac{b-a}{n} \leq \sqrt{\frac{12\epsilon}{(b-a)M}}
+        \end{equation*}
+        即
+        \begin{equation*}
+            n\geq \frac{b-a}{2}\sqrt{\frac{(b-a)M}{3\epsilon}}
+        \end{equation*}
+    \end{solution}
+    \item[8.] \begin{solution}
+        梯形值递推公式
+        \begin{equation*}
+            T_0^{(k+1)}=\frac{1}{2}T_0^{(k)}+\frac{h^{(k+1)}}{2}\sum_{i=0}^{2^{k}-1}f(x_{i+\frac{1}{2}})
+        \end{equation*}
+        以及外推方法
+        \begin{equation*}
+            T_m^{(k)}=T_{m-1}^{(k+1)}+\frac{1}{4^m-1}(T_{m-1}^{(k+1)}-T_{m-1}^{(k)})
+        \end{equation*}
+        对$\frac{2}{\sqrt{\pi}}\int_0^1 \ee^{-x}\dd x=\int_0^1 \frac{2}{\sqrt{\pi}}\ee^{-x}\dd x$ 求 Romberg 积分：
+        \begin{center}
+        \begin{tabular}{cccccc}
+            \toprule
+            $k$ & $h$ & $T_0^{(k)}$ & $T_1^{(k)}$ & $T_2^{(k)}$ &  $T_3^{(k)}$ \\
+            \midrule
+            0 & 1 & 0.7717433 \\
+            1 & $\frac{1}{2}$ & 0.7280699	& 0.7135122 & 	\\
+            2 & $\frac{1}{4}$ & 0.7169828	& 0.7132870	& 0.7132720	& \\
+            3 & $\frac{1}{8}$ & 0.7142002	& 0.7132726 & 	0.7132717 &	0.7132717 \\
+            \bottomrule
+        \end{tabular}
+        \end{center}
+        可得 $\frac{2}{\sqrt{\pi}}\int_0^1 \ee^{-x}\dd x\approx 0.7132717$。
+    \end{solution}
+    \item[10.] \begin{proof}
+        由于泰勒展开式，
+        \begin{equation*}
+            \sin x=x-\frac{x^3}{3!}+\frac{x^5}{5!}-\cdots
+        \end{equation*}
+        故
+        \begin{equation*}
+            n\sin\frac{\pi}{n}=n(\frac{\pi}{n}-\frac{\pi^3}{3!n^3}+\frac{\pi^5}{5!n^5}-\cdots)=\pi-\frac{\pi^3}{3!n^2}+\frac{\pi^5}{5!n^4}-\cdots
+        \end{equation*}
+    \end{proof}
+    \item[11.] \begin{solution}
+        \begin{itemize}
+            \item[(1)] 使用 Romberg 法得到 $\int_1^3 \frac{\dd y}{y}\approx 1.098612$。
+            \begin{center}
+            \begin{tabular}{cccccccc}
+            \toprule
+            $k$ & $h$ & $T_0^{(k)}$ & $T_1^{(k)}$ & $T_2^{(k)}$ &  $T_3^{(k)}$ & $T_4^{(k)}$ & $T_5^{(k)}$ \\
+            \midrule
+            0  & 2	& 1.333333 \\
+            1  & 1  & 1.166667&	1.111111	\\
+            2 &	$\frac12$    &  1.116667	&1.100000 &	1.099259	 \\
+            3 &	$\frac14$    & 1.103211 &	1.098725	& 1.098640 &	1.098631	\\
+            4 &	$\frac18$    & 1.099768	& 1.098620	& 1.098613	& 1.098613	& 1.098613 \\	
+            5 &	$\frac1{16}$ &     1.098902	& 1.098613	& 1.098612	& 1.098612	& 1.098612	& 1.098612 \\
+            \bottomrule
+            \end{tabular}
+            \end{center}
         \end{itemize}
     \end{solution}
 \end{itemize}
