@@ -1,0 +1,387 @@
+\documentclass{sjtuarticle}
+\allowdisplaybreaks[1]
+\usepackage{array}
+\usepackage{ntheorem}
+\usepackage{float}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\usepackage{bm}
+\usepackage{booktabs}
+\usepackage{subcaption}
+\usepackage[colorlinks]{hyperref}
+
+\def\dd{\mathrm{d}}
+\def\DD{\mathrm{D}}
+\def\ee{\mathrm{e}}
+
+\title{作业8}
+\author{李子龙\\123033910195}
+\begin{document}
+\maketitle
+
+% 作业：P140：1， 2，4，5，6，7，8，12，补充题见附件
+
+\begin{itemize}
+    \item[1.] \begin{solution}
+       \begin{equation*}
+            \begin{cases}
+                y^\prime = ax+b \\
+                y(0) = 0
+            \end{cases}
+        \end{equation*}
+        \textbf{Euler 方法：}\begin{equation*}
+            y_{n+1}=y_n+h(ax_n+b)
+        \end{equation*}
+        取步长 $h=0.1$，计算结果如表所示。
+        \begin{table}[h]
+            \centering
+            \begin{tabular}{ccc|ccc}
+                \toprule
+                $x_n$ & $y_n$ & $y(x_n)$ & $x_n$ & $y_n$ & $y(x_n)$ \\
+                \midrule
+                $0.1$   & $0.1 b$       & $0.005 a + 0.1 b$ & $0.6$   & $0.15 a + 0.6 b$      & $0.18 a + 0.6 b$ \\
+                $0.2$   & $0.01 a + 0.2 b$      & $0.02 a + 0.2 b$ &                 $0.7$   & $0.21 a + 0.7 b$      & $0.245 a + 0.7 b$ \\
+                $0.3$   & $0.03 a + 0.3 b$      & $0.045 a + 0.3 b$ &                 $0.8$   & $0.28 a + 0.8 b$      & $0.32 a + 0.8 b$ \\
+                $0.4$   & $0.06 a + 0.4 b$      & $0.08 a + 0.4 b$ &                 $0.9$   & $0.36 a + 0.9 b$      & $0.405 a + 0.9 b$ \\
+                $0.5$   & $0.1 a + 0.5 b$       & $0.125 a + 0.5 b$ &                 $1.0$   & $0.45 a + 1.0 b$      & $0.5 a + 1.0 b$ \\
+                \bottomrule
+            \end{tabular}
+        \end{table}
+
+        表达式为
+        \begin{equation*}
+            y_{n} - y_0 = \sum_{k=0}^{n-1} h(ax_k+b) =\sum_{k=0}^{n-1} h(akh+b) = \sum_{k=0}^{n-1} akh^2+bh = \frac{n(n-1)}{2}ah^2 +nbh
+        \end{equation*}
+        误差为
+        \begin{equation*}
+            y(x_n) - y_n = \frac{1}{2}a(nh)^2+b(nh)-\frac{n(n-1)}{2}ah^2 -nbh=\frac{1}{2}nah^2
+        \end{equation*}
+
+        \textbf{改进 Euler 方法：}
+        \begin{equation*}
+            y_{n+1}=y_n+\frac{h}{2}[ax_n+b+a(x_n+h)+b]=y_n+ahx_n+hb+\frac{1}{2}ah^2
+        \end{equation*}
+        取步长 $h=0.1$，计算结果如表所示。
+        \begin{table}[h]
+            \centering
+            \begin{tabular}{ccc|ccc}
+                \toprule
+                $x_n$ & $y_n$ & $y(x_n)$ & $x_n$ & $y_n$ & $y(x_n)$ \\
+                \midrule
+$0.1$   & $0.005 a + 0.1 b$     & $0.005 a + 0.1 b$ & $0.6$   & $0.18 a + 0.6 b$      & $0.18 a + 0.6 b$ \\
+$0.2$   & $0.02 a + 0.2 b$      & $0.02 a + 0.2 b$ & $0.7$   & $0.245 a + 0.7 b$     & $0.245 a + 0.7 b$ \\
+$0.3$   & $0.045 a + 0.3 b$     & $0.045 a + 0.3 b$ & $0.8$   & $0.32 a + 0.8 b$      & $0.32 a + 0.8 b$ \\
+$0.4$   & $0.08 a + 0.4 b$      & $0.08 a + 0.4 b$ & $0.9$   & $0.405 a + 0.9 b$     & $0.405 a + 0.9 b$ \\
+$0.5$   & $0.125 a + 0.5 b$     & $0.125 a + 0.5 b$ & $1.0$   & $0.5 a + 1.0 b$       & $0.5 a + 1.0 b$ \\
+                \bottomrule
+            \end{tabular}
+        \end{table}
+
+        表达式为
+        \begin{equation*}
+            y_n-y_0 =\sum_{k=0}^{n-1}\left(ahx_k + hb + \frac{1}{2}ah^2\right)=\frac{n(n-1)}{2}ah^2 + nbh + \frac{1}{2}ah^2n=\frac{1}{2}an^2h^2+bnh
+        \end{equation*}
+        误差为
+        \begin{equation*}
+            y(x_n)-y_n = 0
+        \end{equation*}
+
+        可见改进 Euler 方法的结果没有误差，Euler 方法在一次项系数上有一定误差。
+    \end{solution}
+
+    \item[2.] \begin{solution}
+        改进 Euler 方法的表达式为
+        \begin{equation*}
+            \begin{aligned}
+            y_{n+1}&=y_n + \frac{h}{2}[x_n+y_n+x_n+h+y_n+h(x_n+y_n)]\\
+                    &=x_n\left(h+\frac{1}{2}h^2\right) + y_n\left(1+h+\frac{1}{2}h^2\right) + \frac{1}{2}h^2
+            \end{aligned}
+        \end{equation*}
+        取 $h=0.1$，有
+        \begin{equation*}
+            y_{n+1}=0.105x_n+1.105y_n+0.005
+        \end{equation*}
+        计算结果如表所示
+        \begin{table}[h]
+            \centering
+            \begin{tabular}{ccc|ccc}
+                \toprule
+                $x_n$ & $y_n$ & $y(x_n)$ & $x_n$ & $y_n$ & $y(x_n)$ \\
+                \midrule
+                $0.1$   & $1.1100$      & $1.1103$  &                 $0.6$   & $2.0409$      & $2.0442$ \\
+                $0.2$   & $1.2420$      & $1.2428$  &                 $0.7$   & $2.3231$      & $2.3275$ \\
+                $0.3$   & $1.3985$      & $1.3997$  &                 $0.8$   & $2.6456$      & $2.6511$ \\
+                $0.4$   & $1.5818$      & $1.5836$  &                 $0.9$   & $3.0124$      & $3.0192$ \\
+                $0.5$   & $1.7949$      & $1.7974$  &                 $1.0$   & $3.4282$      & $3.4366$ \\
+                \bottomrule
+            \end{tabular}
+        \end{table}
+
+        与精确解比较后可知有2位小数精度。
+    \end{solution}
+
+    \item[4.] \begin{proof}
+        根据梯形计算格式，
+        \begin{align*}
+            y_{n+1}&=y_n+\frac{1}{2}[-y_n-y_{n+1}] \\
+            y_{n+1}&=\frac{2-h}{2+h}y_n
+        \end{align*}
+        根据此迭代公式，
+        \begin{equation*}
+            y_{n}=\left(\frac{2-h}{2+h}\right)^n y_0 = \left(\frac{2-h}{2+h}\right)^n
+        \end{equation*}
+        当 $h\rightarrow 0$ 时，$x=x_0+nh=nh$，
+        \begin{equation*}
+            y_{n}=\lim_{h\rightarrow 0}\left(\frac{2-h}{2+h}\right)^n =\lim_{h\rightarrow 0} \left(1-\frac{2h}{2+h}\right)^{\frac{x}{h}}
+            =\lim_{h\rightarrow 0} \left(1-\frac{2h}{2+h}\right)^{\frac{2+h}{2h}\frac{2h}{2+h}\frac{x}{h}}=\lim_{h\rightarrow 0}\left[\left(1-\frac{2h}{2+h}\right)^{\frac{2+h}{2h}}\right]^{\frac{2}{2+h}x}=\ee^{-x}
+        \end{equation*}
+    \end{proof}
+
+    \item[5.] \begin{solution}
+        根据微积分基本定理，有
+        \begin{align*}
+            y=\int_0^x\ee^{t^2}\dd t \Rightarrow
+            \begin{cases}
+                y^\prime =\ee^{x^2}\\
+                y(0)=0
+            \end{cases}
+        \end{align*}
+        构造 Euler 格式，
+        \begin{equation*}
+            y_{n+1}=y_n + h\ee^{x_n^2}
+        \end{equation*}
+        取 $h=0.5$，有
+        \begin{align*}
+            y(0.5)&=0+0.5\times \ee^{0^2}=0.5\\
+            y(1)&=0.5+0.5\times \ee^{0.5^2}=1.1420\\
+            y(1.5)&=1.1420+0.5\times \ee^{1^2}=2.5011\\
+            y(2)&=2.5011+0.5\times \ee^{1.5^2}=7.2450
+        \end{align*}
+    \end{solution}
+
+    \item[6.] \begin{solution}
+        经典的四阶 Runge-Kutta 方法是
+        \begin{equation*}
+            \begin{cases}
+                y_{n+1}=y_n+\frac{h}{6}(K_1+2K_2+2K_3+K_4)\\
+                K_1=f(x_n,y_n)\\
+                K_2=f(x_n+\frac{h}{2},y_n+\frac{h}{2}K_1)\\
+                K_3=f(x_n+\frac{h}{2},y_n+\frac{h}{2}K_2)\\
+                K_4=f(x_n+h,y_n+hK_3)
+            \end{cases}
+        \end{equation*}
+        \begin{itemize}
+            \item[(1)] \begin{equation*}
+                \begin{cases}
+                    y^\prime =x+y, & 0<x<1,\\
+                    y(0)=1
+                \end{cases}
+            \end{equation*}
+            解得
+            \begin{table}[h]
+                \centering
+                \begin{tabular}{cc}
+                    \toprule
+                    $x_n$ & $y_n$ \\
+                    \midrule
+                    0.2 & 1.2428 \\
+                    0.4 & 1.5836 \\
+                    0.6 & 2.0442 \\
+                    0.8 & 2.6510 \\
+                    1.0 & 3.4365 \\
+                    \bottomrule
+                \end{tabular}
+            \end{table}
+
+            \item[(2)] \begin{equation*}
+                \begin{cases}
+                    y^\prime = 3y/(1+x),&0<x<1\\
+                    y(0)=1
+                \end{cases}
+            \end{equation*} 
+            解得
+            \begin{table}[h]
+                \centering
+                \begin{tabular}{cc}
+                    \toprule
+                    $x_n$ & $y_n$ \\
+                    \midrule
+                    0.2 & 1.7275 \\
+                    0.4 & 2.7430 \\
+                    0.6 & 4.0942 \\
+                    0.8 & 5.8292 \\
+                    1.0 & 7.9960 \\
+                    \bottomrule
+                \end{tabular}
+            \end{table}
+        \end{itemize}
+    \end{solution}
+
+    \item[7.] \begin{proof}
+        \begin{equation*}
+            \begin{cases}
+                y_{n+1}=y_n+\frac{h}{2}(K_2+K_3)\\
+                K_1=f(x_n,y_n)\\
+                K_2=f(x_n+th,y_h+thK_1)\\
+                K_3=f(x_n+(1-t)h,y_n+(1-t)hK_1)
+            \end{cases}
+        \end{equation*}
+        % 将 $K_2,K_3$ 代入第一个式子，
+        % \begin{equation*}
+        %     y_{n+1}=y_n+\frac{h}{2}[f(x_n+th,y_h+thK_1)+f(x_n+(1-t)h,y_n+(1-t)hK_1)]
+        % \end{equation*}
+        根据 Taylor 格式，
+        \begin{align*}
+            K_1&=f_n\\
+            K_2&=f_n+th(f_x+f\cdot f_y)_n+\cdots\\
+            K_3&=f_n+(1-t)h(f_x+f\cdot f_y)_n+\cdots
+        \end{align*}
+        代入第一个式子，
+        \begin{equation*}
+            y_{n+1}=y_n+hf_n+\frac{h^2}{2}(f_x+f\cdot f_y)_n+\cdots
+        \end{equation*}
+        这与二阶 Taylor 格式的前两阶相同，所以误差是 $O(h^3)$，也就是它是二阶 Runge-Kutta 格式。
+    \end{proof}
+
+    \item[8.] \begin{proof}
+        对于形如 \begin{equation*}
+            \begin{cases}
+                y_{n+1}=y_n+h(\lambda_1K_1+\lambda_2K_2+\lambda_3K_3)\\
+                K_1=f(x_n,y_n)\\
+                K_2=f(x_n+ph,y_n+phK_1)\\
+                K_3=f(x_n+qh,y_n+qh(rK_1+sK_2))
+            \end{cases}
+        \end{equation*}
+        的格式，只要满足
+        \begin{equation}\label{eq:cond}
+            \begin{cases}
+                \lambda_2p+\lambda_3q=\frac{1}{2}\\
+                \lambda_2p^2+\lambda_3q^2=\frac{1}{3}\\
+                \lambda_3pqs=\frac{1}{6}
+            \end{cases}
+        \end{equation}
+        就是三阶 Runge-Kutta 格式。
+        % 记微分算子
+        % \begin{equation*}
+        %     \DD = \frac{\partial}{\partial x}+f\frac{\partial }{\partial y},\quad \DD^2=\frac{\partial^2}{\partial x^2}+2f\frac{\partial^2}{\partial x\partial y}+f^2\frac{\partial^2}{\partial y^2}
+        % \end{equation*}
+        % 则
+        % \begin{equation*}
+        %     y^\prime = f, \quad y^{\prime\prime}=\DD f, \quad y^{\prime\prime\prime}=\DD^2f+\frac{\partial f}{\partial y}\DD f
+        % \end{equation*}
+        % 则三阶 Taylor 格式
+        % \begin{equation*}
+        %     y_{n+1}=y_n+hf_n+\frac{h^2}{2}\DD f_n+\frac{h^3}{6}(\DD^2 f+f_y\DD f)_n
+        % \end{equation*}
+        \begin{itemize}
+            \item[(1)] \begin{equation*}
+                \begin{cases}
+                    y_{n+1}=y_n+\frac{h}{4}(K_1+3K_3),\\
+                    K_1=f(x_n,y_n),\\
+                    K_2=f\left(x_n+\frac{h}{3},y_n+\frac{h}{3}K_1\right),\\
+                    K_3=f\left(x_n+\frac{2}{3}h,y_n+\frac{2}{3}hK_2\right)
+                \end{cases}
+            \end{equation*}
+            % \begin{align*}
+            %     K_1 &= f_n\\
+            %     K_2 &= f_n+\frac{h}{3}\DD f_n+\frac{h^2}{18}\DD^2 f_n+\cdots \\
+            %     K_3 &= f_n+\frac{2}{3}h\bar{\DD} f_n + \frac{2}{9}h^2\bar{\DD}^2 f_n+\cdots
+            % \end{align*}
+            % 这里，
+            % \begin{align*}
+            %     \bar{\DD}&=\frac{\partial}{\partial x}+K_2\frac{\partial}{\partial y}=\DD + \frac{h}{3}\DD f_n \frac{\partial}{\partial y}+\cdots\\
+            %     \bar{\DD}^2&=\DD^2+\cdots
+            % \end{align*}
+            % 则
+            % \begin{equation}
+            %     K_3 = f_n+\frac{2}{3}h\DD f_n+\frac{h^2}{2}(\frac{4}{9}\DD^2f+\frac{4}{9}\DD f\cdot f_y)_n
+            % \end{equation}
+            % 故
+            % \begin{equation*}
+            %     y_{n+1}=y_n+\frac{h}{4}(f_n+3)
+            % \end{equation*}
+            这里，
+            \begin{equation*}
+                \lambda_1=\frac{1}{4},\quad \lambda_2=0,\quad \lambda_3=\frac{3}{4},\quad p=\frac{1}{3},\quad q=\frac{2}{3},\quad r=0,\quad s=1
+            \end{equation*}
+            容易验证满足式 \eqref{eq:cond}。
+            \item[(2)]
+            \begin{equation*}
+                \begin{cases}
+                    y_{n+1}=y_n+\frac{h}{9}(2K_1+3K_2+4K_3),\\
+                    K_1=f(x_n,y_n),\\
+                    K_2=f\left(x_n+\frac{h}{2},y_n+\frac{h}{2}K_1\right),\\
+                    K_3=f\left(x_n+\frac{3}{4}h,y_n+\frac{3}{4}hK_2\right)
+                \end{cases}
+            \end{equation*}
+            这里，
+            \begin{equation*}
+                \lambda_1=\frac{2}{9},\quad \lambda_2=\frac{1}{3},\quad \lambda_3=\frac{4}{9},\quad p=\frac{1}{2},\quad q=\frac{3}{4},\quad r=0,\quad s=1
+            \end{equation*}
+            容易验证满足式 \eqref{eq:cond}。
+        \end{itemize}
+    \end{proof}
+
+    \item[12.] \begin{solution}
+        令 $y_1=y,y_2=y^\prime$，
+        \begin{itemize}
+            \item[(1)]
+            \begin{equation*}
+                \begin{cases}
+                    y_1^\prime=y_2\\
+                    y_2^\prime=3y_2-2y
+                \end{cases}\xrightarrow{z=y_2}
+                \begin{cases}
+                    y^\prime =z, y(0)=1\\
+                    z^\prime = 3z-2y, z(0)=1
+                \end{cases}
+            \end{equation*}
+            \item[(2)] \begin{equation*}
+                \begin{cases}
+                    y_1^\prime=y_2\\
+                    y_2^\prime=0.1(1-y^2)y_2-y
+                \end{cases}\xrightarrow{z=y_2}
+                \begin{cases}
+                    y^\prime =z,y(0)=1\\
+                    z^\prime =0.1(1-y^2)z-y,z(0)=0
+                \end{cases}
+            \end{equation*}
+            \item[(3)] 令 $x_1=x,x_2=x^\prime,r=\sqrt{x^2+y^2}$，\begin{equation*}
+                \begin{cases}
+                    x_1^\prime=x_2\\
+                    x_2^\prime=-\frac{x}{r^3}\\
+                    y_1^\prime=y_2\\
+                    y_2^\prime=-\frac{y}{r^3}
+                \end{cases}
+                \xrightarrow{u=x_2,z=y_2}
+                \begin{cases}
+                    x^\prime=u, x(0)=0.4\\
+                    y^\prime=z, y(0)=0\\
+                    u^\prime=-\frac{x}{r^3}, u(0)=0\\
+                    z^\prime=-\frac{y}{r^3}, z(0)=2
+                \end{cases}
+            \end{equation*}
+        \end{itemize}
+    \end{solution}
+
+    \item[补充题.] \begin{solution}
+        对于隐式中点公式，
+        \begin{equation*}
+            y_{n+1}=y_n+hf\left(x_n+\frac{h}{2},\frac{1}{2}(y_n+y_{n+1})\right)
+        \end{equation*}
+        对于模型方程$y^\prime=\lambda y$，有
+        \begin{equation*}
+            y_{n+1}=y_n+\frac{1}{2}\lambda h(y_n+y_{n+1})
+        \end{equation*}
+        也就是
+        \begin{equation*}
+            y_{n+1}=\frac{1+\frac{1}{2}\lambda h}{1-\frac{1}{2}\lambda h}y_n
+        \end{equation*}
+        则为了使其绝对稳定，需要满足
+        \begin{equation*}
+            \left|\frac{1+\frac{1}{2}\lambda h}{1-\frac{1}{2}\lambda h}\right|<1
+        \end{equation*}
+    \end{solution}
+\end{itemize}
+
+\end{document}
