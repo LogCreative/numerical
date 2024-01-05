@@ -1,0 +1,55 @@
+\documentclass[twocolumn]{ctexart}
+\pagestyle{plain}
+\ctexset{paragraph/beforeskip=0pt,subparagraph/beforeskip=0pt}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{geometry}
+\geometry{left=1cm,right=1cm,top=2cm,bottom=2cm}
+\def\ee{\mathrm{e}}
+\def\dd{\mathrm{d}}
+\def\jj{\mathrm{j}}
+\title{计算方法复习}
+\date{}
+\begin{document}
+\maketitle
+
+% *表示不重要
+
+\section{绪论}
+误差、有效数字、映射误差
+
+\section{方程求根}
+迭代法：收敛性（全局收敛：$C^1[a,b]$、$R\subseteq I$、映射收缩$|\phi^\prime| <1$；局部收敛：$C^1(x^*)$、$|\phi^\prime(x^*)|<1$）、收敛速度（整数阶收敛，$\phi^{(p)}(x^*)\neq 0$，特殊$0\leq \phi^{\prime}(x^*)<1$）
+
+Newton 迭代法、弦截法、割线法
+
+\section{方程组求解}
+
+直接法：顺序 Guass 消元、列主元消元、Dolittle 分解（充要条件：能够通过顺序 Guass 消元过程化为上三角阵，顺序主子式$1\sim n-1$非零，LU，LDU）、误差分析（舍入误差）、向量范数、矩阵范数、条件数、\textbf{谱半径}
+
+迭代法：Guass-Seodel 迭代、Jacobi 迭代、收敛性（充分：严格对角占优，行(列)范数<1；充要：谱半径<1）、松弛迭代*（必要：$0<\omega<2$，对称正定阵时充要）、收敛速度（与谱半径有关）
+
+\section{插值与逼近}
+
+插值：Lagrange 插值、Newton 插值（$\Rightarrow$ 唯一）、\textbf{插值余项}、Runge 现象（可画图，解决方法：分段，分段三次 Hermite 插值*、分段三次样条*，余项）
+
+逼近：$\lVert\cdot \rVert_2$下的逼近（数据、函数下的逼近，投影，法方程）、函数的范数与内积、正交多项式（Legdendre多项式 $[-1,1],\rho(x)=1$，Chebyshev 多项式 $[-1,1],\rho(x)=\frac{1}{\sqrt{1-x^2}}$，最多记到两阶，最佳平方逼近）
+
+\section{数值积分}
+
+插值型：等分节点（Newton-Cotes，梯形公式、Simpson公式、复化梯形公式、复化 Simpson 公式、阶数、积分余项、加速）、不等分节点（代数精度、高斯型）
+
+\section{常微分方程数值解}
+
+Euler 公式、后退 Euler 公式、梯形公式、改进 Euler 公式、Euler 两步格式（5个）
+
+截断误差分析（Runge-Kutta*、Taylor展开）、稳定性分析（针对模型问题 $y^\prime=\lambda y,\text{Re}(\lambda)<0$）。
+
+\section{特征值}
+
+幂法（规范化）、反幂法（逆或LU解方程）
+
+QR分解（迭代法或Gram-Schmidt正交化（需要对角线都是正的）都可以，对称与否，分解出是否对角）
+
+\end{document}
