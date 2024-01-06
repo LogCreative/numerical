@@ -17,39 +17,256 @@
 % *表示不重要
 
 \section{绪论}
-误差、有效数字、映射误差
+\paragraph{误差}
+\begin{itemize}
+    \item 误差限 $e^*=|x^*-x|\leq \epsilon^*$
+    \item 相对误差限 $e_r^*=\left|\frac{x^*-x}{x^*}\right|\leq \epsilon_r^*$
+\end{itemize}
+\paragraph{有效数字} $x^*$ 有 $n$ 位有效数字可写成标准形式
+\begin{equation*}
+    x^*=\pm 10^m\times (a_1+a_2\times 10^{-1}+\cdots+a_n\times 10^{-(n-1)})
+\end{equation*}
+且 $a_1\geq 1$，
+\begin{equation*}
+    |x-x^*|\leq \frac{1}{2}\times 10^{m-n+1}
+\end{equation*}
+\paragraph{映射误差}
+\begin{align*}
+    \epsilon(x_1^*\pm x_2^*)&=\epsilon(x_1^*)+\epsilon(x_2^*)\\
+    \epsilon(x_1^*x_2^*)&\approx |x_1^*|\epsilon(x_2^*)+|x_2^*|\epsilon(x_1^*)\\
+    \epsilon\left(\frac{x_1^*}{x_2^*}\right)&\approx \frac{|x_1^*|\epsilon(x_2^*)+|x_2^*|\epsilon(x_1^*)}{|x_2^*|^2}\quad (x_2^*\neq 0)\\
+    \epsilon(f(x^*))&\approx |f^\prime (x^*)|\epsilon(x^*)\\
+    \epsilon(f(x_1^*,\cdots,x_n^*))&\approx \sum_{k=1}^n\left|\left(\frac{\partial f}{\partial x_k}\right)^*\right|\epsilon(x_k^*)
+\end{align*}
 
 \section{方程求根}
-迭代法：收敛性（全局收敛：$C^1[a,b]$、$R\subseteq I$、映射收缩$|\phi^\prime| <1$；局部收敛：$C^1(x^*)$、$|\phi^\prime(x^*)|<1$）、收敛速度（整数阶收敛，$\phi^{(p)}(x^*)\neq 0$，特殊$0\leq \phi^{\prime}(x^*)<1$）
 
-Newton 迭代法、弦截法、割线法
+迭代法 $f(x)=0\Rightarrow x=\phi(x)$。
+
+\paragraph{全局收敛} 
+
+$\forall x\in [a,b]: \phi\in C^1[a,b]; \phi(x)\in [a,b]; |\phi^\prime(x)|\leq q<1$
+\begin{align*}
+    &\exists x^*\in[a,b],\forall x_0\in[a,b],x_{k+1}=\phi(x_k)\rightarrow x^* \\
+    & |x_k-x^*|\leq \frac{q^k}{1-q}|x_1-x_0|\\
+    & |x_k-x^*|\leq \frac{q}{1-q}|x_k-x_{k-1}|
+\end{align*}
+
+\paragraph{局部收敛}
+
+$\phi\subseteq C^1(O_\delta(x^*)); |\phi^\prime(x^*)|<1$，则 $x_{k+1}=\phi(x_k)$ 在 $x^*$ 邻近局部收敛。
+
+\paragraph{收敛速度} 迭代误差 $e_k=x_k-x^*$，$p$阶收敛：
+\begin{equation*}
+    \lim_{k\rightarrow\infty}\frac{e_{k+1}}{e_k^p}=C\quad (C\neq 0)
+\end{equation*}
+或者 $\phi\in C^{p}(x^*)$，$p\geq 2 (p=1\text{见局部收敛})$
+\begin{equation*}
+    \begin{cases}
+        \phi^\prime(x^*)=\phi^{\prime\prime}(x^*)=\cdots=\phi^{(p-1)}(x^*)=0,\\
+        \phi^{(p)}(x^*)\neq 0
+    \end{cases}
+\end{equation*}此时 $C=\frac{\phi^{(p)}(x^*)}{p!}$；
+$p=1$ 线性收敛；$p>1$ 超线性收敛；$p=2$ 平方收敛。
+
+\paragraph{Netwon公式} 局部平方收敛 $p=2$ \begin{equation*}
+    f(x_k)+f^\prime(x_k)(x-x_k)=0\xrightarrow{x=x_{k+1}} x_{k+1}=x_k-\frac{f(x_k)}{f^\prime(x_k)}
+\end{equation*}
+
+\paragraph{弦截法（割线法）} 不知道导数信息，局部超线性收敛 $p=\frac{1+\sqrt{5}}{2}\approx  1.618$\begin{align*}
+    &f(x_k)+\frac{f(x_k)-f(x_{k-1})}{x_k-x_{k-1}}(x-x_k)=0\\
+    \xrightarrow{x=x_{k+1}}& x_{k+1}=x_k-\frac{f(x_k)}{f(x_k)-f(x_{k-1})}(x_k-x_{k-1})
+\end{align*}
+
+% 迭代法：收敛性（全局收敛：$C^1[a,b]$、$R\subseteq I$、映射收缩$|\phi^\prime| <1$；局部收敛：$C^1(x^*)$、$|\phi^\prime(x^*)|<1$）、收敛速度（整数阶收敛，$\phi^{(p)}(x^*)\neq 0$，特殊$0\leq \phi^{\prime}(x^*)<1$）
+
+% Newton 迭代法、弦截法、割线法
 
 \section{方程组求解}
 
-直接法：顺序 Guass 消元、列主元消元、Dolittle 分解（充要条件：能够通过顺序 Guass 消元过程化为上三角阵，顺序主子式$1\sim n-1$非零，LU，LDU）、误差分析（舍入误差）、向量范数、矩阵范数、条件数、\textbf{谱半径}
+\subsection{直接法}
 
-迭代法：Guass-Seodel 迭代、Jacobi 迭代、收敛性（充分：严格对角占优，行(列)范数<1；充要：谱半径<1）、松弛迭代*（必要：$0<\omega<2$，对称正定阵时充要）、收敛速度（与谱半径有关）
+顺序 Guass 消元、列主元消元 略。
+
+\paragraph{LU分解} $\mathbf{A}$ 为 $n$ 阶矩阵，如果 $\mathbf{A}$ 的顺序主子式 $D_i\neq 0 (i=1,2,\cdots,n-1)$，则 $\mathbf{A}$ 可唯一 Dolittle 分解为 $\mathbf{A}=\mathbf{L}\mathbf{U}$。（如果$1,\cdots,n$顺序主子式都大于0将正定）
+
+\subparagraph{Dolittle 分解} $\mathbf{L}$ 对角线全为 1（单位下三角）
+\subparagraph{Crout 分解} $\mathbf{U}$ 对角线全为 1（单位上三角）
+\subparagraph{对称矩阵分解} $\mathbf{A}=\mathbf{L}\mathbf{D}\mathbf{L}^\top$
+\subparagraph{对称正定分解或Cholesky 分解} $\mathbf{A}=\mathbf{L}\mathbf{L}^\top$
+
+\paragraph{$p$-范数} $\lVert\mathbf{x}\rVert_p=\left(\sum_{i=1}^n |x_i|^p\right)^{1/p}$
+\subparagraph{等价性} 设 $\lVert\mathbf{x}\rVert_s,\lVert\mathbf{x}\rVert_t$ 为 $\mathbf{R}^n$ 上向量的任意两种范数，则存在 $c_1,c_2>0$ 使得 $\forall x\in\mathbf{R}^n: c_1\lVert\mathbf{x}\rVert_s\leq \lVert\mathbf{x}\rVert_t\leq c_2\lVert\mathbf{x}\rVert_s$。
+\paragraph{矩阵范数} $\rho(\mathbf{A})\leq \lVert\mathbf{A}\rVert$
+\subparagraph{行范数} $\lVert\mathbf{A}\rVert_\infty=\max_{1\leq i\leq n}\sum_{j=1}^n|a_{ij}|$
+\subparagraph{列范数} $\lVert\mathbf{A}\rVert_1=\max_{1\leq j\leq n}\sum_{i=1}^n|a_{ij}|$
+\subparagraph{2-范数} $\lVert\mathbf{A}\rVert_2=\sqrt{\lambda_{\max}(\mathbf{A}^\top\mathbf{A})}$，若 $\mathbf{A}$ 对称，$\lVert\mathbf{A}\rVert_2=\rho(\mathbf{A})$
+\subparagraph{F-范数} $\lVert\mathbf{A}\rVert_F=\left(\sum_{i,j=1}^n a_{ij}^2\right)^{1/2}$
+
+\paragraph{条件数}$\text{cond}(\mathbf{A})_v=\lVert\mathbf{A}^{-1}\rVert_v\lVert\mathbf{A}\rVert_v\geq 1(\det\mathbf{A}\neq 0)$
+\begin{align*}
+    \frac{\lVert\Delta\mathbf{x}\rVert}{\lVert\mathbf{x}\rVert}&\leq\text{cond}(\mathbf{A})\frac{\lVert\Delta\mathbf{b}\rVert}{\lVert\mathbf{b}\rVert},\mathbf{A}(\mathbf{x}+\Delta\mathbf{x})=\mathbf{b}+\Delta\mathbf{b}\\
+    \frac{\lVert\Delta\mathbf{x}\rVert}{\lVert\mathbf{x}\rVert}&\leq\frac{\text{cond}(\mathbf{A})\frac{\lVert\Delta\mathbf{A}\rVert}{\lVert\mathbf{A}\rVert}}{1-\text{cond}(\mathbf{A})\frac{\lVert\Delta\mathbf{A}\rVert}{\lVert\mathbf{A}\rVert}},(\mathbf{A}+\Delta\mathbf{A})(\mathbf{x}+\Delta\mathbf{x})=\mathbf{b}\\
+    \frac{\lVert\Delta\mathbf{x}\rVert}{\lVert\mathbf{x}\rVert}&\leq\frac{\text{cond}(\mathbf{A})\frac{\lVert\Delta\mathbf{A}\rVert}{\lVert\mathbf{A}\rVert}}{1-\text{cond}(\mathbf{A})\frac{\lVert\Delta\mathbf{A}\rVert}{\lVert\mathbf{A}\rVert}}\left(\frac{\lVert\Delta\mathbf{A}\rVert}{\lVert\mathbf{A}\rVert}+\frac{\lVert\Delta\mathbf{b}\rVert}{\lVert\mathbf{b}\rVert}\right)\\&(\mathbf{A}+\Delta\mathbf{A})(\mathbf{x}+\Delta\mathbf{x})=\mathbf{b}+\Delta\mathbf{b}
+\end{align*}
+$\text{cond}(\mathbf{A})_2=\sqrt{\frac{\lambda_{\text{max}}(\mathbf{A}^\top\mathbf{A})}{\lambda_{\text{min}}(\mathbf{A}^\top\mathbf{A})}}$，$A$对称时，$\text{cond}(\mathbf{A})_2=\frac{\max|\lambda|}{\min|\lambda|}$
+
+% 直接法：顺序 Guass 消元、列主元消元、Dolittle 分解（充要条件：能够通过顺序 Guass 消元过程化为上三角阵，顺序主子式$1\sim n-1$非零，LU，LDU）、误差分析（舍入误差）、向量范数、矩阵范数、条件数、\textbf{谱半径}
+
+\subsection{迭代法}
+
+\paragraph{Jacobi 迭代法} $\mathbf{A}=\mathbf{D}-\mathbf{L}-\mathbf{U},\mathbf{A}\mathbf{x}=\mathbf{b}\Rightarrow \mathbf{D}\mathbf{x}=(\mathbf{L}+\mathbf{U})\mathbf{x}+\mathbf{b}$，$\mathbf{x}=\mathbf{B}_0\mathbf{x}+\mathbf{f}$，$\mathbf{B}_0=\mathbf{E}-\mathbf{D}^{-1}\mathbf{A}=\mathbf{D}^{-1}(\mathbf{L}+\mathbf{U}),\mathbf{f}=\mathbf{D}^{-1}\mathbf{b}$。
+
+\paragraph{Guass--Seidel 迭代法($\omega=1$)} $(\mathbf{D}-\mathbf{L})\mathbf{x}^{(k+1)}=\mathbf{b}+\mathbf{U}\mathbf{x}^{(k)}$
+
+\paragraph{收敛性} 充要条件：$\rho(\mathbf{B})<1$；充分条件：$\lVert\mathbf{B}\rVert_v=q<1$或严格对角占优 $|a_{ii}|>\sum_{\substack{j=1\\j\neq i}}^n|a_{ij}|$（它也将是非奇异矩阵）
+
+\paragraph{收敛速度} $R(\mathbf{B})=-\ln\rho(\mathbf{B})$
+
+\paragraph{SOR方法} $\mathbf{D}\mathbf{x}^{(k+1)}=\omega(\mathbf{b}+\mathbf{L}\mathbf{x}^{(k+1)}+\mathbf{U}\mathbf{x}^{(k)})+(1-\omega)\mathbf{D}\mathbf{x}^{(k)}$，收敛充要条件 $\rho(\mathbf{L}_\omega)<1$；如果 $\mathbf{A}$ 是对称正定的，且 $0<\omega<2$，则 SOR 收敛；如果 $\mathbf{A}$ 是严格对角占优的，且 $0<\omega\leq 1$，则 SOR 收敛。
+
+% 迭代法：Guass-Seodel 迭代、Jacobi 迭代、收敛性（充分：严格对角占优，行(列)范数<1；充要：谱半径<1）、松弛迭代*（必要：$0<\omega<2$，对称正定阵时充要）、收敛速度（与谱半径有关）
 
 \section{插值与逼近}
 
-插值：Lagrange 插值、Newton 插值（$\Rightarrow$ 唯一）、\textbf{插值余项}、Runge 现象（可画图，解决方法：分段，分段三次 Hermite 插值*、分段三次样条*，余项）
+\subsection{插值}
 
-逼近：$\lVert\cdot \rVert_2$下的逼近（数据、函数下的逼近，投影，法方程）、函数的范数与内积、正交多项式（Legdendre多项式 $[-1,1],\rho(x)=1$，Chebyshev 多项式 $[-1,1],\rho(x)=\frac{1}{\sqrt{1-x^2}}$，最多记到两阶，最佳平方逼近）
+\paragraph{Lagrange 插值} $L_n(x)=\sum_{k=0}^ny_kl_k(x)$
+\begin{equation*}
+    l_k(x)=\frac{\prod_{\substack{i=0\\ i\neq k}}^n (x-x_i)}{\prod_{\substack{i=0\\ i\neq k}}^n(x_k-x_i)}
+\end{equation*}
+
+\paragraph{差商}\begin{align*}
+    f[x_0,x_1,\cdots,x_k]&=\frac{f[x_1,x_2,\cdots,x_k]-f[x_0,x_1,\cdots,x_{k-1}]}{x_k-x_0}\\
+    &=\sum_{j=0}^k\frac{f(x_j)}{\prod_{\substack{i=0\\ i\neq j}}^k(x_j-x_i)}=\frac{f^{(n)}(\xi)}{n!},\quad \xi\in[a,b]
+\end{align*}
+
+\paragraph{Netwon 插值}\begin{align*}
+    N_n(x)&=f(x_0)+\sum_{i=0}^nf[x_0,\cdots,x_i]\prod_{j=0}^{i-1}(x-x_j)\\
+    R_n(x)&=f[x,x_0,x_1,\cdots,x_n]\prod_{j=0}^n (x-x_j)
+\end{align*}
+
+\paragraph{插值余项} $\xi\in(a,b)$，
+\begin{equation*}
+    R_n(x)=\frac{f^{(n+1)}(\xi)}{(n+1)!}\prod_{j=0}^n(x-x_j)
+\end{equation*}
+
+\paragraph{Hermite 插值} 
+\subparagraph{Lagrange--Hermite} $H_{2n+1}(x)=\sum_{i=0}^n(y_i\alpha_i(x)+y_i^\prime\beta_i(x)), \alpha_i(x)=(1-2(x-x_i)l_i^\prime(x_i))l_i^2(x), \beta_i(x)=(x-x_i)l_i^2(x)$
+\subparagraph{Netwon--Hermite} $p_{2n+1}(x)=f[x_0]+f[x_0,x_0](x-x_0)+f[x_0,x_0,x_1](x-x_0)^2+\cdots+f[x_0,x_0,\cdots,x_n,x_n](x-x_0)^2\cdots(x-x_{n-1})^2(x-x_n)$
+
+$R_{2n+1}(x)=f[x,x_0,x_0,\cdots,x_n,x_n](x-x_0)^2\cdots(x-x_n)^2=\frac{f^{(2n+2)}(\xi)}{(2n+2)!}(x-x_0)^2\cdots(x-x_n)^2$
+
+\paragraph{分段} 解决 Runge 现象
+\subparagraph{分段线性}（1）$I_h(x)\in C[a,b]$（2）$I_h(x_k)=f_k$（3）$I_h(x)$ 在每个区间 $[x_k,x_{k+1}]$ 上是线性函数。
+
+%$I_h(x)=\frac{x-x_{k+1}}{x_k-x_{k+1}}f_k+\frac{x-x_k}{x_{k+1}-x_k}f_{k+1} (x_k\leq x\leq x_{k+1})$
+
+\subparagraph{分段三次Hermite}（1）$I_h(x)\in C^1[a,b]$（2）$I_h(x_k)=f_k,I_h^\prime (x_k)=f_k^\prime$（3）$I_h(x)$ 在每个区间 $[x_k,x_{k+1}]$ 上是三次多项式。$R_i(x)=\frac{f^{(4)}(\xi)}{4!}(x-x_i)^2(x-x_{i+1})^2$
+
+\subparagraph{三次样条}（1）$S(x)\in C^2[a,b]$（2）$S(x_k-0)=S(x_k+0)=f_k,S^\prime (x_k-0)=S^\prime (x_k+0), S^{\prime\prime}(x_k-0)=S^{\prime\prime}(x_k+0)$，边界条件（两端一阶导数值、两端二阶导数值或周期样条）（3）$S(x)$ 在每个区间 $[x_k,x_{k+1}]$ 上是三次多项式。
+
+三转角、三弯矩略。
+
+% 插值：Lagrange 插值、Newton 插值（$\Rightarrow$ 唯一）、\textbf{插值余项}、Runge 现象（可画图，解决方法：分段，分段三次 Hermite 插值*、分段三次样条*，余项）
+
+\subsection{逼近}
+
+\paragraph{最小二乘法（数据点）} $\mathbf{G}\mathbf{a}=\mathbf{d}$ 使得 $\lVert\delta\rVert_2^2=\sum_{i}w(x_i)[S(x_i)-f(x_i)]^2$ 最小。其中 $\mathbf{G}$ 由 $(\phi_j,\phi_k)=\sum_{i}w(x_i)\phi_j(x_i)\phi_k(x_i)$ 组成，$\mathbf{d}$ 由 $(f,\phi_k)=\sum_{i}w(x_i)f(x_i)\phi_k(x_i)$ 组成。
+
+\paragraph{一致逼近} $\lVert f(x)-P(x)\rVert_\infty=\max_{a\leq x\leq b}|f(x)-P(x)|$
+\subparagraph{最佳（一致）逼近} Chebyshev 交错点组，$n+2$ 个轮流的正负偏差点。Chebyshev正交多项式。
+
+\paragraph{平方逼近} $\lVert f(x)-P(x)\rVert_2=\sqrt{\int_{a}^b[f(x)-P(x)]^2\dd x}$
+\subparagraph{最佳平方逼近} $\mathbf{G}\mathbf{a}=\mathbf{d}$ 此时是函数内积。%Legdendre正交多项式。
+
+\paragraph{正交多项式} 正交化方法 $g_n(x)=x^n-\sum_{k=0}^{n-1}\frac{(x^n,g_k)}{(g_k,g_k)}\cdot g_k(x)$
+\subparagraph{Legdendre多项式} 区间为 $[-1,1]$，权函数 $\rho(x)\equiv 1$，由 $\{1,x,x^2,\cdots\}$ 正交化得到。$P_0(x)=1,P_1(x)=x,P_2(x)=\frac{3}{2}x^2-\frac{1}{2}$,$(n+1)P_{n+1}(x)=(2n+1)xP_n(x)-nP_{n-1}(x)$，在所有最高项系数为 1 的 $n$ 次多项式中，在 $[-1,1]$ 上与 0 的平方误差最小（最佳平方逼近）。$P_n(x)$ 在 $[-1,1]$ 上有 $n$ 个零点。
+\subparagraph{Chebyshev多项式} 区间为 $[-1,1]$，权函数 $\rho(x)=\frac{1}{\sqrt{1-x^2}}$，由 $\{1,x,x^2,\cdots\}$ 正交化得到。$T_n(x)=\cos(n\arccos x)$,$T_0(x)=1,T_1(x)=x,T_2(x)=2x^2-1$,$T_{n+1}(x)=2xT_n(x)-T_{n-1}(x)$。在所有最高项系数为 1 的 $n$ 次多项式中，在 $[-1,1]$ 上 $w_n(x)=\frac{1}{2^{n-1}}T_n(x)$ 与 0 的偏差最小（最佳逼近）。$f(x)-P_2^*(x)=\frac{1}{2}T_3(x)$
+
+% 逼近：$\lVert\cdot \rVert_2$下的逼近（数据、函数下的逼近，投影，法方程）、函数的范数与内积、正交多项式（Legdendre多项式 $[-1,1],\rho(x)=1$，Chebyshev 多项式 $[-1,1],\rho(x)=\frac{1}{\sqrt{1-x^2}}$，最多记到两阶，最佳平方逼近）
 
 \section{数值积分}
 
-插值型：等分节点（Newton-Cotes，梯形公式、Simpson公式、复化梯形公式、复化 Simpson 公式、阶数、积分余项、加速）、不等分节点（代数精度、高斯型）
+\paragraph{矩形公式} $R=(b-a)f\left(\frac{a+b}{2}\right)$
+\paragraph{机械求积} $\int_{a}^b f(x)\dd x\approx \sum_{k=0}^nA_kf(x_k)$
+\paragraph{代数精度} 对于 $1,x,\cdots,x^m$ 求积都能准确成立，则有 $m$ 次代数精度。
+\paragraph{插值型积分余项} $R[f]=\int_a^b\frac{f^{(n+1)}(\xi)}{(n+1)!}\prod_{i=0}^n(x-x_i)\dd x$
+
+\paragraph{Newton--Cotes 公式} 等分 $x_k=a+kh$，$I_n=(b-a)\sum_{k=0}^n C_k^{(n)}f(x_k),C_k^{(n)}=\cdots$
+\subparagraph{梯形公式} $T=\frac{b-a}{2}[f(a)+f(b)]$，余项 $R_T=\frac{f^{(2)}(\xi)}{2}\int_a^b (x-a)(x-b)\dd x=-\frac{f^{(2)}(\xi)}{12}(b-a)^3$
+\subparagraph{Simpson公式} $S=\frac{b-a}{6}[f(a)+4f\left(\frac{a+b}{2}\right)+f(b)]$（三次代数精度）余项 $R_S=\frac{f^{(4)}(\xi)}{4!}\int_a^b (x-a)(x-c)^2(x-b)\dd x=-\frac{b-a}{180}\left(\frac{b-a}{2}\right)^4f^{(4)}(\xi)$
+\subparagraph{Cotes 公式} 略。（五次代数精度）
+
+\paragraph{复化求积法}
+\subparagraph{复化梯形公式} $T_n=\sum_{k=0}^{n-1}[f(x_{k})+f(x_{k+1})]$，余项$I-T_n=-\frac{f^{(2)}(\xi)}{12}(b-a)h^2$，二阶收敛精度
+\subparagraph{复化Simpson公式} $S_n=\sum_{k=0}^{n-1}\frac{h}{6}[f(x_k)+4f\left(x_{k+\frac{1}{2}}\right)+f(x_{k+1})]$，四阶收敛精度
+\subparagraph{$p$阶收敛} $\lim_{h\rightarrow 0}\frac{I-I_n}{h^p}=C\neq 0$
+
+\paragraph{Romberg 算法} $\frac{I-T_{2n}}{I-T_{n}}\approx \left(\frac{1}{2}\right)^2,\bar{T}=T_{2n}+(I-T_{2n})$
+\subparagraph{Richardson 外推} $T_m^{(k)}=\frac{4^m}{4^m-1}T_{m-1}^{(k+1)}-\frac{1}{4^m-1}T_{m-1}^{(k)}$
+\begin{equation*}
+    \begin{array}{ccc}
+        T_0^{(0)} \\
+        T_0^{(1)} & T_1^{(0)} \\
+        T_0^{(2)} & T_1^{(1)} & T_2^{(0)}
+    \end{array}
+\end{equation*}
+$k$ 是二分数，$m$ 是加速数。
+
+\paragraph{Guass 公式}
+\subparagraph{Guass 点} $x_k$ 是 Guass 点，对于 $\forall P(x), \deg P(x)\leq n$，
+\begin{equation*}
+    \int_a^b P(x)\prod_{k=0}^n(x-x_k)\dd x=0
+\end{equation*} 对应的 $A_k$ 由 $2n+1$ 次代数精度确定。
+\subparagraph{Guass--Legdendre公式} $[-1,1]$ 上 Guass 公式 --- Legdendre 正交多项式。
+\subparagraph{余项} $R(x)=\frac{f^{(2n+2)(\xi)}}{(2n+2)!}\int_a^b \left(\prod_{k=0}^n (x-x_k)\right)^2\dd x$
+
+% 插值型：等分节点（Newton-Cotes，梯形公式、Simpson公式、复化梯形公式、复化 Simpson 公式、阶数、积分余项、加速）、不等分节点（代数精度、高斯型）
 
 \section{常微分方程数值解}
 
-Euler 公式、后退 Euler 公式、梯形公式、改进 Euler 公式、Euler 两步格式（5个）
+\begin{equation*}
+    \begin{cases}
+        y^\prime=f(x,y)\\
+        y(x_0)=y_0
+    \end{cases}
+\end{equation*}
 
-截断误差分析（Runge-Kutta*、Taylor展开）、稳定性分析（针对模型问题 $y^\prime=\lambda y,\text{Re}(\lambda)<0$）。
+\paragraph{Euler 公式} $y_{n+1}=y_n+hf(x_n,y_n)$，局部截断误差 $\frac{h^2}{2}y^{\prime\prime}(x_n)$
+\paragraph{后退 Euler 公式} $y_{n+1}=y_n+hf(x_{n+1},y_{n+1})$，局部截断误差 $-\frac{h^2}{2}y^{\prime\prime}(x_n)$
+\paragraph{梯形格式}$y_{n+1}=y_n+\frac{h}{2}[f(x_n,y_n)+f(x_{n+1},y_{n+1})]$
+\paragraph{改进的 Euler 格式} $y_{n+1}=y_n+\frac{h}{2}[f(x_n,y_n)+f(x_n+h,y_n+hf(x_n,y_n))]$
+\paragraph{Euler 两步格式} $y_{n+1}=y_n+\frac{h}{2}[f(x_n,y_n)+f(x_n+h,y_{n-1}+2hf(x_n,y_n))]$
+
+% Euler 公式、后退 Euler 公式、梯形公式、改进 Euler 公式、Euler 两步格式（5个）
+
+\paragraph{Taylor 级数法} $y^\prime=f,y^{\prime\prime}=\frac{\partial f}{\partial x}+f\frac{\partial f}{\partial y},\cdots,y_{n+1}=y_n+hy_n^\prime+\frac{h^2}{2!}y_n^{\prime\prime}+\cdots$，局部截断误差 $\frac{h^{p+1}}{(p+1)!}y^{(p+1)}(\xi)$，$p$ 阶精度
+\paragraph{Runge-Kutta 方法} 二阶 $y_{n+1}=y_n+h(\lambda_1K_1+\lambda_2K_2),K_1=f(x_n,y_n),K_2=f(x_n+ph,y_n+phK_1)$，$\lambda_1+\lambda_2=1,\lambda_2p=\frac{1}{2}$
+
+\paragraph{$p$ 阶精度} 局部（一步） $O(h^{p+1})$，全局 $O(h^p)$
+\paragraph{稳定性}针对模型问题 $y^\prime=\lambda y,\text{Re}(\lambda)<0$，$|y_{n+1}|\leq |y_n|$，Euler方法条件稳定 $|1+h\lambda|\leq 1$，后退 Euler 方法恒稳定。
+
+% 截断误差分析（Runge-Kutta*、Taylor展开）、稳定性分析（针对模型问题 $y^\prime=\lambda y,\text{Re}(\lambda)<0$）。
 
 \section{特征值}
 
-幂法（规范化）、反幂法（逆或LU解方程）
+\paragraph{幂法} $\mathbf{v}_{k}=\mathbf{A}^{k}\mathbf{v}_0\approx a_1\lambda_1^k\mathbf{x}_1$，$\lim_{k\rightarrow \infty}\frac{(\mathbf{v}_{k+1})_i}{(\mathbf{v}_k)_i}=\lambda_1$
+\subparagraph{规范化幂法} $\mathbf{v}_k=\mathbf{A}\mathbf{u}_{k-1},\mathbf{u}_k=\frac{\mathbf{v}_k}{\max\mathbf{v}_k},\max(\mathbf{v}_k)\rightarrow \lambda_1$
+\subparagraph{原点平移法} $\mathbf{B}=\mathbf{A}-p\mathbf{E}$
 
-QR分解（迭代法或Gram-Schmidt正交化（需要对角线都是正的）都可以，对称与否，分解出是否对角）
+\paragraph{反幂法} $\mathbf{v}_k=\mathbf{A}^{-1}\mathbf{u}_{k-1},\mathbf{u}_k=\frac{\mathbf{v}_k}{\max\mathbf{v}_k},\max\mathbf{v}_k\rightarrow \frac{1}{\lambda_n}$，可以先进行三角分解 $\mathbf{P}(\mathbf{A}-p\mathbf{E})=\mathbf{L}\mathbf{U}$。
+
+\paragraph{初等反射阵} $\mathbf{H}=\mathbf{E}-2\mathbf{w}\mathbf{w}^\top$，对称、正交、对合（$\mathbf{H}^2=\mathbf{E}$）；关于 $\lVert \mathbf{x}\rVert_2=\lVert \mathbf{y}\rVert_2$ 的 $\mathbf{H}\mathbf{x}=\mathbf{y}$，$\mathbf{w}=\frac{\mathbf{x}-\mathbf{y}}{\lVert \mathbf{x}-\mathbf{y}\rVert_2}$
+
+\paragraph{QR分解} 如果 $\mathbf{A}$ 为非奇异矩阵，则 $\mathbf{A}$ 可分解为一正交阵 $\mathbf{Q}$ 与上三角阵 $\mathbf{R}$ 的乘积，$\mathbf{A}=\mathbf{Q}\mathbf{R}$，当 $\mathbf{R}$ 对角线皆为正时分解唯一。
+
+$\mathbf{u}_i=(\pm\lVert\alpha_i\rVert,0,\cdots)^\top,\mathbf{H}=\mathbf{E}-2\mathbf{u}_i\mathbf{u}_i^\top,\mathbf{A}_2=\mathbf{H}\mathbf{A}_1\rightarrow\mathbf{R},\mathbf{Q}=\mathbf{H}_1\mathbf{H}_2\cdots$，$\mathbf{H}$ 按照需要左上角补上单位阵。
+
+\paragraph{QR算法} $\mathbf{A}_k=\mathbf{Q}_k\mathbf{R}_k, \mathbf{A}_{k+1}=\mathbf{R}_k\mathbf{Q}_k$，$\mathbf{R}_k$ 对角线上为特征值，$\tilde{\mathbf{Q}}_k=\mathbf{Q}_1\cdots\mathbf{Q}_k$ 的列向量为对应的特征向量。如果 $\mathbf{A}$ 对称，则 $\mathbf{A}_k$ 收敛于对角阵。
+
+% 幂法（规范化）、反幂法（逆或LU解方程）
+
+% QR分解（迭代法或Gram-Schmidt正交化（需要对角线都是正的）都可以，对称与否，分解出是否对角）
 
 \end{document}
