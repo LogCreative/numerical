@@ -1,7 +1,3 @@
-//
-// Created by 李子龙 on 2023/10/18.
-//
-
 #include "LinearEquations.h"
 #include "std_lib_facilities.h"
 

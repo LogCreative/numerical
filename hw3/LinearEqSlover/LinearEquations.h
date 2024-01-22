@@ -1,7 +1,3 @@
-//
-// Created by 李子龙 on 2023/10/18.
-//
-
 #ifndef LINEAREQSLOVER_LINEAREQUATIONS_H
 #define LINEAREQSLOVER_LINEAREQUATIONS_H
 
